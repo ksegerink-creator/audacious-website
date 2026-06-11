@@ -6,6 +6,8 @@
   background: #11110f;
   color: #ffffff;
   overflow: hidden;
+  overscroll-behavior: contain;
+  touch-action: pan-x;
 }
 
 .aud-services-track {
@@ -18,6 +20,8 @@
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: none;
 }
 
 .aud-services-track::-webkit-scrollbar {
