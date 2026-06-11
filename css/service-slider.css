@@ -1,0 +1,218 @@
+/* TitanPipe-inspired horizontal services section for the Audacious homepage. */
+
+.aud-services-slider {
+  position: relative;
+  min-height: 100vh;
+  background: #11110f;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.aud-services-track {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.aud-services-track::-webkit-scrollbar {
+  display: none;
+}
+
+.aud-service-slide {
+  position: relative;
+  flex: 0 0 100%;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.aud-service-slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg, rgba(3,3,3,0.84), rgba(3,3,3,0.62) 42%, rgba(3,3,3,0.18) 72%),
+    var(--slide-bg) var(--slide-pos, center) / cover no-repeat;
+  transform: scale(1.04);
+  transition: transform 1.1s cubic-bezier(.22,.61,.36,1), filter 1.1s cubic-bezier(.22,.61,.36,1);
+  filter: saturate(0.96) contrast(1.04);
+}
+
+.aud-service-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.74)),
+    radial-gradient(circle at 78% 50%, rgba(245,130,32,0.18), transparent 30rem);
+}
+
+.aud-service-slide.is-active::before {
+  transform: scale(1);
+  filter: saturate(1.08) contrast(1.07);
+}
+
+.aud-service-content {
+  width: min(calc(100% - 44px), 1120px);
+  margin: 0 auto;
+  padding: 0 0 clamp(4.5rem, 9vw, 7rem);
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(220px, 0.28fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: end;
+}
+
+.aud-service-eyebrow {
+  margin-bottom: clamp(9rem, 20vh, 16rem);
+  color: #f58220;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.aud-service-title {
+  max-width: 760px;
+  font-family: var(--font-display);
+  font-size: clamp(3.1rem, 8vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.aud-service-description {
+  max-width: 430px;
+  color: rgba(255,255,255,0.78);
+  font-size: clamp(0.98rem, 1.15vw, 1.12rem);
+  line-height: 1.55;
+  margin-bottom: 2.1rem;
+}
+
+.aud-service-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  padding: 1rem 1.4rem;
+  border: 1px solid rgba(255,255,255,0.32);
+  border-radius: 2px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.aud-service-button:hover {
+  background: #f58220;
+  border-color: #f58220;
+}
+
+.aud-service-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  margin-bottom: 4.1rem;
+}
+
+.aud-service-counter {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.aud-service-dots {
+  display: grid;
+  gap: 1rem;
+}
+
+.aud-service-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255,255,255,0.38);
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.aud-service-dot.is-active {
+  background: #ffffff;
+  transform: scale(1.08);
+}
+
+.aud-service-controls {
+  position: absolute;
+  right: clamp(1.25rem, 4vw, 3rem);
+  bottom: clamp(1.25rem, 4vw, 2.5rem);
+  z-index: 2;
+  display: flex;
+  gap: 0.7rem;
+}
+
+.aud-service-control {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.aud-service-control:hover {
+  background: #f58220;
+  border-color: #f58220;
+}
+
+@media (max-width: 860px) {
+  .aud-service-content {
+    grid-template-columns: 1fr;
+    padding-bottom: 6rem;
+  }
+
+  .aud-service-eyebrow {
+    margin-bottom: clamp(7rem, 18vh, 11rem);
+  }
+
+  .aud-service-meta {
+    position: absolute;
+    right: 2rem;
+    top: 46%;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .aud-service-title {
+    font-size: clamp(2.8rem, 14vw, 4.2rem);
+  }
+
+  .aud-service-description {
+    max-width: 310px;
+  }
+
+  .aud-service-button {
+    width: 100%;
+  }
+
+  .aud-service-meta {
+    right: 1.25rem;
+  }
+}
