@@ -98,9 +98,6 @@
 
 .org-process {
   position: relative;
-  border-top: 2px solid #11110f;
-  border-bottom: 1px solid rgba(17,17,15,0.22);
-  background: rgba(255,255,255,0.34);
 }
 
 .org-process-head {
@@ -108,14 +105,13 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 2rem;
   align-items: start;
-  padding: 1.05rem 0 1.15rem;
-  border-bottom: 1px solid rgba(17,17,15,0.18);
+  margin-bottom: 1rem;
 }
 
 .org-process-head strong {
   display: block;
   color: #11110f;
-  font-size: 1.04rem;
+  font-size: 1.05rem;
   letter-spacing: -0.025em;
 }
 
@@ -137,65 +133,102 @@
 
 .org-roadmap {
   display: grid;
-  gap: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .org-roadmap-item {
   position: relative;
-  display: grid;
-  grid-template-columns: 58px minmax(140px, 0.46fr) minmax(0, 1fr);
-  gap: 1.4rem;
-  align-items: baseline;
-  padding: 1.08rem 0;
-  border-bottom: 1px solid rgba(17,17,15,0.13);
+  min-height: 230px;
+  padding: 1.35rem;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(17,17,15,0.12);
+  box-shadow: 0 20px 50px rgba(31, 26, 18, 0.065);
+  overflow: hidden;
 }
 
-.org-roadmap-item:last-child {
-  border-bottom: 0;
+.org-roadmap-item::after {
+  content: '';
+  position: absolute;
+  inset: auto 1.35rem 1.35rem auto;
+  width: 44px;
+  height: 1px;
+  background: rgba(245,130,32,0.8);
 }
 
 .org-roadmap-item.is-featured {
-  margin-left: -1.1rem;
-  margin-right: -1.1rem;
-  padding-left: 1.1rem;
-  padding-right: 1.1rem;
   background: #11110f;
   color: #fff;
-  border-bottom-color: transparent;
+  border-color: #11110f;
+}
+
+.org-roadmap-item.org-image-card {
+  min-height: 250px;
+  background:
+    linear-gradient(180deg, rgba(17,17,15,0.08), rgba(17,17,15,0.78)),
+    url('../assets/hero-press-brake.jpeg') 62% center / cover no-repeat;
+  color: #fff;
+  border-color: rgba(17,17,15,0.18);
 }
 
 .org-roadmap-num {
+  width: max-content;
+  padding: 0.48rem 0.72rem;
+  border-radius: 999px;
+  background: rgba(245,130,32,0.12);
   color: #f58220;
   font-family: 'Courier New', monospace;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
+}
+
+.org-roadmap-item.is-featured .org-roadmap-num {
+  background: #f58220;
+  color: #fff;
+}
+
+.org-roadmap-item.org-image-card .org-roadmap-num {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.org-roadmap-copy {
+  margin-top: auto;
+  max-width: 290px;
 }
 
 .org-roadmap-copy strong {
   display: block;
+  margin-bottom: 0.5rem;
   color: #11110f;
-  font-size: 0.98rem;
-  letter-spacing: -0.025em;
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  line-height: 1.02;
+  letter-spacing: -0.055em;
 }
 
 .org-roadmap-copy p {
-  color: #5a5a54;
-  font-size: 0.9rem;
+  color: #55554f;
+  font-size: 0.92rem;
   line-height: 1.55;
 }
 
-.org-roadmap-item .org-roadmap-copy {
-  display: contents;
-}
-
 .org-roadmap-item.is-featured .org-roadmap-copy strong,
-.org-roadmap-item.is-featured .org-roadmap-copy p {
+.org-roadmap-item.is-featured .org-roadmap-copy p,
+.org-roadmap-item.org-image-card .org-roadmap-copy strong,
+.org-roadmap-item.org-image-card .org-roadmap-copy p {
   color: #fff;
 }
 
-.org-roadmap-item.is-featured .org-roadmap-copy p {
-  color: rgba(255,255,255,0.7);
+.org-roadmap-item.is-featured .org-roadmap-copy p,
+.org-roadmap-item.org-image-card .org-roadmap-copy p {
+  color: rgba(255,255,255,0.74);
 }
 
 .org-metrics {
@@ -242,17 +275,8 @@
 }
 
 @media (max-width: 720px) {
-  .org-roadmap-item {
-    grid-template-columns: 46px minmax(0, 1fr);
-    gap: 0.85rem;
-  }
-
-  .org-roadmap-item .org-roadmap-copy {
-    display: block;
-  }
-
-  .org-roadmap-copy p {
-    margin-top: 0.35rem;
+  .org-roadmap {
+    grid-template-columns: 1fr;
   }
 
   .org-control-tags {
