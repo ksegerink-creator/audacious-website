@@ -3,6 +3,22 @@ heroHeaderStyles.rel = 'stylesheet';
 heroHeaderStyles.href = '../css/hero-header.css';
 document.head.appendChild(heroHeaderStyles);
 
+const navMap = {
+  '#werkzaamheden': '../pages/werkzaamheden.html',
+  '#markten': '../pages/markten-en-diensten.html',
+  '#projecten': '../pages/projecten.html',
+  '#over-ons': '../pages/over-ons.html',
+  '#contact': '../pages/contact.html'
+};
+
+document.querySelectorAll('nav a[href]').forEach(link => {
+  const href = link.getAttribute('href');
+  if (navMap[href]) link.setAttribute('href', navMap[href]);
+});
+
+const logo = document.querySelector('.nav-logo');
+if (logo) logo.setAttribute('href', '../html/index.html');
+
 const heroActions = document.querySelector('.hero-actions');
 if (heroActions && !document.querySelector('.hero-proof')) {
   const proof = document.createElement('div');
