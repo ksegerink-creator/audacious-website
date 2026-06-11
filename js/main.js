@@ -201,6 +201,40 @@ function initMaterialsSlider() {
     track.scrollBy({ left: getStep(), behavior: 'smooth' });
   });
 
+  let isDragging = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+  let pointerId = null;
+
+  const stopDragging = () => {
+    if (!isDragging) return;
+    isDragging = false;
+    pointerId = null;
+    track.classList.remove('is-dragging');
+    updateButtons();
+  };
+
+  track.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    isDragging = true;
+    pointerId = event.pointerId;
+    startX = event.clientX;
+    startScrollLeft = track.scrollLeft;
+    track.classList.add('is-dragging');
+    if (track.setPointerCapture) track.setPointerCapture(pointerId);
+  });
+
+  track.addEventListener('pointermove', (event) => {
+    if (!isDragging) return;
+    const distance = event.clientX - startX;
+    track.scrollLeft = startScrollLeft - distance;
+    event.preventDefault();
+  });
+
+  track.addEventListener('pointerup', stopDragging);
+  track.addEventListener('pointercancel', stopDragging);
+  track.addEventListener('lostpointercapture', stopDragging);
+
   track.addEventListener('scroll', () => {
     window.requestAnimationFrame(updateButtons);
   }, { passive: true });
@@ -248,5 +282,5 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 const style = document.createElement('style');
-style.textContent = '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.materials-controls button:disabled{opacity:.35;cursor:not-allowed;transform:none;background:#f3f1ed;color:#11110f}';
+style.textContent = '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.materials-controls button:disabled{opacity:.35;cursor:not-allowed;transform:none;background:#f3f1ed;color:#11110f}.materials-track{cursor:grab;user-select:none}.materials-track.is-dragging{cursor:grabbing;scroll-behavior:auto}.materials-track.is-dragging *{pointer-events:none}';
 document.head.appendChild(style);
