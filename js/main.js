@@ -1,47 +1,30 @@
-// Load the staged header/hero redesign without touching the rest of the page yet.
 const heroHeaderStyles = document.createElement('link');
 heroHeaderStyles.rel = 'stylesheet';
 heroHeaderStyles.href = '../css/hero-header.css';
 document.head.appendChild(heroHeaderStyles);
 
-// Add a Perform-style technical showcase to the hero.
 const heroActions = document.querySelector('.hero-actions');
-if (heroActions && !document.querySelector('.hero-showcase')) {
-  const showcase = document.createElement('div');
-  showcase.className = 'hero-showcase fade-up fade-up-delay-2';
-  showcase.innerHTML = `
-    <div class="hero-showcase-card" aria-label="Technische plaatwerkvisualisatie" role="img">
-      <div class="hero-showcase-meta">
-        <span>Audacious SMI B.V.</span>
-        <span>Engineering · plaatbewerking · assemblage</span>
-      </div>
-      <div class="hero-sheet-visual" aria-hidden="true">
-        <div class="sheet sheet-one"></div>
-        <div class="sheet sheet-two"></div>
-        <div class="sheet sheet-three"></div>
-        <div class="dimension dimension-x">TOL. ±0.1mm</div>
-        <div class="dimension dimension-y">RVS · ALU · STAAL</div>
-      </div>
-      <div class="hero-showcase-footer">
-        <div>
-          <strong>Engineering</strong>
-          <span>Maakbaarheidscheck vanaf STEP-file of tekening.</span>
-        </div>
-        <div>
-          <strong>Plaatbewerking</strong>
-          <span>Lasersnijden, kanten en nauwkeurige mono-delen.</span>
-        </div>
-        <div>
-          <strong>Assemblage</strong>
-          <span>Van losse onderdelen naar complete modules.</span>
-        </div>
-      </div>
-    </div>
-  `;
-  heroActions.insertAdjacentElement('afterend', showcase);
+if (heroActions && !document.querySelector('.hero-proof')) {
+  const proof = document.createElement('div');
+  proof.className = 'hero-proof';
+
+  const stars = document.createElement('div');
+  stars.className = 'hero-proof-stars';
+  stars.textContent = '5/5';
+
+  const copy = document.createElement('div');
+  const title = document.createElement('strong');
+  title.textContent = 'Productiepartner voor industriele OEM bedrijven';
+  const text = document.createElement('span');
+  text.textContent = 'Engineering, plaatbewerking, lassen en assemblage';
+
+  copy.appendChild(title);
+  copy.appendChild(text);
+  proof.appendChild(stars);
+  proof.appendChild(copy);
+  heroActions.insertAdjacentElement('afterend', proof);
 }
 
-// Scroll-triggered fade animations
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach(entry => {
@@ -55,7 +38,6 @@ const observer = new IntersectionObserver(
 
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-// FAQ accordion
 document.querySelectorAll('.faq-question').forEach(btn => {
   btn.addEventListener('click', () => {
     const item = btn.closest('.faq-item');
@@ -73,14 +55,12 @@ document.querySelectorAll('.faq-question').forEach(btn => {
   });
 });
 
-// Header scroll state
 const nav = document.querySelector('nav');
 window.addEventListener('scroll', () => {
   if (!nav) return;
   nav.classList.toggle('nav-scrolled', window.scrollY > 80);
 }, { passive: true });
 
-// Screen reader utilities
 const style = document.createElement('style');
 style.textContent = '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}';
 document.head.appendChild(style);
