@@ -141,7 +141,7 @@
 
 .markets-grid {
   display: grid;
-  grid-template-columns: minmax(330px, 1.12fr) minmax(265px, 0.94fr) minmax(265px, 0.94fr);
+  grid-template-columns: minmax(385px, 1.18fr) minmax(275px, 1fr) minmax(275px, 1fr);
   grid-template-rows: 252px 252px 210px;
   grid-template-areas:
     "primary medical food"
@@ -245,17 +245,17 @@
   max-width: 100%;
   margin-top: auto;
   font-family: var(--font-display);
-  font-size: clamp(1.55rem, 1.75vw, 2.15rem);
-  line-height: 1.02;
+  font-size: clamp(1.45rem, 1.55vw, 1.95rem);
+  line-height: 1.03;
   letter-spacing: -0.055em;
   color: #11110f;
-  overflow-wrap: normal;
-  hyphens: none;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .market-card.is-primary h3 {
-  font-size: clamp(2.25rem, 3.15vw, 4rem);
-  max-width: 620px;
+  font-size: clamp(2.1rem, 2.8vw, 3.55rem);
+  max-width: 100%;
   color: #fff;
   white-space: normal;
 }
@@ -263,6 +263,7 @@
 .market-card:nth-child(6) h3 {
   max-width: 560px;
   font-size: clamp(2rem, 3vw, 3.5rem);
+  overflow-wrap: normal;
 }
 
 .market-card p {
@@ -341,7 +342,7 @@
   height: 1px;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1320px) {
   .markets-system {
     grid-template-columns: 1fr;
   }
