@@ -135,29 +135,28 @@ function initServiceSlider() {
     setActive(nextIndex);
   };
 
-  const getSliderProgress = () => {
+  const isSliderInFocus = () => {
     const rect = slider.getBoundingClientRect();
-    return { rect, isActive: rect.top <= 4 && rect.bottom >= window.innerHeight - 4 };
+    return rect.top < window.innerHeight * 0.72 && rect.bottom > window.innerHeight * 0.28;
   };
 
-  const handleExclusiveWheel = (event) => {
-    const { isActive } = getSliderProgress();
-    if (!isActive) return;
+  const handleWheel = (event) => {
+    if (!isSliderInFocus()) return;
 
-    const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
-    if (Math.abs(delta) < 10) return;
+    const rawDelta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+    if (Math.abs(rawDelta) < 8) return;
 
-    const goingNext = delta > 0;
-    const atStart = activeIndex === 0;
-    const atEnd = activeIndex === total - 1;
+    const goingNext = rawDelta > 0;
+    const canMoveNext = activeIndex < total - 1;
+    const canMovePrev = activeIndex > 0;
 
-    if ((goingNext && atEnd) || (!goingNext && atStart)) return;
+    if ((goingNext && !canMoveNext) || (!goingNext && !canMovePrev)) return;
 
     event.preventDefault();
     event.stopPropagation();
 
     const now = Date.now();
-    if (wheelLocked || now - lastWheelAt < 820) return;
+    if (wheelLocked || now - lastWheelAt < 650) return;
 
     wheelLocked = true;
     lastWheelAt = now;
@@ -165,10 +164,10 @@ function initServiceSlider() {
 
     window.setTimeout(() => {
       wheelLocked = false;
-    }, 820);
+    }, 650);
   };
 
-  window.addEventListener('wheel', handleExclusiveWheel, { passive: false, capture: true });
+  window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
 
   slider.querySelectorAll('.aud-service-control').forEach(button => {
     button.addEventListener('click', () => {
