@@ -135,30 +135,29 @@ function initServiceSlider() {
     setActive(nextIndex);
   };
 
-  const isSliderCentered = () => {
+  const getSliderProgress = () => {
     const rect = slider.getBoundingClientRect();
-    const viewportMiddle = window.innerHeight / 2;
-    return rect.top < viewportMiddle && rect.bottom > viewportMiddle;
+    return { rect, isActive: rect.top <= 4 && rect.bottom >= window.innerHeight - 4 };
   };
 
-  slider.addEventListener('wheel', (event) => {
-    if (!isSliderCentered()) return;
+  const handleExclusiveWheel = (event) => {
+    const { isActive } = getSliderProgress();
+    if (!isActive) return;
 
     const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
-    if (Math.abs(delta) < 18) return;
+    if (Math.abs(delta) < 10) return;
 
     const goingNext = delta > 0;
     const atStart = activeIndex === 0;
     const atEnd = activeIndex === total - 1;
 
-    if ((goingNext && atEnd) || (!goingNext && atStart)) {
-      return;
-    }
+    if ((goingNext && atEnd) || (!goingNext && atStart)) return;
 
     event.preventDefault();
+    event.stopPropagation();
 
     const now = Date.now();
-    if (wheelLocked || now - lastWheelAt < 760) return;
+    if (wheelLocked || now - lastWheelAt < 820) return;
 
     wheelLocked = true;
     lastWheelAt = now;
@@ -166,8 +165,10 @@ function initServiceSlider() {
 
     window.setTimeout(() => {
       wheelLocked = false;
-    }, 760);
-  }, { passive: false });
+    }, 820);
+  };
+
+  window.addEventListener('wheel', handleExclusiveWheel, { passive: false, capture: true });
 
   slider.querySelectorAll('.aud-service-control').forEach(button => {
     button.addEventListener('click', () => {
