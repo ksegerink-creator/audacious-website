@@ -77,14 +77,14 @@
 
 .markets-system {
   display: grid;
-  grid-template-columns: minmax(250px, 310px) minmax(0, 1fr);
-  gap: clamp(1.25rem, 2.2vw, 2rem);
+  grid-template-columns: minmax(255px, 320px) minmax(0, 1fr);
+  gap: clamp(1.25rem, 2vw, 1.8rem);
   align-items: stretch;
 }
 
 .market-index {
   position: relative;
-  min-height: 570px;
+  min-height: 740px;
   padding: 1.35rem;
   border: 1px solid rgba(17,17,15,0.14);
   background: rgba(255,255,255,0.58);
@@ -116,7 +116,7 @@
 
 .market-index strong {
   display: block;
-  max-width: 260px;
+  max-width: 270px;
   margin-top: 3.2rem;
   font-family: var(--font-display);
   font-size: clamp(2.15rem, 2.65vw, 3.1rem);
@@ -141,8 +141,12 @@
 
 .markets-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  grid-auto-rows: minmax(280px, auto);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.25fr) minmax(210px, 0.9fr) minmax(210px, 0.9fr);
+  grid-template-rows: 255px 255px 210px;
+  grid-template-areas:
+    "primary primary medical food"
+    "primary primary drink packaging"
+    "build build build build";
   gap: 0.9rem;
   min-width: 0;
 }
@@ -157,10 +161,17 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 280px;
+  min-height: 0;
   isolation: isolate;
   min-width: 0;
 }
+
+.market-card:nth-child(1) { grid-area: primary; }
+.market-card:nth-child(2) { grid-area: medical; }
+.market-card:nth-child(3) { grid-area: food; }
+.market-card:nth-child(4) { grid-area: drink; }
+.market-card:nth-child(5) { grid-area: packaging; }
+.market-card:nth-child(6) { grid-area: build; }
 
 .market-card::before {
   content: '';
@@ -185,8 +196,6 @@
 }
 
 .market-card.is-primary {
-  grid-column: span 3;
-  grid-row: span 2;
   background: #11110f;
   border-color: #11110f;
   color: #fff;
@@ -236,7 +245,7 @@
   max-width: 100%;
   margin-top: auto;
   font-family: var(--font-display);
-  font-size: clamp(1.32rem, 1.45vw, 1.82rem);
+  font-size: clamp(1.35rem, 1.55vw, 1.95rem);
   line-height: 1.02;
   letter-spacing: -0.055em;
   color: #11110f;
@@ -245,18 +254,23 @@
 }
 
 .market-card.is-primary h3 {
-  font-size: clamp(2.4rem, 3.4vw, 4.35rem);
+  font-size: clamp(2.4rem, 3.5vw, 4.45rem);
   max-width: 760px;
   color: #fff;
   white-space: normal;
 }
 
+.market-card:nth-child(6) h3 {
+  max-width: 520px;
+  font-size: clamp(2rem, 3vw, 3.5rem);
+}
+
 .market-card p {
   max-width: 100%;
-  margin-top: 0.7rem;
+  margin-top: 0.65rem;
   color: #5b5b55;
   font-size: 0.84rem;
-  line-height: 1.5;
+  line-height: 1.48;
 }
 
 .market-card.is-primary p {
@@ -265,11 +279,16 @@
   font-size: 0.92rem;
 }
 
+.market-card:nth-child(6) p {
+  max-width: 560px;
+  font-size: 0.92rem;
+}
+
 .market-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.42rem;
-  margin-top: 1rem;
+  margin-top: 0.95rem;
   padding-right: 2.3rem;
 }
 
@@ -322,21 +341,7 @@
   height: 1px;
 }
 
-@media (max-width: 1320px) {
-  .markets-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .market-card.is-primary {
-    grid-column: span 2;
-  }
-
-  .market-card h3 {
-    font-size: clamp(1.3rem, 1.7vw, 1.9rem);
-  }
-}
-
-@media (max-width: 1180px) {
+@media (max-width: 1280px) {
   .markets-system {
     grid-template-columns: 1fr;
   }
@@ -365,6 +370,20 @@
 
   .markets-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    grid-template-areas:
+      "primary primary"
+      "medical food"
+      "drink packaging"
+      "build build";
+  }
+
+  .market-card {
+    min-height: 255px;
+  }
+
+  .market-card.is-primary {
+    min-height: 460px;
   }
 }
 
@@ -383,11 +402,17 @@
 
   .markets-grid {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "primary"
+      "medical"
+      "food"
+      "drink"
+      "packaging"
+      "build";
   }
 
   .market-card.is-primary {
-    grid-column: auto;
-    grid-row: auto;
+    min-height: 360px;
   }
 
   .market-trace {
