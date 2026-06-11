@@ -1,38 +1,34 @@
-/* TitanPipe-inspired horizontal services section for the Audacious homepage. */
+/* TitanPipe-inspired sticky horizontal services section for the Audacious homepage. */
 
 .aud-services-slider {
   position: relative;
-  min-height: 100vh;
+  height: calc(var(--slide-count, 7) * 100vh);
   background: #11110f;
   color: #ffffff;
+}
+
+.aud-services-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   overflow: hidden;
-  overscroll-behavior: contain;
-  touch-action: auto;
+  background: #11110f;
 }
 
 .aud-services-track {
   display: flex;
-  width: 100%;
-  min-height: 100vh;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  overscroll-behavior-x: contain;
-  overscroll-behavior-y: contain;
-}
-
-.aud-services-track::-webkit-scrollbar {
-  display: none;
+  height: 100vh;
+  width: auto;
+  overflow: visible;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 .aud-service-slide {
   position: relative;
-  flex: 0 0 100%;
-  min-height: 100vh;
-  scroll-snap-align: start;
+  flex: 0 0 100vw;
+  min-width: 100vw;
+  height: 100vh;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -48,7 +44,7 @@
     linear-gradient(90deg, rgba(3,3,3,0.84), rgba(3,3,3,0.62) 42%, rgba(3,3,3,0.18) 72%),
     var(--slide-bg) var(--slide-pos, center) / cover no-repeat;
   transform: scale(1.04);
-  transition: transform 1.1s cubic-bezier(.22,.61,.36,1), filter 1.1s cubic-bezier(.22,.61,.36,1);
+  transition: transform 0.8s cubic-bezier(.22,.61,.36,1), filter 0.8s cubic-bezier(.22,.61,.36,1);
   filter: saturate(0.96) contrast(1.04);
 }
 
