@@ -231,46 +231,142 @@
   color: rgba(255,255,255,0.74);
 }
 
-.org-metrics {
+.org-rail {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  margin-top: clamp(3rem, 5vw, 4.5rem);
-  background: rgba(17,17,15,0.16);
-  border: 1px solid rgba(17,17,15,0.16);
+  grid-template-columns: minmax(240px, 0.34fr) minmax(0, 0.66fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: end;
+  margin-top: clamp(3.5rem, 6vw, 5rem);
+}
+
+.org-rail-intro h3 {
+  max-width: 340px;
+  margin: 0.4rem 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 3.2vw, 3.65rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+  color: #11110f;
+}
+
+.org-rail-intro p:not(.org-rail-kicker) {
+  max-width: 330px;
+  color: #5a5a54;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.org-rail-kicker {
+  color: #f58220;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.org-rail-controls {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 2rem;
+}
+
+.org-rail-controls button {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #11110f;
+  cursor: pointer;
+  box-shadow: 0 12px 34px rgba(31, 26, 18, 0.08);
+}
+
+.org-rail-controls button:hover {
+  background: #f58220;
+  color: #ffffff;
+}
+
+.org-rail-track {
+  display: flex;
+  gap: 1.1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 0.25rem 0 0.75rem;
+}
+
+.org-rail-track::-webkit-scrollbar {
+  display: none;
 }
 
 .org-metric {
-  padding: clamp(1.35rem, 2.1vw, 1.8rem);
-  background: rgba(255,255,255,0.68);
+  flex: 0 0 min(355px, 78vw);
+  min-height: 285px;
+  scroll-snap-align: start;
+  position: relative;
+  padding: 1.45rem;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(17,17,15,0.12);
+  box-shadow: 0 18px 48px rgba(31, 26, 18, 0.065);
+  overflow: hidden;
+}
+
+.org-metric::before {
+  content: '';
+  position: absolute;
+  top: 1.35rem;
+  left: 1.45rem;
+  width: 54px;
+  height: 1px;
+  background: #f58220;
+}
+
+.org-metric-photo {
+  background:
+    linear-gradient(180deg, rgba(17,17,15,0.04), rgba(17,17,15,0.78)),
+    url('../assets/hero-press-brake.jpeg') 64% center / cover no-repeat;
+  color: #fff;
 }
 
 .org-metric strong {
   display: block;
   margin-bottom: 0.65rem;
   color: #11110f;
-  font-size: 0.98rem;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.35rem, 2.3vw, 2rem);
+  line-height: 1.03;
+  letter-spacing: -0.055em;
 }
 
 .org-metric span {
   display: block;
+  max-width: 250px;
   color: #5b5b55;
-  font-size: 0.86rem;
-  line-height: 1.52;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.org-metric-photo strong,
+.org-metric-photo span {
+  color: #fff;
+}
+
+.org-metric-photo span {
+  color: rgba(255,255,255,0.75);
 }
 
 @media (max-width: 1080px) {
-  .org-control-grid {
+  .org-control-grid,
+  .org-rail {
     grid-template-columns: 1fr;
   }
 
   .org-control-title {
     max-width: 760px;
-  }
-
-  .org-metrics {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -294,10 +390,6 @@
   }
 
   .org-process-head {
-    grid-template-columns: 1fr;
-  }
-
-  .org-metrics {
     grid-template-columns: 1fr;
   }
 }
