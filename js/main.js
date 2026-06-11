@@ -140,6 +140,15 @@ function initServiceSlider() {
     return rect.top < window.innerHeight * 0.72 && rect.bottom > window.innerHeight * 0.28;
   };
 
+  const exitSlider = (direction) => {
+    const target = direction === 'next' ? slider.nextElementSibling : slider.previousElementSibling;
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: direction === 'next' ? 'start' : 'end' });
+      return;
+    }
+    window.scrollBy({ top: direction === 'next' ? window.innerHeight * 0.9 : -window.innerHeight * 0.9, behavior: 'smooth' });
+  };
+
   const handleWheel = (event) => {
     if (!isSliderInFocus()) return;
 
@@ -150,8 +159,6 @@ function initServiceSlider() {
     const canMoveNext = activeIndex < total - 1;
     const canMovePrev = activeIndex > 0;
 
-    if ((goingNext && !canMoveNext) || (!goingNext && !canMovePrev)) return;
-
     event.preventDefault();
     event.stopPropagation();
 
@@ -160,7 +167,14 @@ function initServiceSlider() {
 
     wheelLocked = true;
     lastWheelAt = now;
-    scrollToSlide(activeIndex + (goingNext ? 1 : -1));
+
+    if (goingNext && !canMoveNext) {
+      exitSlider('next');
+    } else if (!goingNext && !canMovePrev) {
+      exitSlider('prev');
+    } else {
+      scrollToSlide(activeIndex + (goingNext ? 1 : -1));
+    }
 
     window.setTimeout(() => {
       wheelLocked = false;
