@@ -77,7 +77,7 @@ if (servicesSection && !document.querySelector('.aud-services-slider')) {
         <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Persen</h2><p class="aud-service-description">Vorm- en persbewerkingen voor plaatwerkdelen waarbij passing, functionaliteit en herhaalbaarheid leidend zijn.</p><a class="aud-service-button" href="../pages/persen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">05/07</div><div class="aud-service-dots"></div></div></div>
       </article>
       <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 66% center;">
-        <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Oppervlaktebehandeling</h2><p class="aud-service-description">Coördinatie van poedercoaten, verzinken, beitsen, passiveren en andere afwerkingen via vaste partners.</p><a class="aud-service-button" href="../pages/oppervlaktebehandelingen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">06/07</div><div class="aud-service-dots"></div></div></div>
+        <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Oppervlaktebehandeling</h2><p class="aud-service-description">Coordinatie van poedercoaten, verzinken, beitsen, passiveren en andere afwerkingen via vaste partners.</p><a class="aud-service-button" href="../pages/oppervlaktebehandelingen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">06/07</div><div class="aud-service-dots"></div></div></div>
       </article>
       <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 55% center;">
         <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Assembleren</h2><p class="aud-service-description">Van losse plaatwerkdelen naar complete samenstellingen, submodules en montageklare producten.</p><a class="aud-service-button" href="../pages/assembleren.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">07/07</div><div class="aud-service-dots"></div></div></div>
@@ -116,6 +116,8 @@ function initServiceSlider() {
   });
 
   let activeIndex = 0;
+  let wheelLocked = false;
+  let lastWheelAt = 0;
 
   const setActive = (index) => {
     activeIndex = index;
@@ -133,6 +135,40 @@ function initServiceSlider() {
     setActive(nextIndex);
   };
 
+  const isSliderCentered = () => {
+    const rect = slider.getBoundingClientRect();
+    const viewportMiddle = window.innerHeight / 2;
+    return rect.top < viewportMiddle && rect.bottom > viewportMiddle;
+  };
+
+  slider.addEventListener('wheel', (event) => {
+    if (!isSliderCentered()) return;
+
+    const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+    if (Math.abs(delta) < 18) return;
+
+    const goingNext = delta > 0;
+    const atStart = activeIndex === 0;
+    const atEnd = activeIndex === total - 1;
+
+    if ((goingNext && atEnd) || (!goingNext && atStart)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const now = Date.now();
+    if (wheelLocked || now - lastWheelAt < 760) return;
+
+    wheelLocked = true;
+    lastWheelAt = now;
+    scrollToSlide(activeIndex + (goingNext ? 1 : -1));
+
+    window.setTimeout(() => {
+      wheelLocked = false;
+    }, 760);
+  }, { passive: false });
+
   slider.querySelectorAll('.aud-service-control').forEach(button => {
     button.addEventListener('click', () => {
       const direction = button.dataset.direction;
@@ -149,6 +185,10 @@ function initServiceSlider() {
       setActive(Math.max(0, Math.min(total - 1, index)));
     });
   }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    track.scrollTo({ left: activeIndex * track.clientWidth, behavior: 'auto' });
+  });
 
   setActive(0);
 }
