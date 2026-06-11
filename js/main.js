@@ -173,6 +173,44 @@ function initServiceSlider() {
 
 initServiceSlider();
 
+function initMaterialsSlider() {
+  const track = document.querySelector('[data-materials-track]');
+  const prev = document.querySelector('[data-materials-prev]');
+  const next = document.querySelector('[data-materials-next]');
+  if (!track || !prev || !next) return;
+
+  const getStep = () => {
+    const card = track.querySelector('.material-card');
+    if (!card) return track.clientWidth * 0.8;
+    const styles = window.getComputedStyle(track);
+    const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+    return card.getBoundingClientRect().width + gap;
+  };
+
+  const updateButtons = () => {
+    const maxScroll = track.scrollWidth - track.clientWidth - 2;
+    prev.disabled = track.scrollLeft <= 2;
+    next.disabled = track.scrollLeft >= maxScroll;
+  };
+
+  prev.addEventListener('click', () => {
+    track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+  });
+
+  next.addEventListener('click', () => {
+    track.scrollBy({ left: getStep(), behavior: 'smooth' });
+  });
+
+  track.addEventListener('scroll', () => {
+    window.requestAnimationFrame(updateButtons);
+  }, { passive: true });
+
+  window.addEventListener('resize', updateButtons);
+  updateButtons();
+}
+
+initMaterialsSlider();
+
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach(entry => {
@@ -210,5 +248,5 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 const style = document.createElement('style');
-style.textContent = '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}';
+style.textContent = '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.materials-controls button:disabled{opacity:.35;cursor:not-allowed;transform:none;background:#f3f1ed;color:#11110f}';
 document.head.appendChild(style);
