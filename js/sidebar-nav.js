@@ -1,9 +1,11 @@
 function loadLogoNavigationStyles() {
-  if (document.querySelector('link[href="../css/logo-nav.css"]')) return;
-  const logoStyles = document.createElement('link');
-  logoStyles.rel = 'stylesheet';
-  logoStyles.href = '../css/logo-nav.css';
-  document.head.appendChild(logoStyles);
+  ['../css/logo-nav.css', '../css/sidebar-subnav.css'].forEach((href) => {
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = href;
+    document.head.appendChild(stylesheet);
+  });
 }
 
 function initSidebarNavigation() {
@@ -16,14 +18,36 @@ function initSidebarNavigation() {
   const existingLinks = Array.from(nav.querySelectorAll('.nav-links a'));
   const logo = nav.querySelector('.nav-logo');
   const homeHref = logo ? logo.getAttribute('href') || 'index.html' : 'index.html';
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  const inPagesFolder = window.location.pathname.includes('/pages/');
+  const htmlPrefix = inPagesFolder ? '../html/' : '';
+  const pagesPrefix = inPagesFolder ? '' : '../pages/';
+
+  const detailLinks = [
+    { label: 'Kanten', href: `${pagesPrefix}kanten.html` },
+    { label: 'Lasersnijden', href: `${pagesPrefix}lasersnijden.html` },
+    { label: 'Lassen', href: `${pagesPrefix}lassen.html` },
+    { label: 'Walsen', href: `${pagesPrefix}walsen.html` },
+    { label: 'Persen', href: `${pagesPrefix}persen.html` },
+    { label: 'Oppervlaktebehandeling', href: `${pagesPrefix}oppervlaktebehandelingen.html` },
+    { label: 'Assembleren', href: `${pagesPrefix}assembleren.html` }
+  ];
 
   const items = [
-    { label: 'Home', href: homeHref.includes('index.html') ? homeHref : 'index.html' },
-    ...existingLinks.map((link) => ({
-      label: link.textContent.trim(),
-      href: link.getAttribute('href') || '#',
-      cta: link.classList.contains('nav-cta')
-    }))
+    { label: 'Home', href: inPagesFolder ? '../html/index.html' : homeHref.includes('index.html') ? homeHref : 'index.html' },
+    ...existingLinks.map((link) => {
+      const label = link.textContent.trim();
+      let href = link.getAttribute('href') || '#';
+      if (inPagesFolder && href && !href.startsWith('../') && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+        href = `${htmlPrefix}${href}`;
+      }
+      return {
+        label,
+        href,
+        cta: link.classList.contains('nav-cta'),
+        children: label === 'Werkzaamheden' ? detailLinks : []
+      };
+    })
   ];
 
   const toggle = document.createElement('button');
@@ -38,20 +62,28 @@ function initSidebarNavigation() {
   sidebar.className = 'sidebar-menu';
   sidebar.setAttribute('aria-hidden', 'true');
 
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  const renderSubLinks = (children) => {
+    if (!children || !children.length) return '';
+    return `<div class="sidebar-sublist">${children.map((child, childIndex) => {
+      const childFile = child.href.split('/').pop().split('#')[0] || '';
+      const active = childFile === currentFile;
+      return `<a class="sidebar-sublink${active ? ' is-active' : ''}" href="${child.href}"><span class="sidebar-subnum">${String(childIndex + 1).padStart(2, '0')}</span><span>${child.label}</span><span class="sidebar-subarrow">→</span></a>`;
+    }).join('')}</div>`;
+  };
 
   sidebar.innerHTML = `
     <div class="sidebar-backdrop" data-sidebar-close></div>
     <aside class="sidebar-panel" aria-label="Navigatiemenu">
       <div class="sidebar-head">
-        <a class="sidebar-brand" href="${homeHref}">Audacious<span>.</span></a>
+        <a class="sidebar-brand" href="${items[0].href}">Audacious<span>.</span></a>
         <button class="sidebar-close" type="button" aria-label="Menu sluiten" data-sidebar-close>×</button>
       </div>
       <div class="sidebar-list">
         ${items.map((item, index) => {
           const file = item.href.split('/').pop().split('#')[0] || 'index.html';
-          const active = file === currentPath || (currentPath === '' && file === 'index.html');
-          return `<a class="sidebar-link${active ? ' is-active' : ''}" href="${item.href}"><span class="sidebar-num">${String(index + 1).padStart(2, '0')}</span><span class="sidebar-label">${item.label.replace('Offerte aanvragen', 'Contact')}</span><span class="sidebar-arrow">→</span></a>`;
+          const childActive = item.children && item.children.some((child) => child.href.split('/').pop().split('#')[0] === currentFile);
+          const active = file === currentFile || childActive || (currentFile === '' && file === 'index.html');
+          return `<div class="sidebar-item"><a class="sidebar-link${active ? ' is-active' : ''}${item.children && item.children.length ? ' has-sub' : ''}" href="${item.href}"><span class="sidebar-num">${String(index + 1).padStart(2, '0')}</span><span class="sidebar-label">${item.label.replace('Offerte aanvragen', 'Contact')}</span><span class="sidebar-arrow">→</span></a>${renderSubLinks(item.children)}</div>`;
         }).join('')}
       </div>
       <div class="sidebar-foot">
