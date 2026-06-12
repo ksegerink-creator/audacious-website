@@ -1,0 +1,313 @@
+.blog-page .page-title {
+  max-width: 1080px;
+}
+
+.blog-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 2rem;
+}
+
+.blog-hero-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 0.95rem;
+  border: 1px solid rgba(17,17,15,0.14);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.62);
+  color: rgba(17,17,15,0.62);
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.blog-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 0.58fr) minmax(320px, 0.42fr);
+  gap: 1px;
+  background: rgba(17,17,15,0.14);
+  border: 1px solid rgba(17,17,15,0.14);
+  margin-top: 2rem;
+}
+
+.blog-featured-main,
+.blog-featured-side {
+  background: rgba(255,255,255,0.72);
+  padding: clamp(1.5rem, 3vw, 3rem);
+}
+
+.blog-featured-label,
+.blog-card-label,
+.blog-note-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f58220;
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blog-featured-title {
+  max-width: 840px;
+  margin-top: 1.1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.7rem, 5.6vw, 6.4rem);
+  line-height: 0.88;
+  letter-spacing: -0.08em;
+  color: #11110f;
+}
+
+.blog-featured-title span {
+  color: #f58220;
+}
+
+.blog-featured-copy {
+  max-width: 780px;
+  margin-top: 1.4rem;
+  color: #4f4f49;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  line-height: 1.72;
+}
+
+.blog-featured-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 2.8rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(17,17,15,0.12);
+  color: rgba(17,17,15,0.56);
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.blog-featured-side {
+  display: grid;
+  align-content: space-between;
+  min-height: 420px;
+  background: #11110f;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.blog-featured-side::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+    radial-gradient(circle at 80% 18%, rgba(245,130,32,0.26), transparent 16rem);
+  background-size: 44px 44px, 44px 44px, auto;
+  pointer-events: none;
+}
+
+.blog-featured-side > * {
+  position: relative;
+  z-index: 1;
+}
+
+.blog-side-kicker {
+  color: rgba(255,255,255,0.48);
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blog-side-stat {
+  margin-top: 1.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 7vw, 7.4rem);
+  line-height: 0.84;
+  letter-spacing: -0.08em;
+}
+
+.blog-side-copy {
+  max-width: 340px;
+  color: rgba(255,255,255,0.66);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(17,17,15,0.13);
+  border: 1px solid rgba(17,17,15,0.13);
+}
+
+.blog-card {
+  min-height: 360px;
+  display: grid;
+  align-content: space-between;
+  gap: 2rem;
+  background: rgba(255,255,255,0.68);
+  padding: clamp(1.35rem, 2vw, 2rem);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.blog-card:hover {
+  background: #fff;
+}
+
+.blog-card h3 {
+  margin-top: 1rem;
+  color: #11110f;
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 2.1vw, 2.55rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.blog-card p {
+  margin-top: 1rem;
+  color: #55554f;
+  font-size: 0.92rem;
+  line-height: 1.68;
+}
+
+.blog-card-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(17,17,15,0.12);
+  color: rgba(17,17,15,0.52);
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.blog-card.is-dark {
+  background: #11110f;
+}
+
+.blog-card.is-dark h3,
+.blog-card.is-dark .blog-card-footer {
+  color: #fff;
+}
+
+.blog-card.is-dark p {
+  color: rgba(255,255,255,0.62);
+}
+
+.blog-topic-strip {
+  display: grid;
+  grid-template-columns: 0.8fr repeat(4, 1fr);
+  border: 1px solid rgba(17,17,15,0.14);
+  margin-top: 2rem;
+}
+
+.blog-topic-strip > * {
+  min-height: 94px;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border-right: 1px solid rgba(17,17,15,0.12);
+  color: rgba(17,17,15,0.72);
+  font-family: 'Courier New', monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.blog-topic-strip > *:last-child {
+  border-right: 0;
+}
+
+.blog-topic-strip strong {
+  color: #11110f;
+}
+
+.blog-note {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.35fr) minmax(0, 0.65fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: start;
+  padding: clamp(1.5rem, 3vw, 3rem);
+  border: 1px solid rgba(17,17,15,0.14);
+  background: rgba(255,255,255,0.68);
+}
+
+.blog-note h2 {
+  margin-top: 1rem;
+  max-width: 480px;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 4.6rem);
+  line-height: 0.92;
+  letter-spacing: -0.075em;
+  color: #11110f;
+}
+
+.blog-note p {
+  color: #55554f;
+  font-size: 1rem;
+  line-height: 1.76;
+}
+
+.blog-note-list {
+  display: grid;
+  margin-top: 1.6rem;
+  border-top: 1px solid rgba(17,17,15,0.12);
+}
+
+.blog-note-list span {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid rgba(17,17,15,0.12);
+  color: #11110f;
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.blog-note-list span::after {
+  content: 'SANITY READY';
+  color: #f58220;
+}
+
+@media (max-width: 1080px) {
+  .blog-featured,
+  .blog-note {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .blog-topic-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .blog-grid,
+  .blog-topic-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-card {
+    min-height: 280px;
+  }
+
+  .blog-featured-title {
+    font-size: clamp(2.8rem, 18vw, 4.3rem);
+  }
+}
