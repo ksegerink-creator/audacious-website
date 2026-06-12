@@ -75,6 +75,14 @@ function initSidebarNavigation() {
     })
   ];
 
+  if (!items.some((item) => item.label === 'Blog')) {
+    const blogItem = { label: 'Blog', href: `${htmlPrefix}blog.html`, children: [] };
+    const contactIndex = items.findIndex((item) => item.label === 'Offerte aanvragen' || item.label === 'Contact');
+    const overIndex = items.findIndex((item) => item.label === 'Over ons');
+    const insertIndex = overIndex > -1 ? overIndex : contactIndex > -1 ? contactIndex : items.length;
+    items.splice(insertIndex, 0, blogItem);
+  }
+
   const toggle = document.createElement('button');
   toggle.type = 'button';
   toggle.className = 'nav-menu-toggle';
