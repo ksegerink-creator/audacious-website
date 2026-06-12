@@ -160,4 +160,46 @@
   .visual-spec.top-right { top:1.5rem; right:1.5rem; text-align:right; }
   .visual-spec.bottom-left { bottom:1.5rem; left:1.5rem; }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .display-xl,
+  .display-lg,
+  .display-md,
+  .hero-title,
+  .page-title,
+  .page-hero-media-copy strong,
+  .page-section h2,
+  .page-card h3,
+  .aud-service-title,
+  .market-title,
+  .products-title,
+  .material-title,
+  .organization-title,
+  .blog-featured-title,
+  .blog-card h3,
+  .blog-note h2,
+  .article-title,
+  .article-content h2,
+  .article-callout strong,
+  .sidebar-brand,
+  .nav-logo {
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  body,
+  button,
+  input,
+  textarea,
+  select,
+  a,
+  p,
+  span,
+  li {
+    font-family: 'Inter', sans-serif;
+  }
+
   /* Rest of homepage styles are loaded from section CSS files. */
