@@ -1,3 +1,13 @@
+const sidebarNavStyles = document.createElement('link');
+sidebarNavStyles.rel = 'stylesheet';
+sidebarNavStyles.href = '../css/sidebar-nav.css';
+document.head.appendChild(sidebarNavStyles);
+
+const sidebarNavScript = document.createElement('script');
+sidebarNavScript.src = '../js/sidebar-nav.js';
+sidebarNavScript.defer = true;
+document.head.appendChild(sidebarNavScript);
+
 const heroHeaderStyles = document.createElement('link');
 heroHeaderStyles.rel = 'stylesheet';
 heroHeaderStyles.href = '../css/hero-header.css';
