@@ -1,54 +1,100 @@
 :root {
-  --audacious-logo-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1477 320'%3E%3Crect width='1477' height='320' fill='none'/%3E%3Cpath fill='%23f26700' d='M40 222 0 151 90 0h100L40 222Zm284 0L194 0h100l70 151-40 71ZM52 244h258l-30 76H82l-30-76Z'/%3E%3Ctext x='430' y='220' fill='%231f1f1c' font-family='Georgia, Times New Roman, serif' font-size='178' font-weight='700' letter-spacing='-7'%3EAudacious%3C/text%3E%3Ctext x='438' y='305' fill='%231f1f1c' font-family='Courier New, monospace' font-size='78' font-weight='700' letter-spacing='-3'%3ESheet Metal International%3C/text%3E%3C/svg%3E");
+  --audacious-mark-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364 320'%3E%3Cpath fill='%23f26700' d='M40 222 0 151 90 0h100L40 222Zm284 0L194 0h100l70 151-40 71ZM52 244h258l-30 76H82l-30-76Z'/%3E%3C/svg%3E");
 }
 
 .nav-logo {
-  width: clamp(245px, 22vw, 360px) !important;
-  min-height: 58px !important;
-  padding: 0 1.25rem !important;
+  position: relative !important;
+  width: auto !important;
+  min-width: 205px !important;
+  min-height: 48px !important;
+  padding: 0 1.08rem 0 0.82rem !important;
+  gap: 0.68rem !important;
   font-size: 0 !important;
-  background: rgba(255,255,255,0.92) !important;
-  border-color: rgba(17,17,15,0.08) !important;
-  box-shadow: 0 18px 60px rgba(17,17,15,0.13), inset 0 1px 0 rgba(255,255,255,0.72) !important;
+  background: rgba(17,17,15,0.72) !important;
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 18px 60px rgba(17,17,15,0.18), inset 0 1px 0 rgba(255,255,255,0.12) !important;
+  backdrop-filter: blur(22px) saturate(1.1) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(1.1) !important;
 }
 
 .nav-logo::before {
   content: '' !important;
-  width: 100% !important;
-  height: 44px !important;
+  flex: 0 0 auto !important;
+  width: 30px !important;
+  height: 27px !important;
   border-radius: 0 !important;
-  background: var(--audacious-logo-svg) left center / contain no-repeat !important;
+  background: var(--audacious-mark-svg) center / contain no-repeat !important;
   box-shadow: none !important;
-  flex: 1 1 auto !important;
+}
+
+.nav-logo::after {
+  content: 'Audacious' !important;
+  position: static !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  width: auto !important;
+  height: auto !important;
+  transform: none !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-family: var(--font-display) !important;
+  font-size: 1.08rem !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.045em !important;
 }
 
 .nav-logo span {
   display: none !important;
 }
 
+.nav-logo:hover {
+  background: rgba(17,17,15,0.82) !important;
+}
+
+.nav-logo:hover::after {
+  color: #fff !important;
+}
+
 .nav-menu-toggle {
-  min-height: 58px !important;
-  padding: 0 1.42rem !important;
-  background: rgba(17,17,15,0.74) !important;
+  min-height: 48px !important;
+  padding: 0 1.2rem !important;
+  background: rgba(17,17,15,0.72) !important;
+  border-color: rgba(255,255,255,0.16) !important;
 }
 
 .sidebar-brand {
-  width: 295px;
-  min-height: 72px;
-  padding: 0 1rem;
+  position: relative;
+  width: auto;
+  min-width: 230px;
+  min-height: 54px;
+  padding: 0 1.05rem 0 0.85rem;
   border-radius: 999px;
-  background: rgba(255,255,255,0.94);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
   font-size: 0;
+  gap: 0.72rem;
 }
 
 .sidebar-brand::before {
   content: '' !important;
-  width: 100%;
-  height: 52px;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 30px;
   border-radius: 0;
-  background: var(--audacious-logo-svg) left center / contain no-repeat;
+  background: var(--audacious-mark-svg) center / contain no-repeat;
   box-shadow: none;
-  flex: 1 1 auto;
+}
+
+.sidebar-brand::after {
+  content: 'Audacious' !important;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.045em;
 }
 
 .sidebar-brand span {
@@ -57,26 +103,37 @@
 
 @media (max-width: 620px) {
   .nav-logo {
-    width: 215px !important;
-    min-height: 50px !important;
-    padding: 0 0.92rem !important;
+    min-width: 164px !important;
+    min-height: 44px !important;
+    padding: 0 0.86rem 0 0.72rem !important;
+    gap: 0.58rem !important;
   }
 
   .nav-logo::before {
-    height: 36px !important;
+    width: 26px !important;
+    height: 23px !important;
+  }
+
+  .nav-logo::after {
+    font-size: 0.98rem !important;
   }
 
   .nav-menu-toggle {
-    min-height: 50px !important;
+    min-height: 44px !important;
     padding: 0 1rem !important;
   }
 
   .sidebar-brand {
-    width: 235px;
-    min-height: 62px;
+    min-width: 205px;
+    min-height: 50px;
   }
 
   .sidebar-brand::before {
-    height: 44px;
+    width: 30px;
+    height: 26px;
+  }
+
+  .sidebar-brand::after {
+    font-size: 1.06rem;
   }
 }
