@@ -10,6 +10,80 @@ a.blog-featured-main {
   position: relative;
 }
 
+.blog-featured-image,
+.blog-card-media {
+  position: relative;
+  overflow: hidden;
+  background: #11110f;
+  border: 1px solid rgba(17,17,15,0.12);
+  isolation: isolate;
+}
+
+.blog-featured-image {
+  min-height: clamp(260px, 28vw, 430px);
+  margin-bottom: clamp(1.6rem, 3vw, 2.6rem);
+}
+
+.blog-card-media {
+  min-height: 170px;
+  margin-bottom: 1.35rem;
+}
+
+.blog-featured-image::before,
+.blog-card-media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--blog-image, url('../assets/hero-press-brake.jpeg'));
+  background-size: cover;
+  background-position: var(--blog-position, center);
+  filter: saturate(0.88) contrast(1.08);
+  transform: scale(1.04);
+  transition: transform 0.35s ease;
+}
+
+.blog-featured-image::after,
+.blog-card-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(17,17,15,0.04), rgba(17,17,15,0.62)),
+    radial-gradient(circle at 78% 18%, rgba(245,130,32,0.22), transparent 14rem);
+}
+
+.blog-image-label {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 1;
+  color: #f58220;
+  font-family: 'Courier New', monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blog-image-index {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.9rem;
+  z-index: 1;
+  color: rgba(255,255,255,0.78);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 4.8rem);
+  line-height: 0.8;
+  letter-spacing: -0.08em;
+}
+
+a.blog-featured-main:hover .blog-featured-image::before,
+a.blog-card:hover .blog-card-media::before {
+  transform: scale(1.09);
+}
+
 a.blog-featured-main::after,
 a.blog-card::after {
   content: 'Lees artikel →';
@@ -48,4 +122,10 @@ a.blog-card:focus-visible,
 a.blog-featured-main:focus-visible {
   outline: 2px solid #f58220;
   outline-offset: -2px;
+}
+
+@media (max-width: 680px) {
+  .blog-card-media {
+    min-height: 210px;
+  }
 }
