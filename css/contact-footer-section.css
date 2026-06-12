@@ -1,0 +1,308 @@
+.contact-closing {
+  position: relative;
+  padding: clamp(5.5rem, 8vw, 8rem) 0 clamp(3rem, 5vw, 4rem);
+  background: #11110f;
+  color: #fff;
+  overflow: hidden;
+}
+
+.contact-closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 82% 16%, rgba(245,130,32,0.18), transparent 26rem),
+    linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255,255,255,0.055) 1px, transparent 1px);
+  background-size: auto, 78px 78px, 78px 78px;
+  pointer-events: none;
+}
+
+.contact-closing .container {
+  position: relative;
+  z-index: 1;
+  width: min(calc(100vw - clamp(2rem, 5vw, 6rem)), 1480px);
+  max-width: none;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.58fr) minmax(320px, 0.42fr);
+  gap: clamp(2.5rem, 6vw, 5.5rem);
+  align-items: start;
+}
+
+.contact-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: #f58220;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.contact-kicker::before {
+  content: '';
+  width: 42px;
+  height: 1px;
+  background: #f58220;
+}
+
+.contact-title {
+  max-width: 840px;
+  font-family: var(--font-display);
+  font-size: clamp(3.6rem, 7vw, 7.8rem);
+  line-height: 0.89;
+  letter-spacing: -0.082em;
+  color: #fff;
+}
+
+.contact-title span {
+  color: #f58220;
+}
+
+.contact-copy {
+  max-width: 610px;
+  margin-top: 1.35rem;
+  color: rgba(255,255,255,0.72);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 2rem;
+}
+
+.contact-action-primary,
+.contact-action-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.contact-action-primary {
+  background: #f58220;
+  color: #11110f;
+  border: 1px solid #f58220;
+}
+
+.contact-action-secondary {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+.contact-action-primary:hover,
+.contact-action-secondary:hover {
+  transform: translateY(-2px);
+}
+
+.contact-action-secondary:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.34);
+}
+
+.contact-panel {
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+}
+
+.contact-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  color: rgba(255,255,255,0.54);
+  text-transform: uppercase;
+}
+
+.contact-panel-head span:last-child {
+  color: #f58220;
+}
+
+.contact-info-list {
+  display: grid;
+}
+
+.contact-info-item {
+  display: grid;
+  grid-template-columns: 124px 1fr;
+  gap: 1rem;
+  padding: 1.15rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.contact-info-item span {
+  color: rgba(255,255,255,0.46);
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contact-info-item a,
+.contact-info-item strong {
+  color: #fff;
+  font-size: 0.98rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-info-item a:hover {
+  color: #f58220;
+}
+
+.contact-checklist {
+  padding: 1.2rem;
+}
+
+.contact-checklist-title {
+  margin-bottom: 0.9rem;
+  color: rgba(255,255,255,0.72);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.contact-checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+.contact-checklist-grid span {
+  min-height: 48px;
+  padding: 0.85rem;
+  background: #11110f;
+  color: rgba(255,255,255,0.78);
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.site-footer {
+  position: relative;
+  background: #11110f;
+  color: #fff;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding: clamp(2.6rem, 5vw, 4rem) 0 1.2rem;
+}
+
+.site-footer .container {
+  width: min(calc(100vw - clamp(2rem, 5vw, 6rem)), 1480px);
+  max-width: none;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.1fr) repeat(3, minmax(160px, 0.5fr));
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.footer-brand {
+  max-width: 430px;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.footer-logo-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #f58220;
+  box-shadow: 0 0 0 6px rgba(245,130,32,0.14);
+}
+
+.footer-brand p {
+  margin-top: 1.1rem;
+  color: rgba(255,255,255,0.58);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.footer-col h3 {
+  margin-bottom: 1rem;
+  color: #f58220;
+  font-family: 'Courier New', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-col a,
+.footer-col span {
+  display: block;
+  color: rgba(255,255,255,0.68);
+  font-size: 0.9rem;
+  line-height: 1.9;
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.42);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 1000px) {
+  .contact-grid,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-title {
+    max-width: 760px;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-title {
+    font-size: clamp(2.8rem, 14vw, 4.6rem);
+  }
+
+  .contact-info-item,
+  .contact-checklist-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+  }
+}
