@@ -77,14 +77,19 @@
 
 .markets-system {
   display: grid;
-  grid-template-columns: minmax(235px, 285px) minmax(0, 1fr);
-  gap: clamp(1rem, 1.6vw, 1.45rem);
+  grid-template-columns: minmax(235px, 285px) minmax(385px, 1.18fr) minmax(275px, 1fr) minmax(275px, 1fr);
+  grid-template-rows: 252px 252px 210px;
+  grid-template-areas:
+    "index primary medical food"
+    "index primary drink packaging"
+    "index build build build";
+  gap: 0.9rem;
   align-items: stretch;
 }
 
 .market-index {
+  grid-area: index;
   position: relative;
-  height: 100%;
   min-height: 0;
   padding: 1.35rem;
   border: 1px solid rgba(17,17,15,0.14);
@@ -143,15 +148,7 @@
 }
 
 .markets-grid {
-  display: grid;
-  grid-template-columns: minmax(385px, 1.18fr) minmax(275px, 1fr) minmax(275px, 1fr);
-  grid-template-rows: 252px 252px 210px;
-  grid-template-areas:
-    "primary medical food"
-    "primary drink packaging"
-    "build build build";
-  gap: 0.9rem;
-  min-width: 0;
+  display: contents;
 }
 
 .market-card {
@@ -348,9 +345,14 @@
 @media (max-width: 1320px) {
   .markets-system {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "index"
+      "cards";
   }
 
   .market-index {
+    grid-area: index;
     height: auto;
     min-height: auto;
     display: grid;
@@ -366,6 +368,18 @@
   .market-index p {
     max-width: 520px;
     margin-top: 3rem;
+  }
+
+  .markets-grid {
+    grid-area: cards;
+    display: grid;
+    grid-template-columns: minmax(385px, 1.18fr) minmax(275px, 1fr) minmax(275px, 1fr);
+    grid-template-rows: 252px 252px 210px;
+    grid-template-areas:
+      "primary medical food"
+      "primary drink packaging"
+      "build build build";
+    gap: 0.9rem;
   }
 }
 
@@ -395,7 +409,7 @@
 
 @media (max-width: 720px) {
   .markets-board .container {
-    width: min(calc(100vw - 2rem), 1560px);
+    width: min(calc(100vw - 2rem), 1600px);
   }
 
   .markets-title {
