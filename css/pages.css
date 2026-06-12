@@ -50,14 +50,14 @@
 }
 
 .page-hero {
-  padding: clamp(8rem, 12vw, 11rem) 0 clamp(4rem, 7vw, 6rem);
+  padding: clamp(6.5rem, 8vw, 8.5rem) 0 clamp(4rem, 7vw, 6rem);
 }
 
 .page-hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.58fr) minmax(360px, 0.42fr);
   gap: clamp(2.5rem,6vw,5rem);
-  align-items: end;
+  align-items: start;
 }
 
 .page-kicker {
