@@ -5,9 +5,18 @@ a.blog-card {
   cursor: pointer;
 }
 
+.blog-featured {
+  grid-template-columns: 1fr !important;
+}
+
 a.blog-featured-main {
   display: block;
   position: relative;
+  width: 100%;
+}
+
+.blog-featured-side {
+  display: none !important;
 }
 
 .blog-featured-image,
@@ -20,7 +29,7 @@ a.blog-featured-main {
 }
 
 .blog-featured-image {
-  min-height: clamp(260px, 28vw, 430px);
+  min-height: clamp(360px, 38vw, 620px);
   margin-bottom: clamp(1.6rem, 3vw, 2.6rem);
 }
 
@@ -125,6 +134,7 @@ a.blog-featured-main:focus-visible {
 }
 
 @media (max-width: 680px) {
+  .blog-featured-image,
   .blog-card-media {
     min-height: 210px;
   }
