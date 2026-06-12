@@ -19,11 +19,12 @@ function initSidebarNavigation() {
   const logo = nav.querySelector('.nav-logo');
   const homeHref = logo ? logo.getAttribute('href') || 'index.html' : 'index.html';
   const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  const currentHash = window.location.hash || '';
   const inPagesFolder = window.location.pathname.includes('/pages/');
   const htmlPrefix = inPagesFolder ? '../html/' : '';
   const pagesPrefix = inPagesFolder ? '' : '../pages/';
 
-  const detailLinks = [
+  const werkzaamhedenLinks = [
     { label: 'Kanten', href: `${pagesPrefix}kanten.html` },
     { label: 'Lasersnijden', href: `${pagesPrefix}lasersnijden.html` },
     { label: 'Lassen', href: `${pagesPrefix}lassen.html` },
@@ -32,6 +33,30 @@ function initSidebarNavigation() {
     { label: 'Oppervlaktebehandeling', href: `${pagesPrefix}oppervlaktebehandelingen.html` },
     { label: 'Assembleren', href: `${pagesPrefix}assembleren.html` }
   ];
+
+  const marktenLinks = [
+    { label: 'Halfgeleiderindustrie', href: `${htmlPrefix}markten.html#halfgeleiderindustrie` },
+    { label: 'Medische industrie', href: `${htmlPrefix}markten.html#medische-industrie` },
+    { label: 'Voedingsmiddelenindustrie', href: `${htmlPrefix}markten.html#voedingsmiddelenindustrie` },
+    { label: 'Drank & zuivel', href: `${htmlPrefix}markten.html#drank-zuivel` },
+    { label: 'Verpakkingsindustrie', href: `${htmlPrefix}markten.html#verpakkingsindustrie` },
+    { label: 'Bouw & meubel', href: `${htmlPrefix}markten.html#bouw-meubel` }
+  ];
+
+  const productenLinks = [
+    { label: 'Behuizingen', href: `${htmlPrefix}producten.html#behuizingen` },
+    { label: 'Kasten', href: `${htmlPrefix}producten.html#kasten` },
+    { label: 'Machineframes', href: `${htmlPrefix}producten.html#machineframes` },
+    { label: 'Designproducten', href: `${htmlPrefix}producten.html#designproducten` },
+    { label: 'Samengestelde modules', href: `${htmlPrefix}producten.html#samengestelde-modules` }
+  ];
+
+  const getChildrenForLabel = (label) => {
+    if (label === 'Werkzaamheden') return werkzaamhedenLinks;
+    if (label === 'Markten') return marktenLinks;
+    if (label === 'Producten') return productenLinks;
+    return [];
+  };
 
   const items = [
     { label: 'Home', href: inPagesFolder ? '../html/index.html' : homeHref.includes('index.html') ? homeHref : 'index.html' },
@@ -45,7 +70,7 @@ function initSidebarNavigation() {
         label,
         href,
         cta: link.classList.contains('nav-cta'),
-        children: label === 'Werkzaamheden' ? detailLinks : []
+        children: getChildrenForLabel(label)
       };
     })
   ];
@@ -62,11 +87,15 @@ function initSidebarNavigation() {
   sidebar.className = 'sidebar-menu';
   sidebar.setAttribute('aria-hidden', 'true');
 
+  const getFile = (href) => href.split('/').pop().split('#')[0] || '';
+  const getHash = (href) => href.includes('#') ? `#${href.split('#')[1]}` : '';
+
   const renderSubLinks = (children) => {
     if (!children || !children.length) return '';
     return `<div class="sidebar-sublist">${children.map((child, childIndex) => {
-      const childFile = child.href.split('/').pop().split('#')[0] || '';
-      const active = childFile === currentFile;
+      const childFile = getFile(child.href);
+      const childHash = getHash(child.href);
+      const active = childFile === currentFile && (!childHash || childHash === currentHash);
       return `<a class="sidebar-sublink${active ? ' is-active' : ''}" href="${child.href}"><span class="sidebar-subnum">${String(childIndex + 1).padStart(2, '0')}</span><span>${child.label}</span><span class="sidebar-subarrow">→</span></a>`;
     }).join('')}</div>`;
   };
@@ -80,8 +109,8 @@ function initSidebarNavigation() {
       </div>
       <div class="sidebar-list">
         ${items.map((item, index) => {
-          const file = item.href.split('/').pop().split('#')[0] || 'index.html';
-          const childActive = item.children && item.children.some((child) => child.href.split('/').pop().split('#')[0] === currentFile);
+          const file = getFile(item.href) || 'index.html';
+          const childActive = item.children && item.children.some((child) => getFile(child.href) === currentFile && (!getHash(child.href) || getHash(child.href) === currentHash));
           const active = file === currentFile || childActive || (currentFile === '' && file === 'index.html');
           return `<div class="sidebar-item"><a class="sidebar-link${active ? ' is-active' : ''}${item.children && item.children.length ? ' has-sub' : ''}" href="${item.href}"><span class="sidebar-num">${String(index + 1).padStart(2, '0')}</span><span class="sidebar-label">${item.label.replace('Offerte aanvragen', 'Contact')}</span><span class="sidebar-arrow">→</span></a>${renderSubLinks(item.children)}</div>`;
         }).join('')}
