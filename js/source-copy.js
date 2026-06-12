@@ -42,6 +42,33 @@ function applySourceBasedCopy() {
   if (heroProofText) heroProofText.textContent = 'Plaatwerk, constructiewerk, assemblage en vaste partners in een keten';
 }
 
-window.addEventListener('DOMContentLoaded', applySourceBasedCopy);
-window.addEventListener('load', applySourceBasedCopy);
+function applyMenuPages() {
+  const links = [
+    ['Werkzaamheden', '../html/werkzaamheden.html'],
+    ['Markten', '../html/markten.html'],
+    ['Producten', '../html/producten.html'],
+    ['Over ons', '../html/over-ons.html'],
+    ['Offerte aanvragen', '../html/contact.html']
+  ];
+
+  document.querySelectorAll('nav .nav-links a').forEach((link, index) => {
+    const item = links[index];
+    if (!item) return;
+    link.textContent = item[0];
+    link.setAttribute('href', item[1]);
+  });
+
+  const logo = document.querySelector('nav .nav-logo');
+  if (logo) logo.setAttribute('href', '../html/index.html');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  applySourceBasedCopy();
+  applyMenuPages();
+});
+window.addEventListener('load', () => {
+  applySourceBasedCopy();
+  applyMenuPages();
+});
 applySourceBasedCopy();
+applyMenuPages();
