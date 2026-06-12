@@ -1,4 +1,14 @@
+function loadLogoNavigationStyles() {
+  if (document.querySelector('link[href="../css/logo-nav.css"]')) return;
+  const logoStyles = document.createElement('link');
+  logoStyles.rel = 'stylesheet';
+  logoStyles.href = '../css/logo-nav.css';
+  document.head.appendChild(logoStyles);
+}
+
 function initSidebarNavigation() {
+  loadLogoNavigationStyles();
+
   const nav = document.querySelector('nav');
   if (!nav || nav.dataset.sidebarReady === 'true') return;
   nav.dataset.sidebarReady = 'true';
@@ -79,4 +89,5 @@ function initSidebarNavigation() {
 }
 
 window.addEventListener('DOMContentLoaded', initSidebarNavigation);
+loadLogoNavigationStyles();
 initSidebarNavigation();
