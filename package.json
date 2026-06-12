@@ -10,11 +10,11 @@
     "sanity:import": "sanity dataset import sanity/seed/audacious-seed.ndjson production --replace"
   },
   "dependencies": {
-    "@sanity/vision": "latest",
-    "sanity": "latest",
-    "styled-components": "latest"
+    "@sanity/vision": "^4.0.0",
+    "sanity": "^4.0.0",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
-    "typescript": "latest"
+    "typescript": "^5.8.3"
   }
 }
