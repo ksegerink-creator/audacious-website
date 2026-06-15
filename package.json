@@ -7,7 +7,8 @@
     "sanity:dev": "sanity dev",
     "sanity:build": "sanity build",
     "sanity:deploy": "sanity deploy",
-    "sanity:import": "sanity dataset import sanity/seed/audacious-seed.ndjson production --replace"
+    "sanity:import": "sanity dataset import sanity/seed/audacious-seed.ndjson production --replace",
+    "sanity:update-copy": "sanity exec sanity/scripts/update-seo-copy.mjs --with-user-token"
   },
   "dependencies": {
     "@sanity/vision": "^4.0.0",
