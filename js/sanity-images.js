@@ -1,6 +1,6 @@
 const SANITY_IMAGE_PROJECT_ID = 'wehjzlhm';
 const SANITY_IMAGE_DATASET = 'production';
-const SANITY_IMAGE_API_VERSION = '2026-06-12';
+const SANITY_IMAGE_API_VERSION = '2025-02-19';
 
 function withImageParams(url) {
   if (!url) return '';
@@ -29,13 +29,15 @@ function applyHeroImage(url) {
 async function fetchHomepageHeroImage() {
   const query = `*[_type == "homePage"][0]{
     "heroImageUrl": hero.image.asset->url,
-    "heroImageRef": hero.image.asset->_ref,
     "hasHeroImage": defined(hero.image.asset)
   }`;
-  const endpoint = `https://${SANITY_IMAGE_PROJECT_ID}.api.sanity.io/v${SANITY_IMAGE_API_VERSION}/data/query/${SANITY_IMAGE_DATASET}?query=${encodeURIComponent(query)}&ts=${Date.now()}`;
+  const endpoint = `https://${SANITY_IMAGE_PROJECT_ID}.api.sanity.io/v${SANITY_IMAGE_API_VERSION}/data/query/${SANITY_IMAGE_DATASET}?query=${encodeURIComponent(query)}`;
   const response = await fetch(endpoint, {cache: 'no-store'});
 
-  if (!response.ok) throw new Error(`Sanity image request failed: ${response.status}`);
+  if (!response.ok) {
+    const details = await response.text();
+    throw new Error(`Sanity image request failed: ${response.status} ${details}`);
+  }
 
   const data = await response.json();
   return data?.result || null;
