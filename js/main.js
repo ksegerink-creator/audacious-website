@@ -1,3 +1,15 @@
+function ensureProofLayout() {
+  if (document.getElementById('audacious-proof-main-layout')) return;
+  const proofStyle = document.createElement('style');
+  proofStyle.id = 'audacious-proof-main-layout';
+  proofStyle.textContent = `
+    .proof{background:var(--black)!important}.proof .container{max-width:1200px!important;margin:0 auto!important;padding:0 clamp(1.25rem,4vw,3rem)!important}.proof-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:0!important;border:1px solid var(--steel-border)!important;border-radius:4px!important;overflow:hidden!important;background:#fff!important}.proof-item{display:block!important;min-height:190px!important;padding:clamp(1.5rem,3vw,2.5rem)!important;border-right:1px solid var(--steel-border)!important;position:relative!important;background:#fff!important}.proof-item:last-child{border-right:none!important}.proof-title{display:block!important;font-family:var(--font-display)!important;font-size:1.1rem!important;font-weight:600!important;color:var(--white)!important;margin:0 0 .5rem!important;line-height:1.2!important}.proof-body{display:block!important;margin:0!important;font-size:.8rem!important;color:var(--steel-text)!important;line-height:1.5!important}.proof-accent-line{display:block!important;position:absolute!important;top:0!important;left:2.5rem!important;width:2rem!important;height:2px!important;background:var(--accent)!important;border-radius:0 0 2px 2px!important}@media(max-width:900px){.proof-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.proof-item:nth-child(2){border-right:none!important}.proof-item:nth-child(-n+2){border-bottom:1px solid var(--steel-border)!important}}@media(max-width:560px){.proof-grid{grid-template-columns:1fr!important}.proof-item,.proof-item:nth-child(2){border-right:none!important;border-bottom:1px solid var(--steel-border)!important}.proof-item:last-child{border-bottom:none!important}}
+  `;
+  document.head.appendChild(proofStyle);
+}
+
+ensureProofLayout();
+
 const sidebarNavStyles = document.createElement('link');
 sidebarNavStyles.rel = 'stylesheet';
 sidebarNavStyles.href = '../css/sidebar-nav.css';
