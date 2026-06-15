@@ -1,4 +1,4 @@
-import {groq} from 'sanity'
+const groq = String.raw
 
 export const imageFields = groq`
   asset->{_id, url, metadata {dimensions, lqip}},
