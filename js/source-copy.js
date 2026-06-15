@@ -1,4 +1,27 @@
-function applySourceBasedCopy() {
+const SANITY_PROJECT_ID = 'wehjzlhm';
+const SANITY_DATASET = 'production';
+const SANITY_API_VERSION = '2026-06-12';
+
+function textToHtml(value) {
+  return String(value || '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .join('<br>');
+}
+
+function resolveSanityHref(target) {
+  if (!target) return '#';
+  const type = target._type;
+  const slug = target.slug;
+  if (type === 'homePage') return '../html/index.html';
+  if (!slug) return '#';
+  if (type === 'service') return `../pages/${slug}.html`;
+  if (type === 'blogPost') return `../html/blog-detail.html`;
+  return `../html/${slug}.html`;
+}
+
+function applyFallbackCopy() {
   const heroBadge = document.querySelector('.hero-badge span');
   if (heroBadge) heroBadge.textContent = 'Zevenaar - intelligent plaatwerk';
 
@@ -42,7 +65,7 @@ function applySourceBasedCopy() {
   if (heroProofText) heroProofText.textContent = 'Plaatwerk, constructiewerk, assemblage en vaste partners in een keten';
 }
 
-function applyMenuPages() {
+function applyFallbackMenu() {
   const links = [
     ['Werkzaamheden', '../html/werkzaamheden.html'],
     ['Markten', '../html/markten.html'],
@@ -62,13 +85,122 @@ function applyMenuPages() {
   if (logo) logo.setAttribute('href', '../html/index.html');
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  applySourceBasedCopy();
-  applyMenuPages();
+function applySanityHomeCopy(home) {
+  if (!home) return;
+
+  const hero = home.hero || {};
+
+  const heroBadge = document.querySelector('.hero-badge span');
+  if (heroBadge && hero.eyebrow) heroBadge.textContent = hero.eyebrow;
+
+  const heroTitle = document.querySelector('.hero-title');
+  if (heroTitle && hero.title) {
+    const titleHtml = textToHtml(hero.title);
+    heroTitle.innerHTML = hero.highlight ? `${titleHtml}<br><em>${hero.highlight}</em>` : titleHtml;
+  }
+
+  const heroSub = document.querySelector('.hero-sub');
+  if (heroSub && hero.intro) heroSub.textContent = hero.intro;
+
+  const primaryCta = document.querySelector('.hero-actions .btn-primary');
+  if (primaryCta && hero.primaryCta?.label) primaryCta.textContent = hero.primaryCta.label;
+  if (primaryCta && hero.primaryCta?.internalPage) primaryCta.setAttribute('href', resolveSanityHref(hero.primaryCta.internalPage));
+
+  const secondaryCta = document.querySelector('.hero-actions .btn-outline');
+  if (secondaryCta && hero.secondaryCta?.label) secondaryCta.textContent = hero.secondaryCta.label;
+  if (secondaryCta && hero.secondaryCta?.internalPage) secondaryCta.setAttribute('href', resolveSanityHref(hero.secondaryCta.internalPage));
+
+  const introTitle = document.querySelector('.intro-title');
+  if (introTitle && home.introTitle) introTitle.innerHTML = textToHtml(home.introTitle);
+
+  const introBody = document.querySelector('.intro-body');
+  if (introBody && home.introText) introBody.textContent = home.introText;
+}
+
+function applySanityNavigation(navigation) {
+  const items = navigation?.items || [];
+  const visibleItems = items.filter((item) => item.label !== 'Home').slice(0, 5);
+  const links = document.querySelectorAll('nav .nav-links a');
+
+  links.forEach((link, index) => {
+    const item = visibleItems[index];
+    if (!item) return;
+    link.textContent = item.label;
+
+    if (item.linkType === 'external' && item.url) {
+      link.setAttribute('href', item.url);
+      return;
+    }
+
+    if (item.linkType === 'anchor' && item.anchor) {
+      link.setAttribute('href', item.anchor);
+      return;
+    }
+
+    if (item.internalPage) link.setAttribute('href', resolveSanityHref(item.internalPage));
+  });
+
+  const logo = document.querySelector('nav .nav-logo');
+  if (logo) logo.setAttribute('href', '../html/index.html');
+}
+
+async function fetchSanityContent() {
+  const query = `{
+    "home": *[_type == "homePage"][0]{
+      hero{
+        eyebrow,
+        title,
+        highlight,
+        intro,
+        primaryCta{label, linkType, url, anchor, internalPage->{_type, "slug": slug.current}},
+        secondaryCta{label, linkType, url, anchor, internalPage->{_type, "slug": slug.current}}
+      },
+      introTitle,
+      introText
+    },
+    "navigation": *[_type == "navigation"][0]{
+      items[]{
+        label,
+        linkType,
+        url,
+        anchor,
+        internalPage->{_type, "slug": slug.current}
+      }
+    }
+  }`;
+
+  const url = `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}?query=${encodeURIComponent(query)}`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Sanity request failed: ${response.status}`);
+  const data = await response.json();
+  return data.result;
+}
+
+function applySourceBasedCopy() {
+  applyFallbackCopy();
+}
+
+function applyMenuPages() {
+  applyFallbackMenu();
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  applyFallbackCopy();
+  applyFallbackMenu();
+
+  try {
+    const content = await fetchSanityContent();
+    applySanityHomeCopy(content?.home);
+    applySanityNavigation(content?.navigation);
+  } catch (error) {
+    console.warn('Sanity content kon niet geladen worden. Fallback content blijft actief.', error);
+  }
 });
+
 window.addEventListener('load', () => {
-  applySourceBasedCopy();
-  applyMenuPages();
+  applyFallbackCopy();
+  applyFallbackMenu();
 });
-applySourceBasedCopy();
-applyMenuPages();
+
+applyFallbackCopy();
+applyFallbackMenu();
