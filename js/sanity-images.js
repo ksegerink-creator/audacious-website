@@ -2,34 +2,104 @@ const SANITY_IMAGE_PROJECT_ID = 'wehjzlhm';
 const SANITY_IMAGE_DATASET = 'production';
 const SANITY_IMAGE_API_VERSION = '2025-02-19';
 
-function withImageParams(url) {
+function withImageParams(url, width = 2400) {
   if (!url) return '';
   const separator = url.includes('?') ? '&' : '?';
-  return `${url}${separator}auto=format&fit=crop&w=2400&q=85`;
+  return `${url}${separator}auto=format&fit=crop&w=${width}&q=85`;
 }
 
-function applyHeroImage(url) {
-  if (!url) return false;
+function setBackground(element, url, options = {}) {
+  if (!element || !url) return false;
 
-  const hero = document.querySelector('.hero');
-  if (!hero) return false;
+  const imageUrl = withImageParams(url, options.width || 1800);
+  const position = options.position || 'center center';
+  const overlay = options.overlay || '';
+  const background = `${overlay ? `${overlay}, ` : ''}url('${imageUrl}') ${position} / cover no-repeat`;
 
-  const imageUrl = withImageParams(url);
-  hero.style.setProperty(
-    'background',
-    `linear-gradient(90deg, rgba(7, 7, 6, 0.86) 0%, rgba(8, 8, 7, 0.76) 31%, rgba(8, 8, 7, 0.47) 52%, rgba(8, 8, 7, 0.10) 78%, rgba(8, 8, 7, 0.28) 100%), url('${imageUrl}') 61% center / cover no-repeat`,
-    'important'
-  );
-
-  hero.dataset.sanityHeroImage = imageUrl;
-  console.info('Sanity hero-afbeelding geladen:', imageUrl);
+  element.style.setProperty('background', background, 'important');
+  element.dataset.sanityImage = imageUrl;
   return true;
 }
 
-async function fetchHomepageHeroImage() {
-  const query = `*[_type == "homePage"][0]{
-    "heroImageUrl": hero.image.asset->url,
-    "hasHeroImage": defined(hero.image.asset)
+function applyHeroImage(url) {
+  const hero = document.querySelector('.hero');
+  const overlay = 'linear-gradient(90deg, rgba(7, 7, 6, 0.86) 0%, rgba(8, 8, 7, 0.76) 31%, rgba(8, 8, 7, 0.47) 52%, rgba(8, 8, 7, 0.10) 78%, rgba(8, 8, 7, 0.28) 100%)';
+  const applied = setBackground(hero, url, {width: 2400, position: '61% center', overlay});
+  if (applied) console.info('Sanity hero-afbeelding geladen:', hero.dataset.sanityImage);
+  return applied;
+}
+
+function applyServiceImages(services) {
+  if (!services?.length) return;
+
+  document.querySelectorAll('.aud-service-slide').forEach((slide, index) => {
+    const url = services[index]?.imageUrl;
+    if (!url) return;
+    const imageUrl = withImageParams(url, 2200);
+    slide.style.setProperty('--slide-bg', `url('${imageUrl}')`);
+    slide.dataset.sanityImage = imageUrl;
+  });
+}
+
+function applyMarketImages(markets) {
+  if (!markets?.length) return;
+
+  document.querySelectorAll('.market-card').forEach((card, index) => {
+    const url = markets[index]?.imageUrl;
+    if (!url) return;
+    const overlay = 'linear-gradient(180deg, rgba(17,17,15,0.10), rgba(17,17,15,0.72))';
+    setBackground(card, url, {width: 1400, overlay});
+    card.classList.add('has-sanity-image');
+  });
+}
+
+function applyProductImages(productGroups) {
+  if (!productGroups?.length) return;
+
+  document.querySelectorAll('.product-tile').forEach((tile, index) => {
+    const url = productGroups[index]?.imageUrl;
+    const visual = tile.querySelector('.product-visual');
+    if (!url || !visual) return;
+    const overlay = 'linear-gradient(180deg, rgba(17,17,15,0.05), rgba(17,17,15,0.52))';
+    setBackground(visual, url, {width: 1200, overlay});
+    visual.classList.add('has-sanity-image');
+  });
+}
+
+function applyMaterialImages(materials) {
+  if (!materials?.length) return;
+
+  document.querySelectorAll('.material-card').forEach((card, index) => {
+    const url = materials[index]?.imageUrl;
+    const visual = card.querySelector('.material-card-visual');
+    if (!url || !visual) return;
+    setBackground(visual, url, {width: 1200});
+    visual.classList.add('has-sanity-image');
+  });
+}
+
+function applyBlogImages(posts) {
+  if (!posts?.length) return;
+
+  document.querySelectorAll('.blog-card, .blog-featured-card, .post-card').forEach((card, index) => {
+    const url = posts[index]?.imageUrl;
+    if (!url) return;
+    const imageTarget = card.querySelector('.blog-card-media, .blog-featured-image, .post-card-image') || card;
+    setBackground(imageTarget, url, {width: 1400});
+    imageTarget.classList.add('has-sanity-image');
+  });
+}
+
+async function fetchSanityImages() {
+  const query = `{
+    "home": *[_type == "homePage"][0]{
+      "heroImageUrl": hero.image.asset->url,
+      "hasHeroImage": defined(hero.image.asset),
+      "services": featuredServices[]->{"imageUrl": heroImage.asset->url},
+      "markets": featuredMarkets[]->{"imageUrl": image.asset->url},
+      "products": featuredProductGroups[]->{"imageUrl": image.asset->url}
+    },
+    "posts": *[_type == "blogPost"] | order(publishedAt desc){"imageUrl": featuredImage.asset->url}
   }`;
   const endpoint = `https://${SANITY_IMAGE_PROJECT_ID}.api.sanity.io/v${SANITY_IMAGE_API_VERSION}/data/query/${SANITY_IMAGE_DATASET}?query=${encodeURIComponent(query)}`;
   const response = await fetch(endpoint, {cache: 'no-store'});
@@ -43,21 +113,27 @@ async function fetchHomepageHeroImage() {
   return data?.result || null;
 }
 
-async function initSanityHeroImage() {
+async function initSanityImages() {
   try {
-    const result = await fetchHomepageHeroImage();
+    const result = await fetchSanityImages();
+    const home = result?.home || {};
 
-    if (!result?.hasHeroImage || !result?.heroImageUrl) {
-      console.warn('Geen gepubliceerde hero-afbeelding gevonden in Sanity. Controleer Homepage > Hero > Afbeelding en klik Publish.', result);
-      return;
+    if (home.hasHeroImage && home.heroImageUrl) {
+      applyHeroImage(home.heroImageUrl);
+    } else {
+      console.warn('Geen gepubliceerde hero-afbeelding gevonden in Sanity. Controleer Homepage > Hero > Afbeelding en klik Publish.', home);
     }
 
-    applyHeroImage(result.heroImageUrl);
+    applyServiceImages(home.services || []);
+    applyMarketImages(home.markets || []);
+    applyProductImages(home.products || []);
+    applyBlogImages(result?.posts || []);
   } catch (error) {
-    console.warn('Sanity hero-afbeelding kon niet geladen worden. Fallback afbeelding blijft actief.', error);
+    console.warn('Sanity-afbeeldingen konden niet geladen worden. Fallback afbeeldingen blijven actief.', error);
   }
 }
 
-window.addEventListener('DOMContentLoaded', initSanityHeroImage);
-window.addEventListener('load', initSanityHeroImage);
-window.initSanityHeroImage = initSanityHeroImage;
+window.addEventListener('DOMContentLoaded', initSanityImages);
+window.addEventListener('load', initSanityImages);
+window.initSanityHeroImage = initSanityImages;
+window.initSanityImages = initSanityImages;
