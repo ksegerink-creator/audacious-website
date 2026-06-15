@@ -31,38 +31,44 @@ function textToHtml(value) {
     .join('<br>');
 }
 
+function setText(selector, value, root = document) {
+  const element = root.querySelector(selector);
+  if (element && value) element.textContent = value;
+}
+
+function setHtml(selector, value, root = document) {
+  const element = root.querySelector(selector);
+  if (element && value) element.innerHTML = textToHtml(value);
+}
+
+function setHref(selector, value, root = document) {
+  const element = root.querySelector(selector);
+  if (element && value) element.setAttribute('href', value);
+}
+
 function resolveSanityHref(target) {
   if (!target) return '#';
   const type = target._type;
   const slug = target.slug;
+
   if (type === 'homePage') return '../html/index.html';
   if (!slug) return '#';
   if (type === 'service') return `../pages/${slug}.html`;
-  if (type === 'blogPost') return `../html/blog-detail.html`;
+  if (type === 'market') return '../html/markten.html';
+  if (type === 'productGroup') return '../html/producten.html';
+  if (type === 'blogPost') return '../html/blog-detail.html';
   return `../html/${slug}.html`;
 }
 
 function applyFallbackCopy() {
   ensureProofLayout();
 
-  const heroBadge = document.querySelector('.hero-badge span');
-  if (heroBadge) heroBadge.textContent = 'Zevenaar - intelligent plaatwerk';
+  setText('.hero-badge span', 'Zevenaar - intelligent plaatwerk');
+  setHtml('.hero-title', 'Voor intelligent\nplaatwerk.');
+  setText('.hero-sub', 'Audacious Sheet Metal ontwikkelt en vervaardigt plaatwerkproducten uit roestvaststaal, aluminium en staal. Van enkelstuks tot meerstuks, van rechttoe rechtaan tot gecompliceerd lasersnij-, kant- en laswerk, constructiewerk en complete assemblage.');
 
-  const heroTitle = document.querySelector('.hero-title');
-  if (heroTitle) heroTitle.innerHTML = 'Voor intelligent<br>plaatwerk.';
-
-  const heroSub = document.querySelector('.hero-sub');
-  if (heroSub) {
-    heroSub.textContent = 'Audacious Sheet Metal ontwikkelt en vervaardigt plaatwerkproducten uit roestvaststaal, aluminium en staal. Van enkelstuks tot meerstuks, van rechttoe rechtaan tot gecompliceerd lasersnij-, kant- en laswerk, constructiewerk en complete assemblage.';
-  }
-
-  const introTitle = document.querySelector('.intro-title');
-  if (introTitle) introTitle.innerHTML = 'Slim werken.<br>Sneller en beter produceren.';
-
-  const introBody = document.querySelector('.intro-body');
-  if (introBody) {
-    introBody.textContent = 'De kracht van Audacious zit in de organisatie: goed voorbereiden, doelmatig calculeren en elke schakel in de keten optimaliseren. Niet geleefd worden, maar anticiperen. Zo houden we grip op kwaliteit, kosten en levertijd.';
-  }
+  setHtml('.intro-title', 'Slim werken.\nSneller en beter produceren.');
+  setText('.intro-body', 'De kracht van Audacious zit in de organisatie: goed voorbereiden, doelmatig calculeren en elke schakel in de keten optimaliseren. Niet geleefd worden, maar anticiperen. Zo houden we grip op kwaliteit, kosten en levertijd.');
 
   const proofUpdates = [
     ['Ketenregisseur voor OEM', 'Audacious neemt desgewenst de hele productieketen voor zijn rekening: van productie tot assemblage, montage en afstemming met vaste specialistische partners.'],
@@ -74,18 +80,13 @@ function applyFallbackCopy() {
   document.querySelectorAll('.proof-item').forEach((item, index) => {
     const update = proofUpdates[index];
     if (!update) return;
-    const title = item.querySelector('.proof-title');
-    const body = item.querySelector('.proof-body');
-    if (title) title.textContent = update[0];
-    if (body) body.textContent = update[1];
+    setText('.proof-title', update[0], item);
+    setText('.proof-body', update[1], item);
   });
 
-  const heroProofTitle = document.querySelector('.hero-proof strong');
-  const heroProofText = document.querySelector('.hero-proof span');
-  const heroProofLabel = document.querySelector('.hero-proof-stars');
-  if (heroProofLabel) heroProofLabel.textContent = 'SCM';
-  if (heroProofTitle) heroProofTitle.textContent = 'Van jobber naar ketenregisseur';
-  if (heroProofText) heroProofText.textContent = 'Plaatwerk, constructiewerk, assemblage en vaste partners in een keten';
+  setText('.hero-proof-stars', 'SCM');
+  setText('.hero-proof strong', 'Van jobber naar ketenregisseur');
+  setText('.hero-proof span', 'Plaatwerk, constructiewerk, assemblage en vaste partners in een keten');
 }
 
 function applyFallbackMenu() {
@@ -104,8 +105,7 @@ function applyFallbackMenu() {
     link.setAttribute('href', item[1]);
   });
 
-  const logo = document.querySelector('nav .nav-logo');
-  if (logo) logo.setAttribute('href', '../html/index.html');
+  setHref('nav .nav-logo', '../html/index.html');
 }
 
 function applySanityHomeCopy(home) {
@@ -113,8 +113,7 @@ function applySanityHomeCopy(home) {
 
   const hero = home.hero || {};
 
-  const heroBadge = document.querySelector('.hero-badge span');
-  if (heroBadge && hero.eyebrow) heroBadge.textContent = hero.eyebrow;
+  setText('.hero-badge span', hero.eyebrow);
 
   const heroTitle = document.querySelector('.hero-title');
   if (heroTitle && hero.title) {
@@ -122,22 +121,18 @@ function applySanityHomeCopy(home) {
     heroTitle.innerHTML = hero.highlight ? `${titleHtml}<br><em>${hero.highlight}</em>` : titleHtml;
   }
 
-  const heroSub = document.querySelector('.hero-sub');
-  if (heroSub && hero.intro) heroSub.textContent = hero.intro;
+  setText('.hero-sub', hero.intro);
 
-  const primaryCta = document.querySelector('.hero-actions .btn-primary');
-  if (primaryCta && hero.primaryCta?.label) primaryCta.textContent = hero.primaryCta.label;
-  if (primaryCta && hero.primaryCta?.internalPage) primaryCta.setAttribute('href', resolveSanityHref(hero.primaryCta.internalPage));
+  const primaryHref = hero.primaryCta?.internalPage ? resolveSanityHref(hero.primaryCta.internalPage) : hero.primaryCta?.url;
+  const secondaryHref = hero.secondaryCta?.internalPage ? resolveSanityHref(hero.secondaryCta.internalPage) : hero.secondaryCta?.url;
 
-  const secondaryCta = document.querySelector('.hero-actions .btn-outline');
-  if (secondaryCta && hero.secondaryCta?.label) secondaryCta.textContent = hero.secondaryCta.label;
-  if (secondaryCta && hero.secondaryCta?.internalPage) secondaryCta.setAttribute('href', resolveSanityHref(hero.secondaryCta.internalPage));
+  setText('.hero-actions .btn-primary', hero.primaryCta?.label);
+  setHref('.hero-actions .btn-primary', primaryHref);
+  setText('.hero-actions .btn-outline', hero.secondaryCta?.label);
+  setHref('.hero-actions .btn-outline', secondaryHref);
 
-  const introTitle = document.querySelector('.intro-title');
-  if (introTitle && home.introTitle) introTitle.innerHTML = textToHtml(home.introTitle);
-
-  const introBody = document.querySelector('.intro-body');
-  if (introBody && home.introText) introBody.textContent = home.introText;
+  setHtml('.intro-title', home.introTitle);
+  setText('.intro-body', home.introText);
 }
 
 function applySanityNavigation(navigation) {
@@ -163,8 +158,80 @@ function applySanityNavigation(navigation) {
     if (item.internalPage) link.setAttribute('href', resolveSanityHref(item.internalPage));
   });
 
-  const logo = document.querySelector('nav .nav-logo');
-  if (logo) logo.setAttribute('href', '../html/index.html');
+  setHref('nav .nav-logo', '../html/index.html');
+}
+
+function applySanityServices(services) {
+  const slides = document.querySelectorAll('.aud-service-slide');
+  if (!slides.length || !services?.length) return;
+
+  slides.forEach((slide, index) => {
+    const service = services[index];
+    if (!service) return;
+
+    setText('.aud-service-title', service.title, slide);
+    setText('.aud-service-description', service.summary || service.intro, slide);
+    setHref('.aud-service-button', resolveSanityHref({_type: 'service', slug: service.slug}), slide);
+
+    const counter = slide.querySelector('.aud-service-counter');
+    if (counter) counter.textContent = `${String(index + 1).padStart(2, '0')}/${String(services.length).padStart(2, '0')}`;
+  });
+}
+
+function applySanityMarkets(markets) {
+  const cards = document.querySelectorAll('.market-card');
+  if (!cards.length || !markets?.length) return;
+
+  cards.forEach((card, index) => {
+    const market = markets[index];
+    if (!market) return;
+
+    setText('h3', market.title, card);
+    setText('p', market.intro, card);
+    setText('.market-num', String(index + 1).padStart(2, '0'), card);
+  });
+}
+
+function applySanityProducts(productGroups) {
+  const tiles = document.querySelectorAll('.product-tile');
+  if (!tiles.length || !productGroups?.length) return;
+
+  tiles.forEach((tile, index) => {
+    const product = productGroups[index];
+    if (!product) return;
+
+    setText('h3', product.title, tile);
+    setText('p', product.intro, tile);
+    setText('.product-visual span', String(index + 1).padStart(2, '0'), tile);
+  });
+}
+
+function applySanitySiteSettings(settings) {
+  if (!settings) return;
+
+  const email = settings.email || 'info@audacious.com';
+  const phone = settings.phone || '+31 (0)316 - 581 470';
+  const company = settings.companyName || 'Audacious Sheet Metal International B.V.';
+  const addressLine = settings.address ? String(settings.address).split('\n').filter(Boolean).slice(-2, -1)[0] : 'Zevenaar, Nederland';
+
+  setText('.contact-info-item:nth-child(1) strong', company);
+  setText('.contact-info-item:nth-child(2) strong', addressLine || 'Zevenaar, Nederland');
+  setText('.contact-info-item:nth-child(3) a', email);
+  setHref('.contact-info-item:nth-child(3) a', `mailto:${email}`);
+  setText('.contact-info-item:nth-child(4) a', phone);
+  setHref('.contact-info-item:nth-child(4) a', `tel:${phone.replace(/[^+0-9]/g, '')}`);
+
+  setText('.contact-actions .contact-button', email);
+  setHref('.contact-actions .contact-button', `mailto:${email}`);
+  setText('.contact-actions .contact-button.is-secondary', `Bel ${phone}`);
+  setHref('.contact-actions .contact-button.is-secondary', `tel:${phone.replace(/[^+0-9]/g, '')}`);
+
+  setText('.footer-bottom span:first-child', `© 2026 ${company}`);
+  setText('.footer-col:nth-child(4) a[href^="mailto"]', email);
+  setHref('.footer-col:nth-child(4) a[href^="mailto"]', `mailto:${email}`);
+  setText('.footer-col:nth-child(4) a[href^="tel"]', phone);
+  setHref('.footer-col:nth-child(4) a[href^="tel"]', `tel:${phone.replace(/[^+0-9]/g, '')}`);
+  setText('.footer-col:nth-child(4) span', addressLine || 'Zevenaar, Nederland');
 }
 
 async function fetchSanityContent() {
@@ -179,7 +246,10 @@ async function fetchSanityContent() {
         secondaryCta{label, linkType, url, anchor, internalPage->{_type, "slug": slug.current}}
       },
       introTitle,
-      introText
+      introText,
+      featuredServices[]->{title, "slug": slug.current, intro, summary, order},
+      featuredMarkets[]->{title, "slug": slug.current, intro, order},
+      featuredProductGroups[]->{title, "slug": slug.current, intro, order, applications}
     },
     "navigation": *[_type == "navigation"][0]{
       items[]{
@@ -189,6 +259,12 @@ async function fetchSanityContent() {
         anchor,
         internalPage->{_type, "slug": slug.current}
       }
+    },
+    "settings": *[_type == "siteSettings"][0]{
+      companyName,
+      email,
+      phone,
+      address
     }
   }`;
 
@@ -207,24 +283,32 @@ function applyMenuPages() {
   applyFallbackMenu();
 }
 
-window.addEventListener('DOMContentLoaded', async () => {
-  ensureProofLayout();
-  applyFallbackCopy();
-  applyFallbackMenu();
-
+async function applySanityContent() {
   try {
     const content = await fetchSanityContent();
     applySanityHomeCopy(content?.home);
     applySanityNavigation(content?.navigation);
+    applySanityServices(content?.home?.featuredServices);
+    applySanityMarkets(content?.home?.featuredMarkets);
+    applySanityProducts(content?.home?.featuredProductGroups);
+    applySanitySiteSettings(content?.settings);
   } catch (error) {
     console.warn('Sanity content kon niet geladen worden. Fallback content blijft actief.', error);
   }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  ensureProofLayout();
+  applyFallbackCopy();
+  applyFallbackMenu();
+  window.setTimeout(applySanityContent, 0);
+  window.setTimeout(applySanityContent, 300);
 });
 
 window.addEventListener('load', () => {
   ensureProofLayout();
-  applyFallbackCopy();
-  applyFallbackMenu();
+  window.setTimeout(applySanityContent, 0);
+  window.setTimeout(applySanityContent, 500);
 });
 
 ensureProofLayout();
