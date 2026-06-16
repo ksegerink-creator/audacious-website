@@ -24,6 +24,12 @@ function initSidebarNavigation() {
   const htmlPrefix = inPagesFolder ? '../html/' : '';
   const pagesPrefix = inPagesFolder ? '' : '../pages/';
 
+  const prepLinks = [
+    { label: 'Productievoorbereiding', href: `${htmlPrefix}productievoorbereiding.html` },
+    { label: 'Engineering & CAD/CAM', href: `${htmlPrefix}engineering.html` },
+    { label: 'Materialen', href: `${htmlPrefix}materialen.html` }
+  ];
+
   const werkzaamhedenLinks = [
     { label: 'Kanten', href: `${pagesPrefix}kanten.html` },
     { label: 'Lasersnijden', href: `${pagesPrefix}lasersnijden.html` },
@@ -34,53 +40,64 @@ function initSidebarNavigation() {
     { label: 'Assembleren', href: `${pagesPrefix}assembleren.html` }
   ];
 
-  const marktenLinks = [
-    { label: 'Halfgeleiderindustrie', href: `${htmlPrefix}markten.html#halfgeleiderindustrie` },
-    { label: 'Medische industrie', href: `${htmlPrefix}markten.html#medische-industrie` },
-    { label: 'Voedingsmiddelenindustrie', href: `${htmlPrefix}markten.html#voedingsmiddelenindustrie` },
-    { label: 'Drank & zuivel', href: `${htmlPrefix}markten.html#drank-zuivel` },
-    { label: 'Verpakkingsindustrie', href: `${htmlPrefix}markten.html#verpakkingsindustrie` },
-    { label: 'Bouw & meubel', href: `${htmlPrefix}markten.html#bouw-meubel` }
+  const projectLinks = [
+    { label: 'Projecten', href: `${htmlPrefix}projecten.html` },
+    { label: 'Productgroepen', href: `${htmlPrefix}producten.html` },
+    { label: 'Markten', href: `${htmlPrefix}markten.html` }
   ];
 
-  const productenLinks = [
-    { label: 'Behuizingen', href: `${htmlPrefix}producten.html#behuizingen` },
-    { label: 'Kasten', href: `${htmlPrefix}producten.html#kasten` },
-    { label: 'Machineframes', href: `${htmlPrefix}producten.html#machineframes` },
-    { label: 'Designproducten', href: `${htmlPrefix}producten.html#designproducten` },
-    { label: 'Samengestelde modules', href: `${htmlPrefix}producten.html#samengestelde-modules` }
+  const newsLinks = [
+    { label: 'Alle nieuwsitems', href: `${htmlPrefix}nieuws.html` },
+    { label: 'ISO 9001 vervolg', href: `${htmlPrefix}nieuws-iso-9001-vervolg.html` },
+    { label: 'Vervanging klein transport', href: `${htmlPrefix}nieuws-vervanging-klein-transport.html` },
+    { label: 'Nieuwe glasparel straalcabine', href: `${htmlPrefix}nieuws-nieuwe-glasparel-straalcabine.html` },
+    { label: 'Grotere stikstoftank', href: `${htmlPrefix}nieuws-grotere-stikstoftank.html` },
+    { label: 'Nieuwe afzuiging Nedermann', href: `${htmlPrefix}nieuws-nieuwe-afzuiging-nedermann.html` }
   ];
 
   const getChildrenForLabel = (label) => {
+    if (label === 'Productievoorbereiding') return prepLinks;
     if (label === 'Werkzaamheden') return werkzaamhedenLinks;
-    if (label === 'Markten') return marktenLinks;
-    if (label === 'Producten') return productenLinks;
+    if (label === 'Projecten') return projectLinks;
+    if (label === 'Nieuws') return newsLinks;
     return [];
   };
 
   const items = [
     { label: 'Home', href: inPagesFolder ? '../html/index.html' : homeHref.includes('index.html') ? homeHref : 'index.html' },
-    ...existingLinks.map((link) => {
-      const label = link.textContent.trim();
-      let href = link.getAttribute('href') || '#';
-      if (inPagesFolder && href && !href.startsWith('../') && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
-        href = `${htmlPrefix}${href}`;
-      }
-      return {
-        label,
-        href,
-        cta: link.classList.contains('nav-cta'),
-        children: getChildrenForLabel(label)
-      };
-    })
+    ...existingLinks
+      .map((link) => {
+        let label = link.textContent.trim();
+        let href = link.getAttribute('href') || '#';
+
+        if (label === 'Blog') {
+          label = 'Nieuws';
+          href = 'nieuws.html';
+        }
+
+        if (href.includes('blog.html') || href.includes('blog-detail.html')) {
+          href = 'nieuws.html';
+        }
+
+        if (inPagesFolder && href && !href.startsWith('../') && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+          href = `${htmlPrefix}${href}`;
+        }
+
+        return {
+          label,
+          href,
+          cta: link.classList.contains('nav-cta'),
+          children: getChildrenForLabel(label)
+        };
+      })
+      .filter((item) => item.label !== 'Blog')
   ];
 
-  if (!items.some((item) => item.label === 'Blog')) {
-    const blogItem = { label: 'Blog', href: `${htmlPrefix}blog.html`, children: [] };
+  if (!items.some((item) => item.label === 'Nieuws')) {
+    const newsItem = { label: 'Nieuws', href: `${htmlPrefix}nieuws.html`, children: newsLinks };
     const contactIndex = items.findIndex((item) => item.label === 'Offerte aanvragen' || item.label === 'Contact');
-    const overIndex = items.findIndex((item) => item.label === 'Over ons');
-    const insertIndex = overIndex > -1 ? overIndex : contactIndex > -1 ? contactIndex : items.length;
-    items.splice(insertIndex, 0, blogItem);
+    const insertIndex = contactIndex > -1 ? contactIndex : items.length;
+    items.splice(insertIndex, 0, newsItem);
   }
 
   const toggle = document.createElement('button');
@@ -127,7 +144,7 @@ function initSidebarNavigation() {
         <div class="sidebar-contact">
           <a href="mailto:info@audacious.com">info@audacious.com</a>
           <a href="tel:+31316581470">+31 (0)316 - 581 470</a>
-          <span>Zevenaar, Nederland</span>
+          <span>Mega 16, 6902 KL Zevenaar</span>
         </div>
         <div class="sidebar-meta"><span>ASM / MENU</span><span>2026</span></div>
       </div>
