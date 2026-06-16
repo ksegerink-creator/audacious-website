@@ -8,8 +8,18 @@ function loadLogoNavigationStyles() {
   });
 }
 
+function loadSanityPageImages() {
+  if (document.querySelector('script[data-sanity-page-images]')) return;
+  const script = document.createElement('script');
+  script.src = '../js/sanity-page-images.js';
+  script.defer = true;
+  script.dataset.sanityPageImages = 'true';
+  document.head.appendChild(script);
+}
+
 function initSidebarNavigation() {
   loadLogoNavigationStyles();
+  loadSanityPageImages();
 
   const nav = document.querySelector('nav');
   if (!nav || nav.dataset.sidebarReady === 'true') return;
@@ -176,4 +186,5 @@ function initSidebarNavigation() {
 
 window.addEventListener('DOMContentLoaded', initSidebarNavigation);
 loadLogoNavigationStyles();
+loadSanityPageImages();
 initSidebarNavigation();
