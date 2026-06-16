@@ -9,6 +9,11 @@
   <url><loc>https://audacious-website.vercel.app/html/producten.html</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/projecten.html</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/nieuws.html</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/html/nieuws-iso-9001-vervolg.html</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/html/nieuws-vervanging-klein-transport.html</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/html/nieuws-nieuwe-glasparel-straalcabine.html</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/html/nieuws-grotere-stikstoftank.html</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/html/nieuws-nieuwe-afzuiging-nedermann.html</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/over-ons.html</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/contact.html</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/pages/kanten.html</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
