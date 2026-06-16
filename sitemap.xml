@@ -6,7 +6,6 @@
   <url><loc>https://audacious-website.vercel.app/html/materialen.html</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/werkzaamheden.html</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/markten.html</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://audacious-website.vercel.app/html/producten.html</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/projecten.html</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/nieuws.html</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/nieuws-iso-9001-vervolg.html</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
