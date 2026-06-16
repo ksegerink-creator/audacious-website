@@ -178,3 +178,65 @@
     padding-left: 2.6rem;
   }
 }
+
+/* Subpage hero photo visibility fix. Loaded after pages.css via sidebar-nav.js. */
+.page-hero::before {
+  filter: saturate(1.04) contrast(1.02) brightness(1.08) !important;
+}
+
+.page-hero::after {
+  background:
+    linear-gradient(90deg, rgba(7,7,6,0.76) 0%, rgba(8,8,7,0.64) 34%, rgba(8,8,7,0.34) 58%, rgba(8,8,7,0.08) 100%),
+    radial-gradient(circle at 78% 18%, rgba(245,130,32,0.18), transparent 22rem) !important;
+}
+
+.page-hero .container::before {
+  opacity: 0.72 !important;
+}
+
+.page-title {
+  text-shadow: 0 18px 55px rgba(0,0,0,0.58) !important;
+}
+
+.page-lead {
+  color: rgba(255,255,255,0.82) !important;
+  text-shadow: 0 8px 28px rgba(0,0,0,0.42) !important;
+}
+
+.page-hero-media {
+  background: rgba(17,17,15,0.18) !important;
+  border-color: rgba(255,255,255,0.22) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.page-hero-media::before {
+  filter: saturate(1.05) contrast(1.03) brightness(1.12) !important;
+  transform: scale(1.02) !important;
+}
+
+.page-hero-media::after {
+  background:
+    linear-gradient(180deg, rgba(17,17,15,0.04), rgba(17,17,15,0.52)),
+    radial-gradient(circle at 82% 22%, rgba(245,130,32,0.14), transparent 20rem) !important;
+}
+
+.page-hero-media-copy strong,
+.page-hero-media-copy span {
+  text-shadow: 0 8px 26px rgba(0,0,0,0.58) !important;
+}
+
+.page-panel {
+  background: rgba(17,17,15,0.34) !important;
+  border-color: rgba(255,255,255,0.18) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+@media (max-width: 1100px) {
+  .page-hero::after {
+    background:
+      linear-gradient(90deg, rgba(7,7,6,0.82) 0%, rgba(8,8,7,0.60) 58%, rgba(8,8,7,0.18) 100%),
+      radial-gradient(circle at 78% 18%, rgba(245,130,32,0.16), transparent 22rem) !important;
+  }
+}
