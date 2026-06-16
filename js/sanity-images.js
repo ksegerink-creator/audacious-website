@@ -78,7 +78,7 @@ function applyMaterialImages(materials) {
   });
 }
 
-function applyBlogImages(posts) {
+function applyNewsImages(posts) {
   if (!posts?.length) return;
 
   document.querySelectorAll('.blog-card, .blog-featured-card, .post-card').forEach((card, index) => {
@@ -127,13 +127,28 @@ async function initSanityImages() {
     applyServiceImages(home.services || []);
     applyMarketImages(home.markets || []);
     applyProductImages(home.products || []);
-    applyBlogImages(result?.posts || []);
+    applyNewsImages(result?.posts || []);
   } catch (error) {
     console.warn('Sanity-afbeeldingen konden niet geladen worden. Fallback afbeeldingen blijven actief.', error);
   }
 }
 
-window.addEventListener('DOMContentLoaded', initSanityImages);
-window.addEventListener('load', initSanityImages);
+function loadAudaciousCopyOverrides() {
+  if (document.querySelector('script[data-audacious-copy]')) return;
+  const script = document.createElement('script');
+  script.src = '../js/audacious-copy.js';
+  script.defer = true;
+  script.dataset.audaciousCopy = 'true';
+  document.body.appendChild(script);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  initSanityImages();
+  loadAudaciousCopyOverrides();
+});
+window.addEventListener('load', () => {
+  initSanityImages();
+  loadAudaciousCopyOverrides();
+});
 window.initSanityHeroImage = initSanityImages;
 window.initSanityImages = initSanityImages;
