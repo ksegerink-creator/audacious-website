@@ -19,7 +19,6 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('market').title('Markten'),
       S.documentTypeListItem('productGroup').title('Productgroepen'),
       S.divider(),
-      S.documentTypeListItem('blogPost').title('Blogartikelen'),
-      S.documentTypeListItem('blogCategory').title('Blogcategorieën'),
-      S.documentTypeListItem('author').title('Auteurs')
+      S.documentTypeListItem('blogPost').title('Nieuwsitems'),
+      S.documentTypeListItem('blogCategory').title('Nieuwscategorieën')
     ])
