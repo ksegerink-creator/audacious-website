@@ -56,7 +56,7 @@ function resolveSanityHref(target) {
   if (type === 'service') return `../pages/${slug}.html`;
   if (type === 'market') return '../html/markten.html';
   if (type === 'productGroup') return '../html/producten.html';
-  if (type === 'blogPost') return '../html/blog-detail.html';
+  if (type === 'blogPost') return '../html/nieuws.html';
   return `../html/${slug}.html`;
 }
 
@@ -91,10 +91,10 @@ function applyFallbackCopy() {
 
 function applyFallbackMenu() {
   const links = [
+    ['Productievoorbereiding', '../html/productievoorbereiding.html'],
     ['Werkzaamheden', '../html/werkzaamheden.html'],
-    ['Markten', '../html/markten.html'],
-    ['Producten', '../html/producten.html'],
-    ['Over ons', '../html/over-ons.html'],
+    ['Projecten', '../html/projecten.html'],
+    ['Nieuws', '../html/nieuws.html'],
     ['Offerte aanvragen', '../html/contact.html']
   ];
 
