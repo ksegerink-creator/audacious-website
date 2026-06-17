@@ -29,6 +29,39 @@ function applyHeroImage(url) {
   return applied;
 }
 
+function applyHeroVideo(videoUrl, posterUrl) {
+  const hero = document.querySelector('.hero');
+  if (!hero || !videoUrl) return false;
+
+  hero.classList.add('has-hero-video');
+
+  let video = hero.querySelector('.home-hero-video');
+  if (!video) {
+    video = document.createElement('video');
+    video.className = 'home-hero-video';
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.setAttribute('aria-hidden', 'true');
+    hero.insertBefore(video, hero.firstChild);
+  }
+
+  if (posterUrl) video.poster = withImageParams(posterUrl, 1800);
+  if (video.getAttribute('src') !== videoUrl) {
+    video.setAttribute('src', videoUrl);
+    video.load();
+  }
+
+  video.play().catch(() => {
+    console.info('Hero video kon niet automatisch afspelen. Poster/fallback blijft zichtbaar.');
+  });
+
+  console.info('Sanity hero-video geladen:', videoUrl);
+  return true;
+}
+
 function applyServiceImages(services) {
   if (!services?.length) return;
 
@@ -94,7 +127,10 @@ async function fetchSanityImages() {
   const query = `{
     "home": *[_type == "homePage"][0]{
       "heroImageUrl": hero.image.asset->url,
+      "heroVideoUrl": hero.videoUrl,
+      "heroVideoPosterUrl": hero.videoPoster.asset->url,
       "hasHeroImage": defined(hero.image.asset),
+      "hasHeroVideo": defined(hero.videoUrl),
       "services": featuredServices[]->{"imageUrl": heroImage.asset->url},
       "markets": featuredMarkets[]->{"imageUrl": image.asset->url},
       "products": featuredProductGroups[]->{"imageUrl": image.asset->url}
@@ -118,10 +154,12 @@ async function initSanityImages() {
     const result = await fetchSanityImages();
     const home = result?.home || {};
 
-    if (home.hasHeroImage && home.heroImageUrl) {
+    if (home.hasHeroVideo && home.heroVideoUrl) {
+      applyHeroVideo(home.heroVideoUrl, home.heroVideoPosterUrl || home.heroImageUrl);
+    } else if (home.hasHeroImage && home.heroImageUrl) {
       applyHeroImage(home.heroImageUrl);
     } else {
-      console.warn('Geen gepubliceerde hero-afbeelding gevonden in Sanity. Controleer Homepage > Hero > Afbeelding en klik Publish.', home);
+      console.warn('Geen gepubliceerde hero-video of hero-afbeelding gevonden in Sanity. Controleer Homepage > Hero en klik Publish.', home);
     }
 
     applyServiceImages(home.services || []);
