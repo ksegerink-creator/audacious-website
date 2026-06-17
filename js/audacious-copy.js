@@ -129,17 +129,28 @@
     if (productHead) productHead.textContent = 'Een selectie van projecttypen die aansluiten op het werk van Audacious: frames, RVS behuizingen, technische samenstellingen en maatwerkconstructies.';
 
     const projectCards = [
-      ['Frame voor de food-industrie', 'Frameconstructie voor toepassing in de voedingsmiddelenindustrie.'],
-      ['Plaatwerk behuizingen', 'Plaatwerk behuizingen uit RVS 316L.'],
-      ['Project röntgenarm', 'Technische samenstelling met plaatwerkcomponenten.'],
-      ['Frames voor verpakkingsmachines', 'Precisieframes uit RVS 316L, gelast en afgewerkt.'],
-      ['Schuifdeuren / cold corridor', 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes.']
+      ['Frame voor de food-industrie', 'Frameconstructie voor toepassing in de voedingsmiddelenindustrie.', '../html/projecten.html#project-food-frame'],
+      ['Plaatwerk behuizingen', 'Plaatwerk behuizingen uit RVS 316L.', '../html/projecten.html#project-behuizingen'],
+      ['Project röntgenarm', 'Technische samenstelling met plaatwerkcomponenten.', '../html/projecten.html#project-rontgenarm'],
+      ['Frames voor verpakkingsmachines', 'Precisieframes uit RVS 316L, gelast en afgewerkt.', '../html/projecten.html#project-verpakkingsframes'],
+      ['Schuifdeuren / cold corridor', 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes.', '../html/projecten.html#project-schuifdeuren']
     ];
     document.querySelectorAll('.product-tile').forEach((tile, index) => {
       const row = projectCards[index];
       if (!row) return;
       setText('h3', row[0], tile);
       setText('p', row[1], tile);
+      tile.classList.add('is-clickable');
+      tile.setAttribute('data-href', row[2]);
+
+      let link = tile.querySelector('.project-card-link');
+      if (!link) {
+        link = document.createElement('a');
+        link.className = 'project-card-link';
+        tile.appendChild(link);
+      }
+      link.href = row[2];
+      link.setAttribute('aria-label', `Bekijk project: ${row[0]}`);
     });
 
     setText('#services-title', 'Bewerkingen');
