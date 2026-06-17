@@ -127,10 +127,12 @@ async function fetchSanityImages() {
   const query = `{
     "home": *[_type == "homePage"][0]{
       "heroImageUrl": hero.image.asset->url,
+      "heroVideoFileUrl": hero.videoFile.asset->url,
       "heroVideoUrl": hero.videoUrl,
       "heroVideoPosterUrl": hero.videoPoster.asset->url,
       "hasHeroImage": defined(hero.image.asset),
-      "hasHeroVideo": defined(hero.videoUrl),
+      "hasHeroVideoFile": defined(hero.videoFile.asset),
+      "hasHeroVideoUrl": defined(hero.videoUrl),
       "services": featuredServices[]->{"imageUrl": heroImage.asset->url},
       "markets": featuredMarkets[]->{"imageUrl": image.asset->url},
       "products": featuredProductGroups[]->{"imageUrl": image.asset->url}
@@ -153,9 +155,10 @@ async function initSanityImages() {
   try {
     const result = await fetchSanityImages();
     const home = result?.home || {};
+    const videoUrl = home.heroVideoFileUrl || home.heroVideoUrl;
 
-    if (home.hasHeroVideo && home.heroVideoUrl) {
-      applyHeroVideo(home.heroVideoUrl, home.heroVideoPosterUrl || home.heroImageUrl);
+    if (videoUrl) {
+      applyHeroVideo(videoUrl, home.heroVideoPosterUrl || home.heroImageUrl);
     } else if (home.hasHeroImage && home.heroImageUrl) {
       applyHeroImage(home.heroImageUrl);
     } else {
