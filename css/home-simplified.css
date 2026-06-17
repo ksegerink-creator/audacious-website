@@ -261,15 +261,21 @@ body:has(.hero) .services {
   color: #11110f !important;
 }
 
-/* Footer: lighter, readable and visibly styled. */
+/* Footer: official mark, LinkedIn and clearer spacing. */
 body:has(.hero) .site-footer {
+  --audacious-mark-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364 320'%3E%3Cpath fill='%23f26700' d='M40 222 0 151 90 0h100L40 222Zm284 0L194 0h100l70 151-40 71ZM52 244h258l-30 76H82l-30-76Z'/%3E%3C/svg%3E");
   display: block !important;
   position: relative;
   z-index: 2;
-  background: #11110f !important;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(245,130,32,0.11), transparent 24rem),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+    #10100f !important;
+  background-size: auto, 78px 78px, 78px 78px;
   border-top: 1px solid rgba(17,17,15,0.16);
   color: rgba(255,255,255,0.74) !important;
-  padding: clamp(3.5rem, 6vw, 5rem) 0 1.5rem;
+  padding: clamp(4rem, 6vw, 5.5rem) 0 1.5rem;
 }
 
 body:has(.hero) .site-footer .container {
@@ -279,15 +285,15 @@ body:has(.hero) .site-footer .container {
 
 body:has(.hero) .footer-grid {
   display: grid !important;
-  grid-template-columns: minmax(260px, 1.25fr) repeat(3, minmax(160px, 0.7fr));
-  gap: clamp(1.5rem, 4vw, 3rem);
+  grid-template-columns: minmax(300px, 1.25fr) repeat(3, minmax(170px, 0.7fr));
+  gap: clamp(1.8rem, 4vw, 4rem);
   align-items: start;
 }
 
 body:has(.hero) .footer-brand,
 body:has(.hero) .footer-col {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.78rem;
 }
 
 body:has(.hero) .site-footer a,
@@ -296,33 +302,77 @@ body:has(.hero) .site-footer p {
   color: rgba(255,255,255,0.72) !important;
 }
 
-body:has(.hero) .site-footer h3,
-body:has(.hero) .footer-logo {
+body:has(.hero) .site-footer h3 {
   color: #fff !important;
+  font-size: 0.94rem;
+  margin: 0 0 0.35rem;
 }
 
 body:has(.hero) .footer-logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.8rem;
   width: fit-content;
+  margin-bottom: 0.55rem;
+  color: #fff !important;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: -0.035em;
+  text-decoration: none;
+  text-transform: none;
+}
+
+body:has(.hero) .footer-logo-mark,
+body:has(.hero) .footer-logo::before {
+  content: '';
+  display: inline-flex;
+  width: 36px;
+  height: 32px;
+  flex: 0 0 auto;
+  background: var(--audacious-mark-svg) center / contain no-repeat;
+}
+
+body:has(.hero) .footer-logo-word {
+  color: #fff;
 }
 
 body:has(.hero) .footer-logo-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #f58220;
+  display: none !important;
+}
+
+body:has(.hero) .footer-col a {
+  width: fit-content;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+  transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+body:has(.hero) .footer-col a:hover {
+  color: #fff !important;
+  border-color: #f58220;
+  transform: translateX(3px);
+}
+
+body:has(.hero) .footer-linkedin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  margin-top: 0.4rem;
+  padding: 0 0.9rem;
+  border: 1px solid rgba(245,130,32,0.42) !important;
+  border-radius: 999px;
+  color: #fff !important;
+  background: rgba(245,130,32,0.08);
+  font-weight: 800;
 }
 
 .footer-affiliations {
   display: block !important;
   grid-column: 1 / -1;
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
-  padding-top: clamp(1.25rem, 3vw, 2rem);
+  margin-top: clamp(1.75rem, 3vw, 2.75rem);
+  padding-top: clamp(1.35rem, 3vw, 2.1rem);
   border-top: 1px solid rgba(255,255,255,0.12);
 }
 
