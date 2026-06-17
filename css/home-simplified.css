@@ -104,7 +104,8 @@ body:has(.hero) .intro {
   order: 1;
 }
 
-body:has(.hero) .products-stage {
+body:has(.hero) .products-stage,
+body:has(.hero) .products-ledger {
   order: 2;
 }
 
@@ -112,11 +113,123 @@ body:has(.hero) .services {
   order: 3;
 }
 
+/* Homepage projects: keep the modern layout, but make it readable on the simplified dark home. */
+body:has(.hero) .products-stage,
+body:has(.hero) .products-ledger {
+  display: block !important;
+  position: relative;
+  padding: clamp(5.5rem, 8vw, 8rem) 0 !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255,255,255,0.045) 1px, transparent 1px),
+    #11110f !important;
+  background-size: 78px 78px !important;
+  color: #fff !important;
+  overflow: hidden;
+}
+
+body:has(.hero) .products-stage::before,
+body:has(.hero) .products-ledger::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 82% 16%, rgba(245,130,32,0.16), transparent 24rem),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+  pointer-events: none;
+}
+
+body:has(.hero) .products-stage .container,
+body:has(.hero) .products-ledger .container {
+  position: relative;
+  z-index: 1;
+}
+
+body:has(.hero) .products-stage-head,
+body:has(.hero) .products-copy,
+body:has(.hero) .product-lineup,
+body:has(.hero) .products-layout {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+body:has(.hero) .products-kicker {
+  color: #f58220 !important;
+}
+
+body:has(.hero) #products-title,
+body:has(.hero) .products-title,
+body:has(.hero) .product-line-title h3 {
+  color: #fff !important;
+}
+
+body:has(.hero) .products-stage-head p,
+body:has(.hero) .products-copy,
+body:has(.hero) .product-line-title p,
+body:has(.hero) .product-line-material,
+body:has(.hero) .product-line-process {
+  color: rgba(255,255,255,0.68) !important;
+}
+
+body:has(.hero) .product-line-material span,
+body:has(.hero) .product-line-process span {
+  color: rgba(255,255,255,0.38) !important;
+}
+
+body:has(.hero) .product-line-process strong {
+  color: #fff !important;
+}
+
+body:has(.hero) .product-lineup,
+body:has(.hero) .product-line {
+  border-color: rgba(255,255,255,0.14) !important;
+}
+
+body:has(.hero) .product-spec-panel {
+  background: rgba(255,255,255,0.055) !important;
+  border-color: rgba(255,255,255,0.14) !important;
+  color: #fff !important;
+}
+
+body:has(.hero) .product-spec-row span {
+  background: rgba(17,17,15,0.72) !important;
+  color: rgba(255,255,255,0.78) !important;
+}
+
+body:has(.hero) .product-note-strip {
+  border-color: rgba(255,255,255,0.14) !important;
+  background: rgba(255,255,255,0.14) !important;
+}
+
+body:has(.hero) .product-note-strip span {
+  background: rgba(255,255,255,0.055) !important;
+  color: rgba(255,255,255,0.76) !important;
+}
+
+/* Footer: force visibility and restore the simplified trust strip. */
 body:has(.hero) .site-footer {
+  display: block !important;
+  position: relative;
+  z-index: 2;
+  background: #0b0b0a !important;
   border-top: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.74) !important;
+  padding-top: clamp(3rem, 5vw, 4.5rem);
+}
+
+body:has(.hero) .site-footer a,
+body:has(.hero) .site-footer span,
+body:has(.hero) .site-footer p {
+  color: rgba(255,255,255,0.72) !important;
+}
+
+body:has(.hero) .site-footer h3,
+body:has(.hero) .footer-logo {
+  color: #fff !important;
 }
 
 .footer-affiliations {
+  display: block !important;
   grid-column: 1 / -1;
   margin-top: clamp(1.5rem, 3vw, 2.5rem);
   padding-top: clamp(1.25rem, 3vw, 2rem);
@@ -125,7 +238,7 @@ body:has(.hero) .site-footer {
 
 .footer-affiliations h3 {
   margin: 0 0 1rem;
-  color: rgba(255,255,255,0.48);
+  color: rgba(255,255,255,0.48) !important;
   font-family: 'Courier New', monospace;
   font-size: 0.72rem;
   letter-spacing: 0.08em;
@@ -146,19 +259,14 @@ body:has(.hero) .site-footer {
   border: 1px solid rgba(255,255,255,0.14);
   border-radius: 999px;
   background: rgba(255,255,255,0.04);
-  color: rgba(255,255,255,0.76);
+  color: rgba(255,255,255,0.76) !important;
   font-weight: 700;
   font-size: 0.82rem;
 }
 
-body:has(.hero) .products-stage-head,
 body:has(.hero) .org-control-copywrap,
 body:has(.hero) .services .container > h2 {
   max-width: 900px;
-}
-
-body:has(.hero) .products-stage {
-  padding-top: clamp(5rem, 8vw, 7rem);
 }
 
 body:has(.hero) .services {
