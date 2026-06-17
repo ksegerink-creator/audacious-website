@@ -30,8 +30,8 @@
 
     const card = document.createElement('a');
     card.className = 'home-video-card';
-    card.href = '#bedrijfsfilm';
-    card.innerHTML = '<span class="home-video-icon">▶</span><span class="home-video-copy"><strong>Bedrijfsfilm bekijken</strong><span>Korte introductie van Audacious Sheet Metal</span></span>';
+    card.href = '../html/contact.html';
+    card.innerHTML = '<span class="home-video-icon">→</span><span class="home-video-copy"><strong>Contact opnemen</strong><span>Bespreek uw plaatwerkvraag met Audacious</span></span>';
     actions.insertAdjacentElement('afterend', card);
   }
 
@@ -74,10 +74,10 @@
     setText('.hero-badge span', 'Zevenaar - plaatbewerking');
     setHtml('.hero-title', 'Plaatbewerking met lef.\nHoogwaardig plaatwerk in kleine series.');
     setText('.hero-sub', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in staal, roestvaststaal en aluminium. Van mono-deel tot samengestelde plaatwerkconstructie of complete assemblage.');
-    setText('.hero-actions .btn-primary', 'Bekijk bedrijfsfilm');
-    setHref('.hero-actions .btn-primary', '#bedrijfsfilm');
-    setText('.hero-actions .btn-outline', 'Neem contact op');
-    setHref('.hero-actions .btn-outline', '../html/contact.html');
+    setText('.hero-actions .btn-primary', 'Contact opnemen');
+    setHref('.hero-actions .btn-primary', '../html/contact.html');
+    setText('.hero-actions .btn-outline', 'Bekijk bewerkingen');
+    setHref('.hero-actions .btn-outline', '#werkzaamheden');
 
     setHtml('.intro-title', 'Over Audacious\nSheet Metal.');
     setText('.intro-body', 'Audacious werkt met CAD/CAM, CNC-machines en een productie-besturingssysteem. De nadruk ligt op vakmanschap, flexibiliteit, korte levertijden en gecontroleerde productie van enkelstuks en kleine series.');
