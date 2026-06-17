@@ -15,6 +15,28 @@
     if (element && value) element.setAttribute('href', value);
   }
 
+  function normalizeText(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+
+  function setHtmlIfDefault(selector, value, defaultFragments) {
+    const element = document.querySelector(selector);
+    if (!element || !value) return;
+
+    const current = normalizeText(element.textContent);
+    const isDefault = !current || defaultFragments.some((fragment) => current.includes(fragment));
+    if (isDefault) setHtml(selector, value);
+  }
+
+  function setTextIfDefault(selector, value, defaultFragments) {
+    const element = document.querySelector(selector);
+    if (!element || !value) return;
+
+    const current = normalizeText(element.textContent);
+    const isDefault = !current || defaultFragments.some((fragment) => current.includes(fragment));
+    if (isDefault) setText(selector, value);
+  }
+
   function ensureHomeSimplifiedStyles() {
     if (document.querySelector('link[href="../css/home-simplified.css"]')) return;
     const link = document.createElement('link');
@@ -71,9 +93,9 @@
     ensureFooterAffiliations();
     applyHomeNav();
 
-    setText('.hero-badge span', 'Zevenaar - plaatbewerking');
-    setHtml('.hero-title', 'Plaatbewerking met lef.\nHoogwaardig plaatwerk in kleine series.');
-    setText('.hero-sub', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in staal, roestvaststaal en aluminium. Van mono-deel tot samengestelde plaatwerkconstructie of complete assemblage.');
+    setTextIfDefault('.hero-badge span', 'Zevenaar - plaatbewerking', ['precisieplaatwerk', 'zevenaar, nederland']);
+    setHtmlIfDefault('.hero-title', 'Voor intelligent\nplaatwerk.', ['precisieplaatwerk voor', 'plaatbewerking met lef', 'hoogwaardig plaatwerk']);
+    setTextIfDefault('.hero-sub', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in staal, roestvaststaal en aluminium. Van mono-deel tot samengestelde plaatwerkconstructie of complete assemblage.', ['oem', 'samengestelde constructies', 'complete assemblages']);
     setText('.hero-actions .btn-primary', 'Contact opnemen');
     setHref('.hero-actions .btn-primary', '../html/contact.html');
     setText('.hero-actions .btn-outline', 'Bekijk bewerkingen');
