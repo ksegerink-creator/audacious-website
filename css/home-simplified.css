@@ -1,5 +1,5 @@
 body:has(.hero) {
-  background: #11110f;
+  background: #f8f6f2;
 }
 
 body:has(.hero) .proof,
@@ -113,42 +113,40 @@ body:has(.hero) .services {
   order: 3;
 }
 
-/* Homepage projects: keep the modern layout, but make it readable on the simplified dark home. */
-body:has(.hero) .products-stage,
-body:has(.hero) .products-ledger {
+/* Homepage projects: light, designed section with actual cards instead of a flat text list. */
+body:has(.hero) .products-stage {
   display: block !important;
   position: relative;
   padding: clamp(5.5rem, 8vw, 8rem) 0 !important;
   background:
-    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255,255,255,0.045) 1px, transparent 1px),
-    #11110f !important;
+    linear-gradient(90deg, rgba(17,17,15,0.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17,17,15,0.04) 1px, transparent 1px),
+    #f8f6f2 !important;
   background-size: 78px 78px !important;
-  color: #fff !important;
+  color: #11110f !important;
   overflow: hidden;
 }
 
-body:has(.hero) .products-stage::before,
-body:has(.hero) .products-ledger::before {
+body:has(.hero) .products-stage::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 82% 16%, rgba(245,130,32,0.16), transparent 24rem),
-    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+    radial-gradient(circle at 82% 12%, rgba(245,130,32,0.12), transparent 24rem),
+    linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0));
   pointer-events: none;
 }
 
-body:has(.hero) .products-stage .container,
-body:has(.hero) .products-ledger .container {
+body:has(.hero) .products-stage .container {
   position: relative;
   z-index: 1;
+  width: min(calc(100vw - clamp(2rem, 5vw, 6rem)), 1480px);
+  max-width: none;
 }
 
-body:has(.hero) .products-stage-head,
-body:has(.hero) .products-copy,
-body:has(.hero) .product-lineup,
-body:has(.hero) .products-layout {
+body:has(.hero) .products-stage-head {
+  max-width: 760px;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
   opacity: 1 !important;
   visibility: visible !important;
 }
@@ -158,63 +156,138 @@ body:has(.hero) .products-kicker {
 }
 
 body:has(.hero) #products-title,
-body:has(.hero) .products-title,
-body:has(.hero) .product-line-title h3 {
+body:has(.hero) .products-title {
+  max-width: 760px;
+  color: #11110f !important;
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 6.4vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+}
+
+body:has(.hero) .products-title span {
+  color: #f58220 !important;
+}
+
+body:has(.hero) .products-stage-head p:not(.products-kicker) {
+  max-width: 620px;
+  margin-top: 1.25rem;
+  color: #5b5b55 !important;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+body:has(.hero) .products-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(17,17,15,0.16);
+  background: rgba(17,17,15,0.16);
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+body:has(.hero) .product-tile {
+  display: grid !important;
+  grid-template-rows: minmax(180px, 0.8fr) auto;
+  min-height: 390px;
+  background: rgba(255,255,255,0.78) !important;
+  color: #11110f !important;
+  overflow: hidden;
+}
+
+body:has(.hero) .product-tile.is-wide {
+  grid-column: span 2;
+}
+
+body:has(.hero) .product-tile.is-dark {
+  background: #11110f !important;
   color: #fff !important;
 }
 
-body:has(.hero) .products-stage-head p,
-body:has(.hero) .products-copy,
-body:has(.hero) .product-line-title p,
-body:has(.hero) .product-line-material,
-body:has(.hero) .product-line-process {
+body:has(.hero) .product-visual {
+  position: relative;
+  min-height: 190px;
+  background:
+    radial-gradient(circle at 76% 14%, rgba(245,130,32,0.22), transparent 16rem),
+    linear-gradient(135deg, rgba(17,17,15,0.08), rgba(17,17,15,0.02));
+  border-bottom: 1px solid rgba(17,17,15,0.12);
+}
+
+body:has(.hero) .product-tile.is-dark .product-visual {
+  border-bottom-color: rgba(255,255,255,0.14);
+  background:
+    radial-gradient(circle at 76% 14%, rgba(245,130,32,0.28), transparent 16rem),
+    linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
+}
+
+body:has(.hero) .product-visual span {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  color: #f58220 !important;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+body:has(.hero) .product-copy {
+  padding: clamp(1.2rem, 2vw, 1.75rem);
+}
+
+body:has(.hero) .product-copy h3 {
+  color: inherit !important;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 2.25vw, 2.55rem);
+  line-height: 0.98;
+  letter-spacing: -0.065em;
+}
+
+body:has(.hero) .product-copy p {
+  margin-top: 0.8rem;
+  color: #5b5b55 !important;
+  font-size: 0.94rem;
+  line-height: 1.58;
+}
+
+body:has(.hero) .product-tile.is-dark .product-copy p {
   color: rgba(255,255,255,0.68) !important;
 }
 
-body:has(.hero) .product-line-material span,
-body:has(.hero) .product-line-process span {
-  color: rgba(255,255,255,0.38) !important;
+/* Services get a lighter breathing space after the project section. */
+body:has(.hero) .services {
+  padding-top: clamp(5rem, 8vw, 7rem) !important;
+  background: #fff !important;
+  color: #11110f !important;
 }
 
-body:has(.hero) .product-line-process strong {
-  color: #fff !important;
-}
-
-body:has(.hero) .product-lineup,
-body:has(.hero) .product-line {
-  border-color: rgba(255,255,255,0.14) !important;
-}
-
-body:has(.hero) .product-spec-panel {
-  background: rgba(255,255,255,0.055) !important;
-  border-color: rgba(255,255,255,0.14) !important;
-  color: #fff !important;
-}
-
-body:has(.hero) .product-spec-row span {
-  background: rgba(17,17,15,0.72) !important;
-  color: rgba(255,255,255,0.78) !important;
-}
-
-body:has(.hero) .product-note-strip {
-  border-color: rgba(255,255,255,0.14) !important;
-  background: rgba(255,255,255,0.14) !important;
-}
-
-body:has(.hero) .product-note-strip span {
-  background: rgba(255,255,255,0.055) !important;
-  color: rgba(255,255,255,0.76) !important;
-}
-
-/* Footer: force visibility and restore the simplified trust strip. */
+/* Footer: lighter, readable and visibly styled. */
 body:has(.hero) .site-footer {
   display: block !important;
   position: relative;
   z-index: 2;
-  background: #0b0b0a !important;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  background: #11110f !important;
+  border-top: 1px solid rgba(17,17,15,0.16);
   color: rgba(255,255,255,0.74) !important;
-  padding-top: clamp(3rem, 5vw, 4.5rem);
+  padding: clamp(3.5rem, 6vw, 5rem) 0 1.5rem;
+}
+
+body:has(.hero) .site-footer .container {
+  width: min(calc(100vw - clamp(2rem, 5vw, 6rem)), 1480px);
+  max-width: none;
+}
+
+body:has(.hero) .footer-grid {
+  display: grid !important;
+  grid-template-columns: minmax(260px, 1.25fr) repeat(3, minmax(160px, 0.7fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+
+body:has(.hero) .footer-brand,
+body:has(.hero) .footer-col {
+  display: grid;
+  gap: 0.55rem;
 }
 
 body:has(.hero) .site-footer a,
@@ -226,6 +299,23 @@ body:has(.hero) .site-footer p {
 body:has(.hero) .site-footer h3,
 body:has(.hero) .footer-logo {
   color: #fff !important;
+}
+
+body:has(.hero) .footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+body:has(.hero) .footer-logo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f58220;
 }
 
 .footer-affiliations {
@@ -264,13 +354,20 @@ body:has(.hero) .footer-logo {
   font-size: 0.82rem;
 }
 
-body:has(.hero) .org-control-copywrap,
-body:has(.hero) .services .container > h2 {
-  max-width: 900px;
+body:has(.hero) .footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-body:has(.hero) .services {
-  padding-top: clamp(5rem, 8vw, 7rem);
+@media (max-width: 1100px) {
+  body:has(.hero) .products-grid,
+  body:has(.hero) .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 900px) {
@@ -293,5 +390,16 @@ body:has(.hero) .services {
 
   body:has(.hero) .hero-title {
     font-size: clamp(3rem, 13vw, 4.8rem);
+  }
+
+  body:has(.hero) .products-grid,
+  body:has(.hero) .footer-grid,
+  body:has(.hero) .footer-bottom {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  body:has(.hero) .product-tile.is-wide {
+    grid-column: auto;
   }
 }
