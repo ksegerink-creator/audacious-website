@@ -261,21 +261,21 @@ body:has(.hero) .services {
   color: #11110f !important;
 }
 
-/* Footer: official mark, LinkedIn and clearer spacing. */
+/* Footer: lighter, more designed and no duplicate logo render. */
 body:has(.hero) .site-footer {
   --audacious-mark-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364 320'%3E%3Cpath fill='%23f26700' d='M40 222 0 151 90 0h100L40 222Zm284 0L194 0h100l70 151-40 71ZM52 244h258l-30 76H82l-30-76Z'/%3E%3C/svg%3E");
   display: block !important;
   position: relative;
   z-index: 2;
   background:
-    radial-gradient(circle at 82% 18%, rgba(245,130,32,0.11), transparent 24rem),
-    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255,255,255,0.035) 1px, transparent 1px),
-    #10100f !important;
+    radial-gradient(circle at 86% 18%, rgba(245,130,32,0.11), transparent 23rem),
+    linear-gradient(90deg, rgba(17,17,15,0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17,17,15,0.035) 1px, transparent 1px),
+    #f3efe8 !important;
   background-size: auto, 78px 78px, 78px 78px;
-  border-top: 1px solid rgba(17,17,15,0.16);
-  color: rgba(255,255,255,0.74) !important;
-  padding: clamp(4rem, 6vw, 5.5rem) 0 1.5rem;
+  border-top: 1px solid rgba(17,17,15,0.12);
+  color: #24231f !important;
+  padding: clamp(4rem, 6vw, 5.75rem) 0 1.6rem;
 }
 
 body:has(.hero) .site-footer .container {
@@ -285,7 +285,7 @@ body:has(.hero) .site-footer .container {
 
 body:has(.hero) .footer-grid {
   display: grid !important;
-  grid-template-columns: minmax(300px, 1.25fr) repeat(3, minmax(170px, 0.7fr));
+  grid-template-columns: minmax(320px, 1.35fr) repeat(3, minmax(170px, 0.7fr));
   gap: clamp(1.8rem, 4vw, 4rem);
   align-items: start;
 }
@@ -299,11 +299,11 @@ body:has(.hero) .footer-col {
 body:has(.hero) .site-footer a,
 body:has(.hero) .site-footer span,
 body:has(.hero) .site-footer p {
-  color: rgba(255,255,255,0.72) !important;
+  color: rgba(36,35,31,0.72) !important;
 }
 
 body:has(.hero) .site-footer h3 {
-  color: #fff !important;
+  color: #11110f !important;
   font-size: 0.94rem;
   margin: 0 0 0.35rem;
 }
@@ -313,43 +313,52 @@ body:has(.hero) .footer-logo {
   align-items: center;
   gap: 0.8rem;
   width: fit-content;
-  margin-bottom: 0.55rem;
-  color: #fff !important;
+  margin-bottom: 0.65rem;
+  color: #11110f !important;
   font-family: var(--font-display);
-  font-size: 1.02rem;
+  font-size: 1.08rem;
   font-weight: 800;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.045em;
   text-decoration: none;
   text-transform: none;
 }
 
-body:has(.hero) .footer-logo-mark,
 body:has(.hero) .footer-logo::before {
-  content: '';
+  display: none !important;
+  content: none !important;
+}
+
+body:has(.hero) .footer-logo-mark {
   display: inline-flex;
-  width: 36px;
-  height: 32px;
+  width: 40px;
+  height: 35px;
   flex: 0 0 auto;
   background: var(--audacious-mark-svg) center / contain no-repeat;
 }
 
 body:has(.hero) .footer-logo-word {
-  color: #fff;
+  color: #11110f;
 }
 
 body:has(.hero) .footer-logo-dot {
   display: none !important;
 }
 
+body:has(.hero) .footer-brand p {
+  max-width: 430px;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
 body:has(.hero) .footer-col a {
   width: fit-content;
   text-decoration: none;
-  border-bottom: 1px solid rgba(255,255,255,0.18);
+  border-bottom: 1px solid rgba(17,17,15,0.18);
   transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 }
 
 body:has(.hero) .footer-col a:hover {
-  color: #fff !important;
+  color: #11110f !important;
   border-color: #f58220;
   transform: translateX(3px);
 }
@@ -358,27 +367,30 @@ body:has(.hero) .footer-linkedin {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 38px;
-  margin-top: 0.4rem;
-  padding: 0 0.9rem;
-  border: 1px solid rgba(245,130,32,0.42) !important;
+  min-height: 40px;
+  margin-top: 0.45rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(245,130,32,0.55) !important;
   border-radius: 999px;
-  color: #fff !important;
-  background: rgba(245,130,32,0.08);
+  color: #11110f !important;
+  background: rgba(245,130,32,0.10);
   font-weight: 800;
 }
 
 .footer-affiliations {
   display: block !important;
   grid-column: 1 / -1;
-  margin-top: clamp(1.75rem, 3vw, 2.75rem);
-  padding-top: clamp(1.35rem, 3vw, 2.1rem);
-  border-top: 1px solid rgba(255,255,255,0.12);
+  margin-top: clamp(2rem, 3.5vw, 3.25rem);
+  padding: clamp(1.35rem, 3vw, 2rem);
+  border: 1px solid rgba(17,17,15,0.12);
+  border-radius: 28px;
+  background: rgba(255,255,255,0.44);
+  box-shadow: 0 22px 70px rgba(17,17,15,0.06);
 }
 
 .footer-affiliations h3 {
   margin: 0 0 1rem;
-  color: rgba(255,255,255,0.48) !important;
+  color: rgba(36,35,31,0.58) !important;
   font-family: 'Courier New', monospace;
   font-size: 0.72rem;
   letter-spacing: 0.08em;
@@ -395,12 +407,12 @@ body:has(.hero) .footer-linkedin {
   display: inline-flex;
   align-items: center;
   min-height: 38px;
-  padding: 0 0.9rem;
-  border: 1px solid rgba(255,255,255,0.14);
+  padding: 0 0.95rem;
+  border: 1px solid rgba(17,17,15,0.14);
   border-radius: 999px;
-  background: rgba(255,255,255,0.04);
-  color: rgba(255,255,255,0.76) !important;
-  font-weight: 700;
+  background: rgba(255,255,255,0.72);
+  color: rgba(36,35,31,0.78) !important;
+  font-weight: 800;
   font-size: 0.82rem;
 }
 
@@ -410,7 +422,11 @@ body:has(.hero) .footer-bottom {
   gap: 1rem;
   margin-top: clamp(1.5rem, 3vw, 2.5rem);
   padding-top: 1rem;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(17,17,15,0.12);
+}
+
+body:has(.hero) .footer-bottom span {
+  color: rgba(36,35,31,0.54) !important;
 }
 
 @media (max-width: 1100px) {
