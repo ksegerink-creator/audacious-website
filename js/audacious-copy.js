@@ -153,9 +153,9 @@
 
     setText('.footer-brand p', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.');
     const footerNav = document.querySelector('.footer-col:nth-child(2)');
-    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#hero-title">Hero</a><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a>';
+    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#hero-title">Hero</a><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="../html/contact.html">Contact</a>';
     const footerWork = document.querySelector('.footer-col:nth-child(3)');
-    if (footerWork) footerWork.innerHTML = '<h3>Bewerkingen</h3><span>Lasersnijden</span><span>Kanten</span><span>Lassen</span><span>Assemblage</span>';
+    if (footerWork) footerWork.innerHTML = '<h3>Bewerkingen</h3><a href="../pages/lasersnijden.html">Lasersnijden</a><a href="../pages/kanten.html">Kanten</a><a href="../pages/lassen.html">Lassen</a><a href="../pages/assembleren.html">Assemblage</a>';
     const footerContact = document.querySelector('.footer-col:nth-child(4)');
     if (footerContact) footerContact.innerHTML = '<h3>Contact</h3><a href="mailto:info@audacious.com">info@audacious.com</a><a href="tel:+31316581470">0316-581470</a><span>Mega 16, 6902 KL Zevenaar</span><a class="footer-linkedin" href="https://www.linkedin.com/company/audacious-sheet-metal-services-bv/" target="_blank" rel="noopener">LinkedIn →</a>';
     setText('.footer-bottom span:first-child', '© 2026 Audacious Sheet Metal International B.V.');
