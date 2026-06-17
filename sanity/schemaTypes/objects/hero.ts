@@ -11,10 +11,17 @@ export const hero = defineType({
     defineField({name: 'intro', title: 'Intro', type: 'text', rows: 4}),
     defineField({name: 'image', title: 'Fallback afbeelding', type: 'image', options: {hotspot: true}}),
     defineField({
+      name: 'videoFile',
+      title: 'Hero video bestand (.mp4)',
+      type: 'file',
+      options: {accept: 'video/mp4,video/webm'},
+      description: 'Upload hier het bedrijfsfilmpje. Dit bestand vervangt de hero-afbeelding op de homepage.'
+    }),
+    defineField({
       name: 'videoUrl',
       title: 'Hero video URL',
       type: 'url',
-      description: 'Plaats hier een directe .mp4/.webm video-url. Deze video vervangt de hero-afbeelding op de homepage.'
+      description: 'Optioneel: gebruik alleen als de video al online staat als directe .mp4/.webm URL.'
     }),
     defineField({
       name: 'videoPoster',
