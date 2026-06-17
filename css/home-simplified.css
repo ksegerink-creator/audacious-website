@@ -24,7 +24,7 @@ body:has(.hero) .hero {
   object-fit: cover;
   object-position: center;
   z-index: 0;
-  filter: saturate(0.95) contrast(1.05) brightness(0.82);
+  filter: saturate(0.95) contrast(1.05) brightness(0.88);
 }
 
 body:has(.hero) .hero.has-hero-video {
@@ -37,14 +37,16 @@ body:has(.hero) .hero.has-hero-video::before {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(90deg, rgba(7,7,6,0.84) 0%, rgba(8,8,7,0.70) 33%, rgba(8,8,7,0.42) 62%, rgba(8,8,7,0.18) 100%),
-    radial-gradient(circle at 78% 16%, rgba(245,130,32,0.22), transparent 22rem);
+    linear-gradient(90deg, rgba(7,7,6,0.86) 0%, rgba(8,8,7,0.72) 24%, rgba(8,8,7,0.38) 42%, rgba(8,8,7,0.10) 62%, rgba(8,8,7,0.02) 100%),
+    radial-gradient(circle at 22% 54%, rgba(0,0,0,0.34), transparent 28rem),
+    radial-gradient(circle at 82% 16%, rgba(245,130,32,0.12), transparent 22rem);
   pointer-events: none;
 }
 
 body:has(.hero) .hero.has-hero-video .hero-bg {
-  opacity: 0.62;
+  opacity: 0.46;
   z-index: 2;
+  mask-image: linear-gradient(90deg, rgba(0,0,0,0.95), rgba(0,0,0,0.4) 44%, transparent 74%);
 }
 
 body:has(.hero) .hero.has-hero-video .container,
@@ -53,21 +55,39 @@ body:has(.hero) .hero.has-hero-video nav {
   z-index: 3;
 }
 
+body:has(.hero) .hero > .container {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: clamp(1.5rem, 6vw, 7rem);
+  padding-right: clamp(1.5rem, 4vw, 4rem);
+}
+
 body:has(.hero) .hero-content {
-  max-width: 840px;
+  max-width: clamp(420px, 35vw, 640px);
+  margin-left: 0;
+  text-align: left;
 }
 
 body:has(.hero) .hero-title {
-  max-width: 920px;
-  text-shadow: 0 22px 70px rgba(0,0,0,0.55);
+  max-width: 640px;
+  font-size: clamp(3.2rem, 5.25vw, 6rem);
+  line-height: 0.92;
+  text-shadow: 0 22px 70px rgba(0,0,0,0.62);
 }
 
 body:has(.hero) .hero-sub {
-  text-shadow: 0 12px 38px rgba(0,0,0,0.46);
+  max-width: 560px;
+  text-shadow: 0 12px 38px rgba(0,0,0,0.52);
 }
 
 body:has(.hero) .hero-actions {
   gap: 0.85rem;
+  margin-bottom: 2.2rem;
+}
+
+body:has(.hero) .hero-micro {
+  max-width: 610px;
 }
 
 .home-video-card {
@@ -145,10 +165,25 @@ body:has(.hero) .services {
   padding-top: clamp(5rem, 8vw, 7rem);
 }
 
+@media (max-width: 900px) {
+  body:has(.hero) .hero > .container {
+    padding-left: clamp(1.25rem, 6vw, 3rem);
+    padding-right: clamp(1.25rem, 6vw, 3rem);
+  }
+
+  body:has(.hero) .hero-content {
+    max-width: 720px;
+  }
+}
+
 @media (max-width: 720px) {
   body:has(.hero) .hero.has-hero-video::before {
     background:
       linear-gradient(90deg, rgba(7,7,6,0.88) 0%, rgba(8,8,7,0.68) 100%),
       radial-gradient(circle at 78% 16%, rgba(245,130,32,0.18), transparent 22rem);
+  }
+
+  body:has(.hero) .hero-title {
+    font-size: clamp(3rem, 13vw, 4.8rem);
   }
 }
