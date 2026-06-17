@@ -15,38 +15,78 @@
     if (element && value) element.setAttribute('href', value);
   }
 
+  function ensureHomeSimplifiedStyles() {
+    if (document.querySelector('link[href="../css/home-simplified.css"]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '../css/home-simplified.css';
+    document.head.appendChild(link);
+  }
+
+  function ensureHeroVideoCard() {
+    if (document.querySelector('.home-video-card')) return;
+    const actions = document.querySelector('.hero-actions');
+    if (!actions) return;
+
+    const card = document.createElement('a');
+    card.className = 'home-video-card';
+    card.href = '#bedrijfsfilm';
+    card.innerHTML = '<span class="home-video-icon">▶</span><span class="home-video-copy"><strong>Bedrijfsfilm bekijken</strong><span>Korte introductie van Audacious Sheet Metal</span></span>';
+    actions.insertAdjacentElement('afterend', card);
+  }
+
+  function ensureFooterAffiliations() {
+    const footerGrid = document.querySelector('.site-footer .footer-grid');
+    if (!footerGrid || document.querySelector('.footer-affiliations')) return;
+
+    const block = document.createElement('div');
+    block.className = 'footer-affiliations';
+    block.innerHTML = '<h3>Wij zijn aangesloten bij</h3><div class="footer-affiliation-list"><span>Kenteq</span><span>Metaalunie</span><span>OOM</span><span>NEVAT</span><span>FDP</span></div>';
+    footerGrid.appendChild(block);
+  }
+
+  function applyHomeNav() {
+    const links = document.querySelectorAll('nav .nav-links a');
+    const items = [
+      ['Hero', '#hero-title'],
+      ['Over ons', '#over-ons'],
+      ['Projecten', '#projecten'],
+      ['Bewerkingen', '#werkzaamheden'],
+      ['Contact', '../html/contact.html']
+    ];
+
+    links.forEach((link, index) => {
+      const item = items[index];
+      if (!item) return;
+      link.textContent = item[0];
+      link.setAttribute('href', item[1]);
+      if (index === 4) link.classList.add('nav-cta');
+    });
+  }
+
   function applyAudaciousCopy() {
     if (!document.querySelector('.hero')) return;
+    ensureHomeSimplifiedStyles();
+    ensureHeroVideoCard();
+    ensureFooterAffiliations();
+    applyHomeNav();
 
     setText('.hero-badge span', 'Zevenaar - plaatbewerking');
     setHtml('.hero-title', 'Plaatbewerking met lef.\nHoogwaardig plaatwerk in kleine series.');
-    setText('.hero-sub', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in staal, roestvaststaal en aluminium. Wij leveren mono-delen, samengestelde plaatwerkconstructies en complete assemblages met aandacht voor precisie, afwerking en korte levertijden.');
-    setText('.hero-actions .btn-primary', 'Offerte aanvragen');
-    setHref('.hero-actions .btn-primary', '../html/contact.html');
-    setText('.hero-actions .btn-outline', 'Bekijk werkzaamheden');
-    setHref('.hero-actions .btn-outline', '../html/werkzaamheden.html');
+    setText('.hero-sub', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in staal, roestvaststaal en aluminium. Van mono-deel tot samengestelde plaatwerkconstructie of complete assemblage.');
+    setText('.hero-actions .btn-primary', 'Bekijk bedrijfsfilm');
+    setHref('.hero-actions .btn-primary', '#bedrijfsfilm');
+    setText('.hero-actions .btn-outline', 'Neem contact op');
+    setHref('.hero-actions .btn-outline', '../html/contact.html');
 
-    setHtml('.intro-title', 'CAD/CAM, CNC-machinepark\nen vakmensen.');
-    setText('.intro-body', 'In een CAD/CAM-omgeving, met CNC-machines en een productie-besturingssysteem, maken wij wat de klant voor ogen heeft. De nadruk ligt op vakmanschap, flexibiliteit en korte doorlooptijden.');
+    setHtml('.intro-title', 'Over Audacious\nSheet Metal.');
+    setText('.intro-body', 'Audacious werkt met CAD/CAM, CNC-machines en een productie-besturingssysteem. De nadruk ligt op vakmanschap, flexibiliteit, korte levertijden en gecontroleerde productie van enkelstuks en kleine series.');
     setHref('.intro-left .btn', '../html/over-ons.html');
+    setText('.intro-left .btn', 'Meer over ons');
 
-    const proof = [
-      ['Enkelstuks en kleine series', 'Audacious produceert veel enkelstuks en kleine series. Daarom zijn voorbereiding, korte steltijden en foutloze productie belangrijk.'],
-      ['Staal, RVS en aluminium', 'Wij verwerken plaatmaterialen tot mono-delen, behuizingen, frames, constructies en samengestelde producten.'],
-      ['Re-engineering en montage', 'Re-engineering en mechanische montage worden in eigen beheer uitgevoerd wanneer dat bij de opdracht past.'],
-      ['Oppervlaktebehandeling', 'Oppervlaktebehandelingen worden als ketenregisseur uitbesteed aan betrouwbare specialistische partners.']
-    ];
-
-    document.querySelectorAll('.proof-item').forEach((item, index) => {
-      const row = proof[index];
-      if (!row) return;
-      setText('.proof-title', row[0], item);
-      setText('.proof-body', row[1], item);
-    });
-
-    setText('.org-control-eyebrow', 'Productievoorbereiding');
-    setHtml('.org-control-title', 'Snelle steltijden.\nFoutloze productie.');
-    setText('.org-control-copy', 'Bij elk ontwerp kijkt Audacious kritisch naar maakbaarheid, plaatdikte, lasnaden, materiaalgebruik en productieroute. Computersimulatie helpt om minder prototypes te maken en fouten vooraf te beperken.');
+    setText('.org-control-eyebrow', 'Over ons');
+    setHtml('.org-control-title', 'Productie goed voorbereiden.\nDaarna pas maken.');
+    setText('.org-control-copy', 'Bij elk ontwerp kijkt Audacious naar maakbaarheid, plaatdikte, lasnaden, materiaalgebruik en productieroute. Zo blijft productie beheersbaar en wordt onnodig herstelwerk beperkt.');
 
     const roadmap = [
       ['Maakbaarheid beoordelen', 'Controle op plaatdikte, buigradius, lasnaden, materiaal en productieroute.'],
@@ -61,40 +101,15 @@
       setText('p', row[1], item);
     });
 
-    setText('.materials-kicker', 'Materialen');
-    setText('#materials-title', 'Breed spectrum aan plaatmaterialen.');
-    const materialIntro = document.querySelector('.materials-intro p:not(.materials-kicker)');
-    if (materialIntro) materialIntro.textContent = 'Audacious verwerkt onder meer staal, RVS, aluminium en non-ferro materialen. De materiaalkeuze hangt af van toepassing, afwerking, sterkte, corrosiebestendigheid en maakbaarheid.';
-
-    const materialCards = [
-      ['Staal', 'Blanke staalplaat, elektrolytisch verzinkt, gebeitst S235JR, S355JR en slijtvaste staalsoorten zoals C45 en 42MnV7.'],
-      ['RVS', 'RVS 304, RVS 316L, chroomstaal RVS 430 en RVS 321 / 310 / 316T in verschillende afwerkingen.'],
-      ['Aluminium', 'Aluminium zoals AlMg3, AlMg1, geanodiseerd aluminium en 51ST.'],
-      ['Messing', 'Messing CuZn36 F37 en andere materialen op aanvraag.'],
-      ['Behuizingen en frames', 'Plaatwerkconstructies, omkastingen, frames en technische samenstellingen.'],
-      ['Assemblages', 'Samenstellingen waarin plaatwerk, laswerk, afwerking en montage samenkomen.']
-    ];
-    document.querySelectorAll('.material-card').forEach((card, index) => {
-      const row = materialCards[index];
-      if (!row) return;
-      setText('h3', row[0], card);
-      setText('p', row[1], card);
-    });
-
-    setText('.markets-kicker', 'Markten en diensten');
-    setHtml('#markets-title', 'Plaatwerk voor technische\ntoepassingen.');
-    const marketsNote = document.querySelector('.markets-note');
-    if (marketsNote) marketsNote.textContent = 'Audacious levert aan onder meer apparatenbouw, elektronica, voedingsmiddelenindustrie, medische industrie, halfgeleiderindustrie, algemene machinebouw en optische industrie.';
-
     setText('.products-kicker', 'Projecten');
     setHtml('#products-title', 'Voorbeelden van\nplaatwerkprojecten.');
     const productHead = document.querySelector('.products-stage-head p:not(.products-kicker)');
-    if (productHead) productHead.textContent = 'Geen standaardcatalogus, maar voorbeelden van werk: food-frame, RVS 316L behuizingen, röntgenarm, verpakkingsmachineframes, schuifdeuren en transportwagen.';
+    if (productHead) productHead.textContent = 'Een selectie van projecttypen die aansluiten op het werk van Audacious: frames, RVS behuizingen, technische samenstellingen en maatwerkconstructies.';
 
     const projectCards = [
       ['Frame voor de food-industrie', 'Frameconstructie voor toepassing in de voedingsmiddelenindustrie.'],
       ['Plaatwerk behuizingen', 'Plaatwerk behuizingen uit RVS 316L.'],
-      ['Project röntgenarm', 'Complete röntgenarm met technische plaatwerkcomponenten.'],
+      ['Project röntgenarm', 'Technische samenstelling met plaatwerkcomponenten.'],
       ['Frames voor verpakkingsmachines', 'Precisieframes uit RVS 316L, gelast en afgewerkt.'],
       ['Schuifdeuren / cold corridor', 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes.']
     ];
@@ -105,13 +120,13 @@
       setText('p', row[1], tile);
     });
 
-    setText('#contact-title', 'Neem contact op met Audacious.');
-    setText('.contact-copy', 'Wilt u meer informatie over onze producten, werkwijze of een offerte aanvragen? Stuur een tekening, STEP-bestand of omschrijving mee, zodat wij gericht kunnen beoordelen.');
-    setText('.contact-info-item:nth-child(2) strong', 'Mega 16, 6902 KL Zevenaar');
+    setText('#services-title', 'Bewerkingen');
 
     setText('.footer-brand p', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.');
     const footerNav = document.querySelector('.footer-col:nth-child(2)');
-    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="../html/productievoorbereiding.html">Productievoorbereiding</a><a href="../html/werkzaamheden.html">Werkzaamheden</a><a href="../html/projecten.html">Projecten</a><a href="../html/nieuws.html">Nieuws</a>';
+    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#hero-title">Hero</a><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a>';
+    const footerWork = document.querySelector('.footer-col:nth-child(3)');
+    if (footerWork) footerWork.innerHTML = '<h3>Bewerkingen</h3><span>Lasersnijden</span><span>Kanten</span><span>Lassen</span><span>Assemblage</span>';
     setText('.footer-col:nth-child(4) span', 'Mega 16, 6902 KL Zevenaar');
     setText('.footer-bottom span:first-child', '© 2026 Audacious Sheet Metal International B.V.');
     setText('.footer-bottom span:last-child', 'Plaatbewerking · CAD/CAM · CNC-machinepark · assemblage');
