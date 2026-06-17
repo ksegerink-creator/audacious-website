@@ -153,7 +153,7 @@
 
     setText('.footer-brand p', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.');
     const footerNav = document.querySelector('.footer-col:nth-child(2)');
-    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#hero-title">Hero</a><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="../html/contact.html">Contact</a>';
+    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="../html/contact.html">Contact</a>';
     const footerWork = document.querySelector('.footer-col:nth-child(3)');
     if (footerWork) footerWork.innerHTML = '<h3>Bewerkingen</h3><a href="../pages/lasersnijden.html">Lasersnijden</a><a href="../pages/kanten.html">Kanten</a><a href="../pages/lassen.html">Lassen</a><a href="../pages/assembleren.html">Assemblage</a>';
     const footerContact = document.querySelector('.footer-col:nth-child(4)');
