@@ -14,7 +14,44 @@ export const structure: StructureResolver = (S) =>
       singleton(S, 'navigation', 'Navigatie'),
       singleton(S, 'homePage', 'Homepage'),
       S.divider(),
-      S.documentTypeListItem('page').title('Pagina’s'),
+      S.listItem()
+        .title('Pagina’s')
+        .schemaType('page')
+        .child(
+          S.documentList()
+            .title('Pagina’s')
+            .schemaType('page')
+            .filter('_type == "page" && slug.current != "projecten" && !(slug.current match "project-*")')
+            .defaultOrdering([{field: 'title', direction: 'asc'}])
+        ),
+      S.listItem()
+        .title('Projecten')
+        .schemaType('page')
+        .child(
+          S.list()
+            .title('Projecten')
+            .items([
+              S.listItem()
+                .title('Overzichtspagina')
+                .schemaType('page')
+                .child(
+                  S.documentList()
+                    .title('Projecten overzicht')
+                    .schemaType('page')
+                    .filter('_type == "page" && slug.current == "projecten"')
+                ),
+              S.listItem()
+                .title('Projectdetailpagina’s')
+                .schemaType('page')
+                .child(
+                  S.documentList()
+                    .title('Projectdetailpagina’s')
+                    .schemaType('page')
+                    .filter('_type == "page" && slug.current match "project-*"')
+                    .defaultOrdering([{field: 'title', direction: 'asc'}])
+                )
+            ])
+        ),
       S.documentTypeListItem('service').title('Werkzaamheden'),
       S.documentTypeListItem('market').title('Markten'),
       S.divider(),
