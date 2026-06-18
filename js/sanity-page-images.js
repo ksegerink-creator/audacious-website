@@ -41,17 +41,16 @@ function audaciousEnsureGalleryStyles() {
   style.id = 'audacious-project-gallery-styles';
   style.textContent = `
     .project-gallery-section{padding:clamp(4rem,7vw,7rem) 0;background:#f8f6f2;color:#11110f;border-top:1px solid rgba(17,17,15,.08);}
-    .project-gallery-head{display:grid;grid-template-columns:minmax(220px,.55fr) 1fr;gap:clamp(2rem,5vw,6rem);align-items:end;margin-bottom:clamp(2rem,4vw,3rem);}
+    .project-gallery-head{display:block;margin-bottom:clamp(2rem,4vw,3rem);}
     .project-gallery-kicker{margin:0 0 .8rem;color:#f58220;font-family:'Courier New',monospace;font-size:.78rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;}
-    .project-gallery-title{margin:0;font-family:var(--font-display);font-size:clamp(3rem,6vw,6.5rem);line-height:.9;letter-spacing:-.08em;color:#11110f;}
-    .project-gallery-intro{max-width:620px;margin:0;color:#5f5d58;font-size:1.02rem;line-height:1.7;}
+    .project-gallery-title{max-width:760px;margin:0;font-family:var(--font-display);font-size:clamp(3rem,6vw,6.5rem);line-height:.9;letter-spacing:-.08em;color:#11110f;}
     .project-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:rgba(17,17,15,.16);border:1px solid rgba(17,17,15,.16);}
     .project-gallery-item{position:relative;min-height:clamp(260px,32vw,520px);overflow:hidden;background:#11110f;}
     .project-gallery-item:first-child{grid-column:span 2;}
     .project-gallery-item img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.96) contrast(1.04);transition:transform .35s ease,filter .35s ease;}
     .project-gallery-item:hover img{transform:scale(1.035);filter:saturate(1.04) contrast(1.06);}
     .project-gallery-caption{position:absolute;left:1rem;right:1rem;bottom:1rem;display:flex;justify-content:space-between;gap:1rem;padding:.8rem 1rem;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(0,0,0,.42);backdrop-filter:blur(14px);color:#fff;font-size:.82rem;font-weight:700;}
-    @media(max-width:900px){.project-gallery-head{grid-template-columns:1fr}.project-gallery-grid{grid-template-columns:1fr}.project-gallery-item:first-child{grid-column:auto}.project-gallery-item{min-height:280px}}
+    @media(max-width:900px){.project-gallery-grid{grid-template-columns:1fr}.project-gallery-item:first-child{grid-column:auto}.project-gallery-item{min-height:280px}}
   `;
   document.head.appendChild(style);
 }
@@ -70,11 +69,8 @@ function audaciousRenderPageGallery(images = []) {
   section.innerHTML = `
     <div class="container">
       <div class="project-gallery-head">
-        <div>
-          <p class="project-gallery-kicker">Projectfoto’s</p>
-          <h2 class="project-gallery-title">Beeld van het project.</h2>
-        </div>
-        <p class="project-gallery-intro">Extra foto’s uit Sanity. Gebruik deze galerij voor details, eindresultaat, montage, afwerking of procesbeelden.</p>
+        <p class="project-gallery-kicker">Projectfoto’s</p>
+        <h2 class="project-gallery-title">Beeld van het project.</h2>
       </div>
       <div class="project-gallery-grid">
         ${validImages.map((image, index) => {
