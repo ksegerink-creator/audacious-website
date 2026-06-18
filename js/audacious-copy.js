@@ -129,11 +129,11 @@
     if (productHead) productHead.textContent = 'Een selectie van projecttypen die aansluiten op het werk van Audacious: frames, RVS behuizingen, technische samenstellingen en maatwerkconstructies.';
 
     const projectCards = [
-      ['Frame voor de food-industrie', 'Frameconstructie voor toepassing in de voedingsmiddelenindustrie.', '../html/projecten.html#project-food-frame'],
-      ['Plaatwerk behuizingen', 'Plaatwerk behuizingen uit RVS 316L.', '../html/projecten.html#project-behuizingen'],
-      ['Project röntgenarm', 'Technische samenstelling met plaatwerkcomponenten.', '../html/projecten.html#project-rontgenarm'],
-      ['Frames voor verpakkingsmachines', 'Precisieframes uit RVS 316L, gelast en afgewerkt.', '../html/projecten.html#project-verpakkingsframes'],
-      ['Schuifdeuren / cold corridor', 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes.', '../html/projecten.html#project-schuifdeuren']
+      ['Frame voor de food-industrie', 'Frameconstructie voor toepassing in de voedingsmiddelenindustrie.', '../pages/project-food-frame.html'],
+      ['Plaatwerk behuizingen', 'Plaatwerk behuizingen uit RVS 316L.', '../pages/project-plaatwerk-behuizingen.html'],
+      ['Project röntgenarm', 'Technische samenstelling met plaatwerkcomponenten.', '../pages/project-rontgenarm.html'],
+      ['Frames voor verpakkingsmachines', 'Precisieframes uit RVS 316L, gelast en afgewerkt.', '../pages/project-verpakkingsframes.html'],
+      ['Schuifdeuren / cold corridor', 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes.', '../pages/project-schuifdeuren.html']
     ];
     document.querySelectorAll('.product-tile').forEach((tile, index) => {
       const row = projectCards[index];
