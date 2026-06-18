@@ -7,6 +7,13 @@
   <url><loc>https://audacious-website.vercel.app/html/werkzaamheden.html</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/markten.html</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/projecten.html</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/pages/project-food-frame.html</loc><priority>0.65</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/pages/project-plaatwerk-behuizingen.html</loc><priority>0.65</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/pages/project-rontgenarm.html</loc><priority>0.65</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/pages/project-verpakkingsframes.html</loc><priority>0.65</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/pages/project-behuizing.html</loc><priority>0.65</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/pages/project-schuifdeuren.html</loc><priority>0.65</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://audacious-website.vercel.app/pages/project-transportwagen-kooi.html</loc><priority>0.65</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/nieuws.html</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/nieuws-iso-9001-vervolg.html</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://audacious-website.vercel.app/html/nieuws-vervanging-klein-transport.html</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
