@@ -35,9 +35,70 @@ function audaciousCurrentSlug() {
   return filename.replace(/\.html$/, '');
 }
 
+function audaciousEnsureGalleryStyles() {
+  if (document.getElementById('audacious-project-gallery-styles')) return;
+  const style = document.createElement('style');
+  style.id = 'audacious-project-gallery-styles';
+  style.textContent = `
+    .project-gallery-section{padding:clamp(4rem,7vw,7rem) 0;background:#f8f6f2;color:#11110f;border-top:1px solid rgba(17,17,15,.08);}
+    .project-gallery-head{display:grid;grid-template-columns:minmax(220px,.55fr) 1fr;gap:clamp(2rem,5vw,6rem);align-items:end;margin-bottom:clamp(2rem,4vw,3rem);}
+    .project-gallery-kicker{margin:0 0 .8rem;color:#f58220;font-family:'Courier New',monospace;font-size:.78rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;}
+    .project-gallery-title{margin:0;font-family:var(--font-display);font-size:clamp(3rem,6vw,6.5rem);line-height:.9;letter-spacing:-.08em;color:#11110f;}
+    .project-gallery-intro{max-width:620px;margin:0;color:#5f5d58;font-size:1.02rem;line-height:1.7;}
+    .project-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:rgba(17,17,15,.16);border:1px solid rgba(17,17,15,.16);}
+    .project-gallery-item{position:relative;min-height:clamp(260px,32vw,520px);overflow:hidden;background:#11110f;}
+    .project-gallery-item:first-child{grid-column:span 2;}
+    .project-gallery-item img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.96) contrast(1.04);transition:transform .35s ease,filter .35s ease;}
+    .project-gallery-item:hover img{transform:scale(1.035);filter:saturate(1.04) contrast(1.06);}
+    .project-gallery-caption{position:absolute;left:1rem;right:1rem;bottom:1rem;display:flex;justify-content:space-between;gap:1rem;padding:.8rem 1rem;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(0,0,0,.42);backdrop-filter:blur(14px);color:#fff;font-size:.82rem;font-weight:700;}
+    @media(max-width:900px){.project-gallery-head{grid-template-columns:1fr}.project-gallery-grid{grid-template-columns:1fr}.project-gallery-item:first-child{grid-column:auto}.project-gallery-item{min-height:280px}}
+  `;
+  document.head.appendChild(style);
+}
+
+function audaciousRenderPageGallery(images = []) {
+  const validImages = images.filter((image) => image && image.url);
+  if (!validImages.length || document.querySelector('.project-gallery-section')) return;
+
+  const main = document.querySelector('.page-shell');
+  if (!main) return;
+
+  audaciousEnsureGalleryStyles();
+
+  const section = document.createElement('section');
+  section.className = 'project-gallery-section';
+  section.innerHTML = `
+    <div class="container">
+      <div class="project-gallery-head">
+        <div>
+          <p class="project-gallery-kicker">Projectfoto’s</p>
+          <h2 class="project-gallery-title">Beeld van het project.</h2>
+        </div>
+        <p class="project-gallery-intro">Extra foto’s uit Sanity. Gebruik deze galerij voor details, eindresultaat, montage, afwerking of procesbeelden.</p>
+      </div>
+      <div class="project-gallery-grid">
+        ${validImages.map((image, index) => {
+          const src = audaciousSanityImageUrl(image.url, index === 0 ? 1800 : 1100);
+          const alt = image.alt || image.caption || 'Projectfoto Audacious';
+          const caption = image.caption || `Foto ${String(index + 1).padStart(2, '0')}`;
+          return `<figure class="project-gallery-item"><img src="${src}" alt="${alt}" loading="lazy"><figcaption class="project-gallery-caption"><span>${caption}</span><span>${String(index + 1).padStart(2, '0')}</span></figcaption></figure>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  const sections = main.querySelectorAll('.page-section');
+  const anchor = sections[0] || main.lastElementChild;
+  if (anchor) anchor.insertAdjacentElement('afterend', section);
+  else main.appendChild(section);
+}
+
 async function audaciousFetchPageImage(slug) {
   const query = `{
-    "page": *[_type == "page" && slug.current == $slug][0]{"imageUrl": hero.image.asset->url},
+    "page": *[_type == "page" && slug.current == $slug][0]{
+      "imageUrl": hero.image.asset->url,
+      "gallery": galleryImages[]{"url": asset->url, alt, caption}
+    },
     "service": *[_type == "service" && slug.current == $slug][0]{"imageUrl": heroImage.asset->url},
     "market": *[_type == "market" && slug.current == $slug][0]{"imageUrl": image.asset->url},
     "news": *[_type == "blogPost" && slug.current == $slug][0]{"imageUrl": featuredImage.asset->url},
@@ -67,13 +128,14 @@ async function audaciousInitPageImages() {
     ].filter(Boolean);
 
     const imageUrl = candidates[0];
-    if (!imageUrl) {
+    if (imageUrl) {
+      audaciousSetPageHeroImage(imageUrl);
+      console.info(`Sanity hero-afbeelding toegepast voor ${slug}:`, imageUrl);
+    } else {
       console.info(`Geen Sanity-afbeelding gevonden voor slug: ${slug}. Fallback afbeelding blijft actief.`);
-      return;
     }
 
-    audaciousSetPageHeroImage(imageUrl);
-    console.info(`Sanity hero-afbeelding toegepast voor ${slug}:`, imageUrl);
+    audaciousRenderPageGallery(result?.page?.gallery || []);
   } catch (error) {
     console.warn('Sanity pagina-afbeelding kon niet geladen worden. Fallback afbeelding blijft actief.', error);
   }
