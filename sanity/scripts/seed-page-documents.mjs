@@ -58,14 +58,105 @@ const pages = [
     template: 'default',
     hero: {
       eyebrow: 'Projecten',
-      title: 'Voorbeelden van',
-      highlight: 'plaatwerkprojecten.',
+      title: 'Een blik op onze',
+      highlight: 'projecten.',
       intro: 'Voorbeelden van producten en projecten: frames, RVS 316L behuizingen, een röntgenarm, verpakkingsmachineframes, engineeringwerk, schuifdeuren en transportwagens.'
     },
     seo: {
       metaTitle: 'Projecten | Audacious Sheet Metal',
       metaDescription: 'Projecten van Audacious: food-frame, RVS 316L behuizingen, röntgenarm, verpakkingsmachineframes, engineering behuizing, schuifdeuren en transportwagen.'
     }
+  },
+  {
+    _id: 'page-project-food-frame',
+    title: 'Project: Frame voor de food-industrie',
+    slug: 'project-food-frame',
+    template: 'default',
+    hero: {
+      eyebrow: 'Projecten / Food-industrie',
+      title: 'Frame voor de',
+      highlight: 'food-industrie.',
+      intro: 'Frameconstructie voor toepassing in de voedingsmiddelenindustrie, met aandacht voor materiaalkeuze, laswerk, afwerking en montage.'
+    },
+    seo: {metaTitle: 'Frame voor de food-industrie | Audacious', metaDescription: 'Projectvoorbeeld van Audacious: frameconstructie voor toepassing in de voedingsmiddelenindustrie.'}
+  },
+  {
+    _id: 'page-project-plaatwerk-behuizingen',
+    title: 'Project: Plaatwerk behuizingen uit RVS 316L',
+    slug: 'project-plaatwerk-behuizingen',
+    template: 'default',
+    hero: {
+      eyebrow: 'Projecten / RVS 316L',
+      title: 'Plaatwerk behuizingen uit',
+      highlight: 'RVS 316L.',
+      intro: 'Plaatwerkbehuizingen waarbij materiaalkeuze, passing, zichtkwaliteit en montage samenkomen.'
+    },
+    seo: {metaTitle: 'Plaatwerk behuizingen uit RVS 316L | Audacious', metaDescription: 'Projectvoorbeeld van Audacious: plaatwerk behuizingen uit RVS 316L.'}
+  },
+  {
+    _id: 'page-project-rontgenarm',
+    title: 'Project: Röntgenarm',
+    slug: 'project-rontgenarm',
+    template: 'default',
+    hero: {
+      eyebrow: 'Projecten / Medisch-technisch',
+      title: 'Project',
+      highlight: 'röntgenarm.',
+      intro: 'Technische samenstelling met plaatwerkcomponenten, montage en controle.'
+    },
+    seo: {metaTitle: 'Project röntgenarm | Audacious', metaDescription: 'Projectvoorbeeld van Audacious: technische samenstelling rondom een röntgenarm.'}
+  },
+  {
+    _id: 'page-project-verpakkingsframes',
+    title: 'Project: Frames voor verpakkingsmachines',
+    slug: 'project-verpakkingsframes',
+    template: 'default',
+    hero: {
+      eyebrow: 'Projecten / Verpakkingsindustrie',
+      title: 'Frames voor',
+      highlight: 'verpakkingsmachines.',
+      intro: 'Precisieframes uit RVS 316L, gelast en afgewerkt voor machinebouwtoepassingen.'
+    },
+    seo: {metaTitle: 'Frames voor verpakkingsmachines | Audacious', metaDescription: 'Projectvoorbeeld van Audacious: RVS 316L precisieframes voor verpakkingsmachines.'}
+  },
+  {
+    _id: 'page-project-behuizing',
+    title: 'Project: Behuizing',
+    slug: 'project-behuizing',
+    template: 'default',
+    hero: {
+      eyebrow: 'Projecten / Engineering',
+      title: 'Engineering van een',
+      highlight: 'behuizing.',
+      intro: 'Engineering en productie van een behuizing in samenwerking met de klant, inclusief interne kantdelen en afmontage.'
+    },
+    seo: {metaTitle: 'Project behuizing | Audacious', metaDescription: 'Projectvoorbeeld van Audacious: engineering, productie en afmontage van een behuizing.'}
+  },
+  {
+    _id: 'page-project-schuifdeuren',
+    title: 'Project: Schuifdeuren / cold corridor',
+    slug: 'project-schuifdeuren',
+    template: 'default',
+    hero: {
+      eyebrow: 'Projecten / Cold corridor',
+      title: 'Schuifdeuren voor een',
+      highlight: 'cold corridor.',
+      intro: 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes.'
+    },
+    seo: {metaTitle: 'Schuifdeuren cold corridor | Audacious', metaDescription: 'Projectvoorbeeld van Audacious: schuifdeuren voor luchtdichte cold corridors in serverruimtes.'}
+  },
+  {
+    _id: 'page-project-transportwagen-kooi',
+    title: 'Project: Transportwagen en kooi',
+    slug: 'project-transportwagen-kooi',
+    template: 'default',
+    hero: {
+      eyebrow: 'Projecten / Ontwerp en realisatie',
+      title: 'Transportwagen en',
+      highlight: 'kooi.',
+      intro: 'Van digitaal ontwerp naar praktisch maatwerkproduct: transportwagen en kooi.'
+    },
+    seo: {metaTitle: 'Transportwagen en kooi | Audacious', metaDescription: 'Projectvoorbeeld van Audacious: transportwagen en kooi, van ontwerp tot realisatie.'}
   },
   {
     _id: 'page-nieuws',
