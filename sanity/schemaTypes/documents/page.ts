@@ -21,6 +21,22 @@ export const page = defineType({
     }),
     defineField({name: 'hero', title: 'Hero', type: 'hero'}),
     defineField({
+      name: 'galleryImages',
+      title: 'Extra foto’s / galerij',
+      description: 'Optioneel. Gebruik dit vooral voor projectdetailpagina’s. De foto’s verschijnen automatisch als galerij op de pagina.',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            defineField({name: 'alt', title: 'Alt-tekst', type: 'string'}),
+            defineField({name: 'caption', title: 'Bijschrift', type: 'string'})
+          ]
+        })
+      ]
+    }),
+    defineField({
       name: 'blocks',
       title: 'Contentblokken',
       type: 'array',
