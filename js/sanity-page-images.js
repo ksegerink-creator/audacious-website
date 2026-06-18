@@ -35,6 +35,41 @@ function audaciousCurrentSlug() {
   return filename.replace(/\.html$/, '');
 }
 
+function audaciousApplyLaunchCopyFixes(slug) {
+  const projectIntroBySlug = {
+    'project-food-frame': 'Frameconstructie voor een food-productieomgeving, met aandacht voor RVS, laswerk, afwerking, reinigbaarheid en praktische montage.',
+    'project-plaatwerk-behuizingen': 'Plaatwerkbehuizingen uit RVS 316L waarbij materiaalkeuze, passing, afwerking en montage vanaf de voorbereiding worden meegenomen.',
+    'project-rontgenarm': 'Technische samenstelling met plaatwerkcomponenten, gericht op maatvoering, montage, controle en functionaliteit van het geheel.',
+    'project-verpakkingsframes': 'Precisieframes uit RVS 316L voor verpakkingsmachines, waarbij laswerk, maatvastheid en afwerking bepalend zijn.',
+    'project-behuizing': 'Engineering en productie van een behuizing waarin maakbaarheid, interne kantdelen, componenten en afwerking samenkomen.',
+    'project-schuifdeuren': 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes, ontwikkeld voor gerichte koeling en praktische afdichting.',
+    'project-transportwagen-kooi': 'Maatwerkproject waarin digitaal ontwerp, plaatwerk, constructie en praktische realisatie samenkomen.'
+  };
+
+  const intro = projectIntroBySlug[slug];
+  const subcopy = document.querySelector('.page-section .page-subcopy');
+  if (intro && subcopy && /Gebaseerd op|projectvoorbeeld|projectvermelding|Audacious-project/i.test(subcopy.textContent)) {
+    subcopy.textContent = intro;
+  }
+
+  document.querySelectorAll('.page-subcopy').forEach((element) => {
+    element.textContent = element.textContent
+      .replace(/zoals vermeld op de huidige Audacious-contactpagina\.?/gi, 'van Audacious Sheet Metal International B.V.')
+      .replace(/De werkwijze sluit aan op de huidige Audacious-site:\s*/gi, '')
+      .replace(/Gebaseerd op het Audacious-projectvoorbeeld\s*/gi, '')
+      .replace(/Gebaseerd op de Audacious-projectvermelding\s*/gi, '')
+      .trim();
+  });
+
+  document.querySelectorAll('meta[name="description"], meta[property="og:description"], meta[name="twitter:description"]').forEach((meta) => {
+    if (!meta.content) return;
+    meta.content = meta.content
+      .replace(/Projectvoorbeeld van Audacious:\s*/g, '')
+      .replace(/Gebaseerd op\s*/g, '')
+      .trim();
+  });
+}
+
 function audaciousEnsureGalleryStyles() {
   if (document.getElementById('audacious-project-gallery-styles')) return;
   const style = document.createElement('style');
@@ -112,6 +147,8 @@ async function audaciousInitPageImages() {
   const slug = audaciousCurrentSlug();
   const hasSubpageHero = Boolean(document.querySelector('.page-hero'));
   if (!hasSubpageHero) return;
+
+  audaciousApplyLaunchCopyFixes(slug);
 
   try {
     const result = await audaciousFetchPageImage(slug);
