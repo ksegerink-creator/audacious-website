@@ -70,10 +70,10 @@
   function applyHomeNav() {
     const links = document.querySelectorAll('nav .nav-links a');
     const items = [
-      ['Hero', '#hero-title'],
       ['Over ons', '#over-ons'],
       ['Projecten', '#projecten'],
       ['Bewerkingen', '#werkzaamheden'],
+      ['Nieuws', '../html/nieuws.html'],
       ['Contact', '../html/contact.html']
     ];
 
@@ -82,7 +82,7 @@
       if (!item) return;
       link.textContent = item[0];
       link.setAttribute('href', item[1]);
-      if (index === 4) link.classList.add('nav-cta');
+      link.classList.toggle('nav-cta', index === 4);
     });
   }
 
@@ -95,25 +95,25 @@
 
     setTextIfDefault('.hero-badge span', 'Zevenaar - plaatbewerking', ['precisieplaatwerk', 'zevenaar, nederland']);
     setHtmlIfDefault('.hero-title', 'Voor intelligent\nplaatwerk.', ['precisieplaatwerk voor', 'plaatbewerking met lef', 'hoogwaardig plaatwerk']);
-    setTextIfDefault('.hero-sub', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in staal, roestvaststaal en aluminium. Van mono-deel tot samengestelde plaatwerkconstructie of complete assemblage.', ['oem', 'samengestelde constructies', 'complete assemblages']);
+    setTextIfDefault('.hero-sub', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert hoogwaardige plaatwerkoplossingen in staal, roestvaststaal en aluminium. Van enkelstuks tot kleine series, mono-delen, samengestelde plaatwerkconstructies en complete assemblages.', ['oem', 'samengestelde constructies', 'complete assemblages']);
     setText('.hero-actions .btn-primary', 'Contact opnemen');
     setHref('.hero-actions .btn-primary', '../html/contact.html');
     setText('.hero-actions .btn-outline', 'Bekijk bewerkingen');
     setHref('.hero-actions .btn-outline', '#werkzaamheden');
 
-    setHtml('.intro-title', 'Over Audacious\nSheet Metal.');
-    setText('.intro-body', 'Audacious werkt met CAD/CAM, CNC-machines en een productie-besturingssysteem. De nadruk ligt op vakmanschap, flexibiliteit, korte levertijden en gecontroleerde productie van enkelstuks en kleine series.');
+    setHtml('.intro-title', 'Audacious Sheet Metal\nInternational B.V.');
+    setText('.intro-body', 'Audacious ontwikkelt en produceert plaatwerkoplossingen uit staal, roestvaststaal en aluminium. In een moderne CAD/CAM-omgeving, met een CNC-machinepark en productie-besturing, werken vakmensen aan mono-delen, plaatwerkconstructies en assemblages.');
     setHref('.intro-left .btn', '../html/over-ons.html');
-    setText('.intro-left .btn', 'Meer over ons');
+    setText('.intro-left .btn', 'Meer over Audacious');
 
     setText('.org-control-eyebrow', 'Over ons');
-    setHtml('.org-control-title', 'Productie goed voorbereiden.\nDaarna pas maken.');
-    setText('.org-control-copy', 'Bij elk ontwerp kijkt Audacious naar maakbaarheid, plaatdikte, lasnaden, materiaalgebruik en productieroute. Zo blijft productie beheersbaar en wordt onnodig herstelwerk beperkt.');
+    setHtml('.org-control-title', 'Voorbereiden, produceren\nen regisseren.');
+    setText('.org-control-copy', 'Audacious kijkt vooraf naar maakbaarheid, materiaal, lasnaden, afwerking en productieroute. Zo blijven kwaliteit, kosten en levertijd beheersbaar, juist bij enkelstuks en kleine series.');
 
     const roadmap = [
-      ['Maakbaarheid beoordelen', 'Controle op plaatdikte, buigradius, lasnaden, materiaal en productieroute.'],
-      ['CAD/CAM voorbereiden', '3D CAD, STEP-bestanden, nesting en NC-programmering voor laser en kantbank.'],
-      ['Produceren', 'Lasersnijden, kanten, walsen, persen, lassen en afwerken volgens de gekozen route.'],
+      ['Maakbaarheid beoordelen', 'Controle op plaatdikte, buigradius, toleranties, lasnaden en materiaalkeuze.'],
+      ['CAD/CAM voorbereiden', '3D CAD, STEP-controle, nesting en NC-programmering voor laser en kantbank.'],
+      ['Plaatwerk produceren', 'Lasersnijden, kanten, walsen, persen, lassen en afwerken volgens de gekozen route.'],
       ['Assembleren en leveren', 'Mechanische montage, afstemming met partners en levering van mono-deel tot samenstelling.']
     ];
     document.querySelectorAll('.org-roadmap-item').forEach((item, index) => {
@@ -126,11 +126,11 @@
     setText('.products-kicker', 'Projecten');
     setHtml('#products-title', 'Voorbeelden van\nplaatwerkprojecten.');
     const productHead = document.querySelector('.products-stage-head p:not(.products-kicker)');
-    if (productHead) productHead.textContent = 'Een selectie van projecttypen die aansluiten op het werk van Audacious: frames, RVS behuizingen, technische samenstellingen en maatwerkconstructies.';
+    if (productHead) productHead.textContent = 'Een selectie van projecttypen uit het werk van Audacious: frames, RVS-behuizingen, technische samenstellingen en maatwerkconstructies.';
 
     const projectCards = [
       ['Frame voor de food-industrie', 'Frameconstructie voor toepassing in de voedingsmiddelenindustrie.', '../pages/project-food-frame.html'],
-      ['Plaatwerk behuizingen', 'Plaatwerk behuizingen uit RVS 316L.', '../pages/project-plaatwerk-behuizingen.html'],
+      ['Plaatwerk behuizingen', 'Plaatwerkbehuizingen uit RVS 316L.', '../pages/project-plaatwerk-behuizingen.html'],
       ['Project röntgenarm', 'Technische samenstelling met plaatwerkcomponenten.', '../pages/project-rontgenarm.html'],
       ['Frames voor verpakkingsmachines', 'Precisieframes uit RVS 316L, gelast en afgewerkt.', '../pages/project-verpakkingsframes.html'],
       ['Schuifdeuren / cold corridor', 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes.', '../pages/project-schuifdeuren.html']
@@ -164,7 +164,7 @@
 
     setText('.footer-brand p', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.');
     const footerNav = document.querySelector('.footer-col:nth-child(2)');
-    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="../html/contact.html">Contact</a>';
+    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="../html/nieuws.html">Nieuws</a><a href="../html/contact.html">Contact</a>';
     const footerWork = document.querySelector('.footer-col:nth-child(3)');
     if (footerWork) footerWork.innerHTML = '<h3>Bewerkingen</h3><a href="../pages/lasersnijden.html">Lasersnijden</a><a href="../pages/kanten.html">Kanten</a><a href="../pages/lassen.html">Lassen</a><a href="../pages/assembleren.html">Assemblage</a>';
     const footerContact = document.querySelector('.footer-col:nth-child(4)');
