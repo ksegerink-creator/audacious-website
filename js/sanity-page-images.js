@@ -37,6 +37,7 @@ function audaciousResolveCtaHref(cta = {}) {
   if (target._type === 'service') return `../pages/${slug}.html`;
   if (target._type === 'market') return `../pages/${slug}.html`;
   if (target._type === 'blogPost') return `../html/${slug}.html`;
+  if (target._type === 'page' && slug.startsWith('project-')) return `../pages/${slug}.html`;
   return slug === 'index' ? '../html/index.html' : `../html/${slug}.html`;
 }
 
