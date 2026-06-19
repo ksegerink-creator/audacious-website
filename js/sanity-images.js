@@ -86,16 +86,18 @@ function applyMarketImages(markets) {
   });
 }
 
-function applyProductImages(productGroups) {
-  if (!productGroups?.length) return;
+function applyProductImages(projectCards) {
+  if (!projectCards?.length) return;
 
   document.querySelectorAll('.product-tile').forEach((tile, index) => {
-    const url = productGroups[index]?.imageUrl;
+    const item = projectCards[index];
+    const url = item?.imageUrl || item?.link?.internalPage?.imageUrl;
     const visual = tile.querySelector('.product-visual');
     if (!url || !visual) return;
-    const overlay = 'linear-gradient(180deg, rgba(17,17,15,0.05), rgba(17,17,15,0.52))';
-    setBackground(visual, url, {width: 1200, overlay});
+    const overlay = 'linear-gradient(180deg, rgba(17,17,15,0.02), rgba(17,17,15,0.55))';
+    setBackground(visual, url, {width: 1400, overlay});
     visual.classList.add('has-sanity-image');
+    tile.classList.add('has-project-image');
   });
 }
 
@@ -123,6 +125,24 @@ function applyNewsImages(posts) {
   });
 }
 
+function sortProjectFallbacks(projects = []) {
+  const order = [
+    'project-food-frame',
+    'project-plaatwerk-behuizingen',
+    'project-rontgenarm',
+    'project-verpakkingsframes',
+    'project-schuifdeuren',
+    'project-behuizing',
+    'project-transportwagen-kooi'
+  ];
+
+  return [...projects].sort((a, b) => {
+    const aIndex = order.indexOf(a.slug);
+    const bIndex = order.indexOf(b.slug);
+    return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+  });
+}
+
 async function fetchSanityImages() {
   const query = `{
     "home": *[_type == "homePage"][0]{
@@ -135,8 +155,14 @@ async function fetchSanityImages() {
       "hasHeroVideoUrl": defined(hero.videoUrl),
       "services": featuredServices[]->{"imageUrl": heroImage.asset->url},
       "markets": featuredMarkets[]->{"imageUrl": image.asset->url},
-      "products": featuredProductGroups[]->{"imageUrl": image.asset->url}
+      "products": featuredProductGroups[]->{"imageUrl": image.asset->url},
+      "projectCards": projectCards[]{
+        title,
+        "imageUrl": link.internalPage->hero.image.asset->url,
+        link{internalPage->{_type, title, "slug": slug.current, "imageUrl": hero.image.asset->url}}
+      }
     },
+    "projectFallbacks": *[_type == "page" && slug.current in ["project-food-frame", "project-plaatwerk-behuizingen", "project-rontgenarm", "project-verpakkingsframes", "project-schuifdeuren", "project-behuizing", "project-transportwagen-kooi"]]{title, "slug": slug.current, "imageUrl": hero.image.asset->url},
     "posts": *[_type == "blogPost"] | order(publishedAt desc){"imageUrl": featuredImage.asset->url}
   }`;
   const endpoint = `https://${SANITY_IMAGE_PROJECT_ID}.api.sanity.io/v${SANITY_IMAGE_API_VERSION}/data/query/${SANITY_IMAGE_DATASET}?query=${encodeURIComponent(query)}`;
@@ -165,9 +191,13 @@ async function initSanityImages() {
       console.warn('Geen gepubliceerde hero-video of hero-afbeelding gevonden in Sanity. Controleer Homepage > Hero en klik Publish.', home);
     }
 
+    const projectCardsWithImages = (home.projectCards || []).some((card) => card?.imageUrl || card?.link?.internalPage?.imageUrl)
+      ? home.projectCards
+      : sortProjectFallbacks(result?.projectFallbacks || []);
+
     applyServiceImages(home.services || []);
     applyMarketImages(home.markets || []);
-    applyProductImages(home.products || []);
+    applyProductImages(projectCardsWithImages.length ? projectCardsWithImages : home.products || []);
     applyNewsImages(result?.posts || []);
   } catch (error) {
     console.warn('Sanity-afbeeldingen konden niet geladen worden. Fallback afbeeldingen blijven actief.', error);
