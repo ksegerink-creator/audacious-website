@@ -20,9 +20,15 @@ export const blogPost = defineType({
         defineArrayMember({type: 'block'}),
         defineArrayMember({type: 'imageBlock'}),
         defineArrayMember({type: 'imageTextBlock'}),
-        defineArrayMember({type: 'specList'})
+        defineArrayMember({type: 'specList'}),
+        defineArrayMember({type: 'cardGrid'}),
+        defineArrayMember({type: 'ctaBlock'})
       ]
     }),
+    defineField({name: 'galleryEyebrow', title: 'Galerij label', type: 'string'}),
+    defineField({name: 'galleryTitle', title: 'Galerij titel', type: 'string'}),
+    defineField({name: 'galleryImages', title: 'Extra foto’s / galerij', type: 'array', of: [defineArrayMember({type: 'image', options: {hotspot: true}, fields: [defineField({name: 'alt', title: 'Alt-tekst', type: 'string'}), defineField({name: 'caption', title: 'Bijschrift', type: 'string'})]})]}),
+    defineField({name: 'closingCta', title: 'Onderste CTA', type: 'object', fields: [defineField({name: 'title', title: 'Titel', type: 'string'}), defineField({name: 'button', title: 'Knop', type: 'cta'})]}),
     defineField({name: 'seo', title: 'SEO', type: 'seo'})
   ],
   orderings: [{title: 'Nieuwste eerst', name: 'publishedAtDesc', by: [{field: 'publishedAt', direction: 'desc'}]}],
