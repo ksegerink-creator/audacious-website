@@ -45,6 +45,7 @@ export const specList = defineType({
   type: 'object',
   fields: [
     defineField({name: 'title', title: 'Titel', type: 'string'}),
+    defineField({name: 'intro', title: 'Intro', type: 'text', rows: 3}),
     defineField({
       name: 'items',
       title: 'Specificaties',
@@ -56,6 +57,41 @@ export const specList = defineType({
     })
   ],
   preview: {select: {title: 'title'}, prepare: ({title}) => ({title: title || 'Specificatielijst'})}
+})
+
+export const cardGrid = defineType({
+  name: 'cardGrid',
+  title: 'Kaartenblok',
+  type: 'object',
+  fields: [
+    defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string'}),
+    defineField({name: 'title', title: 'Titel', type: 'string'}),
+    defineField({name: 'intro', title: 'Intro', type: 'text', rows: 3}),
+    defineField({
+      name: 'items',
+      title: 'Kaarten',
+      type: 'array',
+      of: [defineArrayMember({type: 'object', fields: [
+        defineField({name: 'title', title: 'Titel', type: 'string'}),
+        defineField({name: 'text', title: 'Tekst', type: 'text', rows: 3}),
+        defineField({name: 'cta', title: 'Link / knop', type: 'cta'})
+      ]})]
+    })
+  ],
+  preview: {select: {title: 'title', subtitle: 'eyebrow'}, prepare: ({title, subtitle}) => ({title: title || 'Kaartenblok', subtitle})}
+})
+
+export const ctaBlock = defineType({
+  name: 'ctaBlock',
+  title: 'CTA blok',
+  type: 'object',
+  fields: [
+    defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string'}),
+    defineField({name: 'title', title: 'Titel', type: 'string'}),
+    defineField({name: 'text', title: 'Tekst', type: 'text', rows: 3}),
+    defineField({name: 'cta', title: 'Knop', type: 'cta'})
+  ],
+  preview: {select: {title: 'title', subtitle: 'eyebrow'}, prepare: ({title, subtitle}) => ({title: title || 'CTA blok', subtitle})}
 })
 
 export const faqBlock = defineType({
