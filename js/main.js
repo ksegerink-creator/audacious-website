@@ -1,3 +1,63 @@
+function ensureAudaciousFooterStyles() {
+  if (document.querySelector('link[href="../css/footer-polish.css"]')) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = '../css/footer-polish.css';
+  document.head.appendChild(link);
+}
+
+function renderAudaciousFooter() {
+  return `
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="footer-logo" href="../html/index.html" aria-label="Audacious homepage"><span class="footer-logo-mark" aria-hidden="true"></span><span class="footer-logo-word">Audacious</span></a>
+            <p>Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.</p>
+          </div>
+          <div class="footer-col">
+            <h3>Navigatie</h3>
+            <a href="../html/over-ons.html">Over ons</a>
+            <a href="../html/projecten.html">Projecten</a>
+            <a href="../html/werkzaamheden.html">Bewerkingen</a>
+            <a href="../html/nieuws.html">Nieuws</a>
+            <a href="../html/contact.html">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h3>Bewerkingen</h3>
+            <a href="../pages/lasersnijden.html">Lasersnijden</a>
+            <a href="../pages/kanten.html">Kanten</a>
+            <a href="../pages/lassen.html">Lassen</a>
+            <a href="../pages/assembleren.html">Assemblage</a>
+          </div>
+          <div class="footer-col">
+            <h3>Contact</h3>
+            <a href="mailto:info@audacious.com">info@audacious.com</a>
+            <a href="tel:+31316581470">0316-581470</a>
+            <span>Mega 16, 6902 KL Zevenaar</span>
+            <a class="footer-linkedin" href="https://www.linkedin.com/company/audacious-sheet-metal-services-bv/" target="_blank" rel="noopener">LinkedIn →</a>
+          </div>
+          <div class="footer-affiliations">
+            <h3>Wij zijn aangesloten bij</h3>
+            <div class="footer-affiliation-list"><span>Kenteq</span><span>Metaalunie</span><span>OOM</span><span>NEVAT</span><span>FDP</span></div>
+          </div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 Audacious Sheet Metal International B.V.</span><span>Plaatbewerking · CAD/CAM · CNC-machinepark · assemblage</span></div>
+      </div>
+    </footer>
+  `;
+}
+
+function ensureAudaciousFooter() {
+  const footer = document.querySelector('.site-footer, .simple-footer');
+  if (!footer) {
+    document.body.insertAdjacentHTML('beforeend', renderAudaciousFooter());
+    return;
+  }
+
+  footer.outerHTML = renderAudaciousFooter();
+}
+
 function ensureProofLayout() {
   if (document.getElementById('audacious-proof-main-layout')) return;
   const proofStyle = document.createElement('style');
@@ -8,6 +68,8 @@ function ensureProofLayout() {
   document.head.appendChild(proofStyle);
 }
 
+ensureAudaciousFooterStyles();
+ensureAudaciousFooter();
 ensureProofLayout();
 
 const sidebarNavStyles = document.createElement('link');
