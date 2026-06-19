@@ -1,4 +1,4 @@
-html body:has(.hero) .site-footer {
+html body .site-footer {
   --audacious-mark-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364 320'%3E%3Cpath fill='%23f58220' d='M40 222 0 151 90 0h100L40 222Zm284 0L194 0h100l70 151-40 71ZM52 244h258l-30 76H82l-30-76Z'/%3E%3C/svg%3E");
   position: relative !important;
   isolation: isolate !important;
@@ -14,7 +14,7 @@ html body:has(.hero) .site-footer {
   color: #ffffff !important;
 }
 
-html body:has(.hero) .site-footer::before {
+html body .site-footer::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -25,12 +25,12 @@ html body:has(.hero) .site-footer::before {
   pointer-events: none;
 }
 
-html body:has(.hero) .site-footer .container {
+html body .site-footer .container {
   width: min(calc(100vw - clamp(2rem, 5vw, 6rem)), 1480px) !important;
   max-width: none !important;
 }
 
-html body:has(.hero) .footer-grid {
+html body .footer-grid {
   display: grid !important;
   grid-template-columns: minmax(320px, 1.2fr) repeat(3, minmax(160px, 0.7fr)) !important;
   gap: 1px !important;
@@ -43,8 +43,8 @@ html body:has(.hero) .footer-grid {
   backdrop-filter: blur(18px) !important;
 }
 
-html body:has(.hero) .footer-brand,
-html body:has(.hero) .footer-col {
+html body .footer-brand,
+html body .footer-col {
   display: flex !important;
   flex-direction: column !important;
   align-items: flex-start !important;
@@ -55,13 +55,13 @@ html body:has(.hero) .footer-col {
   background: rgba(255,255,255,0.055) !important;
 }
 
-html body:has(.hero) .footer-brand {
+html body .footer-brand {
   background:
     radial-gradient(circle at 12% 8%, rgba(245,130,32,0.14), transparent 18rem),
     rgba(255,255,255,0.07) !important;
 }
 
-html body:has(.hero) .footer-logo {
+html body .footer-logo {
   display: inline-flex !important;
   align-items: center !important;
   gap: 0.85rem !important;
@@ -75,13 +75,13 @@ html body:has(.hero) .footer-logo {
   text-transform: none !important;
 }
 
-html body:has(.hero) .footer-logo::before,
-html body:has(.hero) .footer-logo-dot {
+html body .footer-logo::before,
+html body .footer-logo-dot {
   display: none !important;
   content: none !important;
 }
 
-html body:has(.hero) .footer-logo-mark {
+html body .footer-logo-mark {
   display: inline-flex !important;
   width: 42px !important;
   height: 37px !important;
@@ -89,18 +89,18 @@ html body:has(.hero) .footer-logo-mark {
   background: var(--audacious-mark-svg) center / contain no-repeat !important;
 }
 
-html body:has(.hero) .footer-logo-word {
+html body .footer-logo-word {
   color: #ffffff !important;
 }
 
-html body:has(.hero) .footer-brand p {
+html body .footer-brand p {
   max-width: 430px !important;
   color: rgba(255,255,255,0.72) !important;
   font-size: clamp(0.98rem, 1.1vw, 1.08rem) !important;
   line-height: 1.72 !important;
 }
 
-html body:has(.hero) .site-footer h3 {
+html body .site-footer h3 {
   margin: 0 0 0.75rem !important;
   color: #ffffff !important;
   font-family: var(--font-display) !important;
@@ -109,27 +109,27 @@ html body:has(.hero) .site-footer h3 {
   letter-spacing: -0.035em !important;
 }
 
-html body:has(.hero) .site-footer a,
-html body:has(.hero) .site-footer span,
-html body:has(.hero) .site-footer p {
+html body .site-footer a,
+html body .site-footer span,
+html body .site-footer p {
   color: rgba(255,255,255,0.68) !important;
 }
 
-html body:has(.hero) .footer-col a,
-html body:has(.hero) .footer-col span {
+html body .footer-col a,
+html body .footer-col span {
   width: fit-content !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(255,255,255,0.16) !important;
   transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease !important;
 }
 
-html body:has(.hero) .footer-col a:hover {
+html body .footer-col a:hover {
   color: #ffffff !important;
   border-color: #f58220 !important;
   transform: translateX(4px) !important;
 }
 
-html body:has(.hero) .footer-linkedin {
+html body .footer-linkedin {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -143,7 +143,7 @@ html body:has(.hero) .footer-linkedin {
   font-weight: 800 !important;
 }
 
-html body:has(.hero) .footer-affiliations {
+html body .footer-affiliations {
   display: flex !important;
   grid-column: 1 / -1 !important;
   align-items: center !important;
@@ -159,7 +159,7 @@ html body:has(.hero) .footer-affiliations {
   box-shadow: none !important;
 }
 
-html body:has(.hero) .footer-affiliations h3 {
+html body .footer-affiliations h3 {
   margin: 0 !important;
   color: rgba(255,255,255,0.76) !important;
   font-family: 'Courier New', monospace !important;
@@ -170,14 +170,14 @@ html body:has(.hero) .footer-affiliations h3 {
   white-space: nowrap !important;
 }
 
-html body:has(.hero) .footer-affiliation-list {
+html body .footer-affiliation-list {
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: flex-end !important;
   gap: 0.65rem !important;
 }
 
-html body:has(.hero) .footer-affiliation-list span {
+html body .footer-affiliation-list span {
   display: inline-flex !important;
   align-items: center !important;
   min-height: 38px !important;
@@ -190,7 +190,7 @@ html body:has(.hero) .footer-affiliation-list span {
   font-size: 0.82rem !important;
 }
 
-html body:has(.hero) .footer-bottom {
+html body .footer-bottom {
   display: flex !important;
   justify-content: space-between !important;
   gap: 1rem !important;
@@ -199,42 +199,42 @@ html body:has(.hero) .footer-bottom {
   border-top: 1px solid rgba(255,255,255,0.12) !important;
 }
 
-html body:has(.hero) .footer-bottom span {
+html body .footer-bottom span {
   color: rgba(255,255,255,0.44) !important;
   font-size: 0.78rem !important;
 }
 
 @media (max-width: 1100px) {
-  html body:has(.hero) .footer-grid {
+  html body .footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  html body:has(.hero) .footer-affiliations {
+  html body .footer-affiliations {
     align-items: flex-start !important;
     flex-direction: column !important;
   }
 
-  html body:has(.hero) .footer-affiliation-list {
+  html body .footer-affiliation-list {
     justify-content: flex-start !important;
   }
 }
 
 @media (max-width: 720px) {
-  html body:has(.hero) .site-footer {
+  html body .site-footer {
     padding-top: 3rem !important;
   }
 
-  html body:has(.hero) .footer-grid {
+  html body .footer-grid {
     grid-template-columns: 1fr !important;
     border-radius: 22px !important;
   }
 
-  html body:has(.hero) .footer-brand,
-  html body:has(.hero) .footer-col {
+  html body .footer-brand,
+  html body .footer-col {
     min-height: auto !important;
   }
 
-  html body:has(.hero) .footer-bottom {
+  html body .footer-bottom {
     flex-direction: column !important;
   }
 }
