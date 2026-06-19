@@ -49,6 +49,7 @@
     if (!target?.slug) return '';
     if (target._type === 'service' || target._type === 'market') return `../pages/${target.slug}.html`;
     if (target._type === 'blogPost') return `../html/${target.slug}.html`;
+    if (target._type === 'page' && target.slug.startsWith('project-')) return `../pages/${target.slug}.html`;
     return target.slug === 'index' ? '../html/index.html' : `../html/${target.slug}.html`;
   }
 
