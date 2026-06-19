@@ -11,7 +11,7 @@ import {author} from './documents/author'
 import {seo} from './objects/seo'
 import {hero} from './objects/hero'
 import {cta} from './objects/cta'
-import {textBlock, imageBlock, imageTextBlock, specList, faqBlock} from './objects/contentBlocks'
+import {textBlock, imageBlock, imageTextBlock, specList, cardGrid, ctaBlock, faqBlock} from './objects/contentBlocks'
 import {navigationItem, navigationChild} from './objects/navigationItem'
 
 export const schemaTypes = [
@@ -32,6 +32,8 @@ export const schemaTypes = [
   imageBlock,
   imageTextBlock,
   specList,
+  cardGrid,
+  ctaBlock,
   faqBlock,
   navigationItem,
   navigationChild
