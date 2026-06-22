@@ -28,6 +28,7 @@ function renderAudaciousFooter() {
             <a href="../pages/lasersnijden.html">Lasersnijden</a>
             <a href="../pages/kanten.html">Kanten</a>
             <a href="../pages/lassen.html">Lassen</a>
+            <a href="../pages/cleanroom-verpakken.html">Cleanroom verpakken</a>
             <a href="../pages/assembleren.html">Assemblage</a>
           </div>
           <div class="footer-col">
@@ -42,7 +43,7 @@ function renderAudaciousFooter() {
             <div class="footer-affiliation-list"><span>Kenteq</span><span>Metaalunie</span><span>OOM</span><span>NEVAT</span><span>FDP</span></div>
           </div>
         </div>
-        <div class="footer-bottom"><span>© 2026 Audacious Sheet Metal International B.V.</span><span>Plaatbewerking · CAD/CAM · CNC-machinepark · assemblage</span></div>
+        <div class="footer-bottom"><span>© 2026 Audacious Sheet Metal International B.V.</span><span>Plaatbewerking · CAD/CAM · CNC-machinepark · cleanroom verpakken · assemblage</span></div>
       </div>
     </footer>
   `;
@@ -68,9 +69,29 @@ function ensureProofLayout() {
   document.head.appendChild(proofStyle);
 }
 
+function normalizeAudaciousLinks() {
+  const replacements = new Map([
+    ['../pages/werkzaamheden.html', '../html/werkzaamheden.html'],
+    ['../pages/markten-en-diensten.html', '../html/markten.html'],
+    ['../pages/markten.html', '../html/markten.html'],
+    ['../pages/projecten.html', '../html/projecten.html'],
+    ['../pages/over-ons.html', '../html/over-ons.html'],
+    ['../pages/contact.html', '../html/contact.html'],
+    ['../html/producten.html', '../html/projecten.html'],
+    ['producten.html', 'projecten.html'],
+    ['#contact', '../html/contact.html']
+  ]);
+
+  document.querySelectorAll('a[href]').forEach((link) => {
+    const href = link.getAttribute('href');
+    if (replacements.has(href)) link.setAttribute('href', replacements.get(href));
+  });
+}
+
 ensureAudaciousFooterStyles();
 ensureAudaciousFooter();
 ensureProofLayout();
+normalizeAudaciousLinks();
 
 const sidebarNavStyles = document.createElement('link');
 sidebarNavStyles.rel = 'stylesheet';
@@ -93,11 +114,11 @@ serviceSliderStyles.href = '../css/service-slider.css';
 document.head.appendChild(serviceSliderStyles);
 
 const navMap = {
-  '#werkzaamheden': '../pages/werkzaamheden.html',
-  '#markten': '../pages/markten-en-diensten.html',
-  '#projecten': '../pages/projecten.html',
-  '#over-ons': '../pages/over-ons.html',
-  '#contact': '../pages/contact.html'
+  '#werkzaamheden': '../html/werkzaamheden.html',
+  '#markten': '../html/markten.html',
+  '#projecten': '../html/projecten.html',
+  '#over-ons': '../html/over-ons.html',
+  '#contact': '../html/contact.html'
 };
 
 document.querySelectorAll('nav a[href]').forEach(link => {
@@ -113,19 +134,19 @@ if (heroActions && !document.querySelector('.hero-proof')) {
   const proof = document.createElement('div');
   proof.className = 'hero-proof';
 
-  const stars = document.createElement('div');
-  stars.className = 'hero-proof-stars';
-  stars.textContent = '5/5';
+  const label = document.createElement('div');
+  label.className = 'hero-proof-stars';
+  label.textContent = 'Keten';
 
   const copy = document.createElement('div');
   const title = document.createElement('strong');
-  title.textContent = 'Productiepartner voor industriele OEM bedrijven';
+  title.textContent = 'Ketenregisseur';
   const text = document.createElement('span');
-  text.textContent = 'Engineering, plaatbewerking, lassen en assemblage';
+  text.textContent = 'Plaatwerk, constructiewerk, cleanroom verpakken, assemblage en vaste partners in één keten';
 
   copy.appendChild(title);
   copy.appendChild(text);
-  proof.appendChild(stars);
+  proof.appendChild(label);
   proof.appendChild(copy);
   heroActions.insertAdjacentElement('afterend', proof);
 }
@@ -138,40 +159,16 @@ if (servicesSection && !document.querySelector('.aud-services-slider')) {
   slider.innerHTML = `
     <div class="aud-services-sticky">
       <div class="aud-services-track">
-        <article class="aud-service-slide is-active" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 62% center;">
-          <div class="aud-service-content">
-            <div>
-              <p class="aud-service-eyebrow">Werkzaamheden</p>
-              <h2 class="aud-service-title">Kanten</h2>
-              <p class="aud-service-description">CNC-zetten en buigen van plaatwerkdelen met controle op maatvoering, radius en reproduceerbaarheid.</p>
-              <a class="aud-service-button" href="../pages/kanten.html">Meer lezen</a>
-            </div>
-            <div class="aud-service-meta"><div class="aud-service-counter">01/07</div><div class="aud-service-dots"></div></div>
-          </div>
-        </article>
-        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 50% center;">
-          <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Lasersnijden</h2><p class="aud-service-description">Strakke contouren en nauwkeurige uitslagen in staal, RVS en aluminium, voorbereid voor vervolgbewerkingen.</p><a class="aud-service-button" href="../pages/lasersnijden.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">02/07</div><div class="aud-service-dots"></div></div></div>
-        </article>
-        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 70% center;">
-          <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Lassen</h2><p class="aud-service-description">MIG/MAG en TIG-laswerk voor plaatwerkconstructies, frames, behuizingen en samengestelde onderdelen.</p><a class="aud-service-button" href="../pages/lassen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">03/07</div><div class="aud-service-dots"></div></div></div>
-        </article>
-        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 44% center;">
-          <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Walsen</h2><p class="aud-service-description">Rondingen, radiusdelen en gevormde plaatwerkcomponenten voor technische constructies en modules.</p><a class="aud-service-button" href="../pages/walsen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">04/07</div><div class="aud-service-dots"></div></div></div>
-        </article>
-        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 58% center;">
-          <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Persen</h2><p class="aud-service-description">Vorm- en persbewerkingen voor plaatwerkdelen waarbij passing, functionaliteit en herhaalbaarheid leidend zijn.</p><a class="aud-service-button" href="../pages/persen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">05/07</div><div class="aud-service-dots"></div></div></div>
-        </article>
-        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 66% center;">
-          <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Oppervlaktebehandeling</h2><p class="aud-service-description">Coordinatie van poedercoaten, verzinken, beitsen, passiveren en andere afwerkingen via vaste partners.</p><a class="aud-service-button" href="../pages/oppervlaktebehandelingen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">06/07</div><div class="aud-service-dots"></div></div></div>
-        </article>
-        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 55% center;">
-          <div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Assembleren</h2><p class="aud-service-description">Van losse plaatwerkdelen naar complete samenstellingen, submodules en montageklare producten.</p><a class="aud-service-button" href="../pages/assembleren.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">07/07</div><div class="aud-service-dots"></div></div></div>
-        </article>
+        <article class="aud-service-slide is-active" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 62% center;"><div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Kanten</h2><p class="aud-service-description">CNC-zetten en buigen van plaatwerkdelen met controle op maatvoering, radius en reproduceerbaarheid.</p><a class="aud-service-button" href="../pages/kanten.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">01/08</div><div class="aud-service-dots"></div></div></div></article>
+        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 50% center;"><div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Lasersnijden</h2><p class="aud-service-description">Strakke contouren en nauwkeurige uitslagen in staal, RVS en aluminium, voorbereid voor vervolgbewerkingen.</p><a class="aud-service-button" href="../pages/lasersnijden.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">02/08</div><div class="aud-service-dots"></div></div></div></article>
+        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 70% center;"><div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Lassen</h2><p class="aud-service-description">MIG/MAG en TIG-laswerk voor plaatwerkconstructies, frames, behuizingen en samengestelde onderdelen.</p><a class="aud-service-button" href="../pages/lassen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">03/08</div><div class="aud-service-dots"></div></div></div></article>
+        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 44% center;"><div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Walsen</h2><p class="aud-service-description">Rondingen, radiusdelen en gevormde plaatwerkcomponenten voor technische constructies en modules.</p><a class="aud-service-button" href="../pages/walsen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">04/08</div><div class="aud-service-dots"></div></div></div></article>
+        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 58% center;"><div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Persen</h2><p class="aud-service-description">Vorm- en persbewerkingen voor plaatwerkdelen waarbij passing, functionaliteit en herhaalbaarheid leidend zijn.</p><a class="aud-service-button" href="../pages/persen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">05/08</div><div class="aud-service-dots"></div></div></div></article>
+        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 66% center;"><div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Oppervlaktebehandeling</h2><p class="aud-service-description">Coördinatie van poedercoaten, verzinken, beitsen, passiveren en andere afwerkingen via vaste partners.</p><a class="aud-service-button" href="../pages/oppervlaktebehandelingen.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">06/08</div><div class="aud-service-dots"></div></div></div></article>
+        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 55% center;"><div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Assembleren</h2><p class="aud-service-description">Van losse plaatwerkdelen naar complete samenstellingen, submodules en montageklare producten.</p><a class="aud-service-button" href="../pages/assembleren.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">07/08</div><div class="aud-service-dots"></div></div></div></article>
+        <article class="aud-service-slide" style="--slide-bg: url('../assets/hero-press-brake.jpeg'); --slide-pos: 60% center;"><div class="aud-service-content"><div><p class="aud-service-eyebrow">Werkzaamheden</p><h2 class="aud-service-title">Cleanroom verpakken</h2><p class="aud-service-description">Reinigen, controleren en verpakken van onderdelen volgens de gevraagde specificatie, zodat producten schoon en beschermd aankomen.</p><a class="aud-service-button" href="../pages/cleanroom-verpakken.html">Meer lezen</a></div><div class="aud-service-meta"><div class="aud-service-counter">08/08</div><div class="aud-service-dots"></div></div></div></article>
       </div>
-      <div class="aud-service-controls" aria-label="Slider controls">
-        <button class="aud-service-control" type="button" data-direction="prev" aria-label="Vorige service">←</button>
-        <button class="aud-service-control" type="button" data-direction="next" aria-label="Volgende service">→</button>
-      </div>
+      <div class="aud-service-controls" aria-label="Slider controls"><button class="aud-service-control" type="button" data-direction="prev" aria-label="Vorige service">←</button><button class="aud-service-control" type="button" data-direction="next" aria-label="Volgende service">→</button></div>
     </div>
   `;
   servicesSection.replaceWith(slider);
@@ -203,7 +200,6 @@ function initServiceSlider() {
   });
 
   let activeIndex = 0;
-
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
   const setActive = (index) => {
@@ -277,13 +273,8 @@ function initMaterialsSlider() {
     next.disabled = track.scrollLeft >= maxScroll;
   };
 
-  prev.addEventListener('click', () => {
-    track.scrollBy({ left: -getStep(), behavior: 'smooth' });
-  });
-
-  next.addEventListener('click', () => {
-    track.scrollBy({ left: getStep(), behavior: 'smooth' });
-  });
+  prev.addEventListener('click', () => track.scrollBy({ left: -getStep(), behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left: getStep(), behavior: 'smooth' }));
 
   let isDragging = false;
   let startX = 0;
@@ -318,27 +309,18 @@ function initMaterialsSlider() {
   track.addEventListener('pointerup', stopDragging);
   track.addEventListener('pointercancel', stopDragging);
   track.addEventListener('lostpointercapture', stopDragging);
-
-  track.addEventListener('scroll', () => {
-    window.requestAnimationFrame(updateButtons);
-  }, { passive: true });
-
+  track.addEventListener('scroll', () => window.requestAnimationFrame(updateButtons), { passive: true });
   window.addEventListener('resize', updateButtons);
   updateButtons();
 }
 
 initMaterialsSlider();
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  },
-  { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-);
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
@@ -346,12 +328,10 @@ document.querySelectorAll('.faq-question').forEach(btn => {
   btn.addEventListener('click', () => {
     const item = btn.closest('.faq-item');
     const isOpen = item.classList.contains('open');
-
     document.querySelectorAll('.faq-item.open').forEach(openItem => {
       openItem.classList.remove('open');
       openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
     });
-
     if (!isOpen) {
       item.classList.add('open');
       btn.setAttribute('aria-expanded', 'true');
@@ -368,3 +348,6 @@ window.addEventListener('scroll', () => {
 const style = document.createElement('style');
 style.textContent = '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.materials-controls button:disabled{opacity:.35;cursor:not-allowed;transform:none;background:#f3f1ed;color:#11110f}.materials-track{cursor:grab;user-select:none}.materials-track.is-dragging{cursor:grabbing;scroll-behavior:auto}.materials-track.is-dragging *{pointer-events:none}';
 document.head.appendChild(style);
+
+window.addEventListener('load', normalizeAudaciousLinks);
+window.setTimeout(normalizeAudaciousLinks, 600);
