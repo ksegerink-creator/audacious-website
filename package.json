@@ -10,7 +10,8 @@
     "sanity:import": "sanity dataset import sanity/seed/audacious-seed.ndjson production --replace",
     "sanity:update-copy": "sanity exec sanity/scripts/update-seo-copy.mjs --with-user-token",
     "sanity:seed-pages": "sanity exec sanity/scripts/seed-page-documents.mjs --with-user-token && sanity exec sanity/scripts/patch-news-items-content.mjs --with-user-token",
-    "sanity:patch-news": "sanity exec sanity/scripts/patch-news-items-content.mjs --with-user-token"
+    "sanity:patch-news": "sanity exec sanity/scripts/patch-news-items-content.mjs --with-user-token",
+    "sanity:patch-livegang": "sanity exec sanity/scripts/patch-livegang-fixes.mjs --with-user-token"
   },
   "dependencies": {
     "@sanity/vision": "^4.0.0",
