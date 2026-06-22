@@ -9,22 +9,61 @@ function applyAudaciousLivegangFixes() {
     if (element) element.innerHTML = value;
   };
 
-  const normalizeLinks = () => {
-    const replacements = new Map([
-      ['../pages/werkzaamheden.html', '../html/werkzaamheden.html'],
-      ['../pages/markten-en-diensten.html', '../html/markten.html'],
-      ['../pages/markten.html', '../html/markten.html'],
-      ['../pages/projecten.html', '../html/projecten.html'],
-      ['../pages/over-ons.html', '../html/over-ons.html'],
-      ['../pages/contact.html', '../html/contact.html'],
-      ['../html/producten.html', '../html/projecten.html'],
-      ['producten.html', 'projecten.html'],
-      ['../pages/producten.html', '../html/projecten.html']
-    ]);
+  const normalizeHref = (href) => {
+    if (!href) return href;
+    return href
+      .replace('../pages/werkzaamheden.html', '../html/werkzaamheden.html')
+      .replace('../pages/markten-en-diensten.html', '../html/markten.html')
+      .replace('../pages/markten.html', '../html/markten.html')
+      .replace('../pages/projecten.html', '../html/projecten.html')
+      .replace('../pages/over-ons.html', '../html/over-ons.html')
+      .replace('../pages/contact.html', '../html/contact.html')
+      .replace('../html/producten.html', '../html/projecten.html')
+      .replace('../pages/producten.html', '../html/projecten.html')
+      .replace('producten.html', 'projecten.html')
+      .replace('blog.html', 'nieuws.html')
+      .replace('blog-detail.html', 'nieuws.html');
+  };
 
+  const normalizeLinks = () => {
     document.querySelectorAll('a[href]').forEach((link) => {
       const href = link.getAttribute('href');
-      if (replacements.has(href)) link.setAttribute('href', replacements.get(href));
+      const normalized = normalizeHref(href);
+      if (normalized && normalized !== href) link.setAttribute('href', normalized);
+      if (link.textContent.trim() === 'Hero') link.remove();
+      if (link.textContent.trim() === 'Producten') link.textContent = 'Projecten';
+      if (link.textContent.trim() === 'Offerte aanvragen') link.textContent = 'Contact';
+    });
+  };
+
+  const replaceTextNodes = () => {
+    const replacements = [
+      [/Inttelligent/g, 'Intelligent'],
+      [/Voor intelligent\s*plaatwerk\.?/gi, 'Voor intelligent en gedurfd plaatwerk.'],
+      [/Van jobber naar ketenregisseur/gi, 'Ketenregisseur'],
+      [/\bSCM\b/g, 'Keten'],
+      [/Einsteinstraat 7, 6902 PB Zevenaar, Nederland/g, 'Mega 16, 6902 KL Zevenaar'],
+      [/Einsteinstraat 7/g, 'Mega 16'],
+      [/6902 PB Zevenaar/g, '6902 KL Zevenaar']
+    ];
+
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: (node) => {
+        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const parent = node.parentElement;
+        if (!parent || ['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT', 'SELECT'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach((node) => {
+      let text = node.nodeValue;
+      replacements.forEach(([pattern, replacement]) => {
+        text = text.replace(pattern, replacement);
+      });
+      node.nodeValue = text;
     });
   };
 
@@ -38,14 +77,6 @@ function applyAudaciousLivegangFixes() {
     setText('.hero-proof-stars', 'Keten');
     setText('.hero-proof strong', 'Ketenregisseur');
     setText('.hero-proof span', 'Plaatwerk, constructiewerk, cleanroom verpakken, assemblage en vaste partners in één keten');
-
-    document.querySelectorAll('.hero-proof, .hero-micro, .footer-brand, .footer-bottom').forEach((element) => {
-      element.innerHTML = element.innerHTML
-        .replace(/SCM/g, 'Keten')
-        .replace(/Van jobber naar ketenregisseur/g, 'Ketenregisseur')
-        .replace(/Inttelligent/g, 'Intelligent')
-        .replace(/Voor intelligent\s*plaatwerk\.?/gi, 'Voor intelligent en gedurfd plaatwerk.');
-    });
   };
 
   const ensureCleanroomLinks = () => {
@@ -74,9 +105,33 @@ function applyAudaciousLivegangFixes() {
     }
   };
 
+  const removeContactCmsIntro = () => {
+    const isContactPage = window.location.pathname.endsWith('/contact.html') || document.querySelector('[data-audacious-contact-form]');
+    if (!isContactPage) return;
+    document.querySelectorAll('.cms-rendered-section').forEach((section) => {
+      const text = section.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+      if (text.includes('intro') || text.includes('contact')) section.remove();
+    });
+  };
+
+  const normalizeFooter = () => {
+    document.querySelectorAll('.footer-brand p').forEach((paragraph) => {
+      if (!paragraph.textContent.trim() || paragraph.textContent.includes('Voor intelligent')) {
+        paragraph.textContent = 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.';
+      }
+    });
+
+    document.querySelectorAll('.footer-bottom span:last-child').forEach((span) => {
+      span.textContent = 'Plaatbewerking · CAD/CAM · CNC-machinepark · cleanroom verpakken · assemblage';
+    });
+  };
+
   normalizeLinks();
+  replaceTextNodes();
   applyHomeCopy();
   ensureCleanroomLinks();
+  removeContactCmsIntro();
+  normalizeFooter();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -84,10 +139,12 @@ window.addEventListener('DOMContentLoaded', () => {
   window.setTimeout(applyAudaciousLivegangFixes, 250);
   window.setTimeout(applyAudaciousLivegangFixes, 900);
   window.setTimeout(applyAudaciousLivegangFixes, 1800);
+  window.setTimeout(applyAudaciousLivegangFixes, 3000);
 });
 
 window.addEventListener('load', () => {
   applyAudaciousLivegangFixes();
   window.setTimeout(applyAudaciousLivegangFixes, 500);
   window.setTimeout(applyAudaciousLivegangFixes, 1500);
+  window.setTimeout(applyAudaciousLivegangFixes, 3500);
 });
