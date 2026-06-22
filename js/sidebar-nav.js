@@ -17,9 +17,19 @@ function loadSanityPageImages() {
   document.head.appendChild(script);
 }
 
+function loadLivegangFixes() {
+  if (document.querySelector('script[data-livegang-fixes]')) return;
+  const script = document.createElement('script');
+  script.src = '../js/livegang-fixes.js';
+  script.defer = true;
+  script.dataset.livegangFixes = 'true';
+  document.head.appendChild(script);
+}
+
 function initSidebarNavigation() {
   loadLogoNavigationStyles();
   loadSanityPageImages();
+  loadLivegangFixes();
 
   const nav = document.querySelector('nav');
   if (!nav || nav.dataset.sidebarReady === 'true') return;
@@ -41,18 +51,18 @@ function initSidebarNavigation() {
   ];
 
   const werkzaamhedenLinks = [
-    { label: 'Kanten', href: `${pagesPrefix}kanten.html` },
     { label: 'Lasersnijden', href: `${pagesPrefix}lasersnijden.html` },
-    { label: 'Lassen', href: `${pagesPrefix}lassen.html` },
+    { label: 'Kanten', href: `${pagesPrefix}kanten.html` },
     { label: 'Walsen', href: `${pagesPrefix}walsen.html` },
     { label: 'Persen', href: `${pagesPrefix}persen.html` },
+    { label: 'Lassen', href: `${pagesPrefix}lassen.html` },
     { label: 'Oppervlaktebehandeling', href: `${pagesPrefix}oppervlaktebehandelingen.html` },
-    { label: 'Assembleren', href: `${pagesPrefix}assembleren.html` }
+    { label: 'Cleanroom verpakken', href: `${pagesPrefix}cleanroom-verpakken.html` },
+    { label: 'Assemblage', href: `${pagesPrefix}assembleren.html` }
   ];
 
   const projectLinks = [
-    { label: 'Projecten', href: `${htmlPrefix}projecten.html` },
-    { label: 'Productgroepen', href: `${htmlPrefix}producten.html` },
+    { label: 'Alle projecten', href: `${htmlPrefix}projecten.html` },
     { label: 'Markten', href: `${htmlPrefix}markten.html` }
   ];
 
@@ -67,10 +77,23 @@ function initSidebarNavigation() {
 
   const getChildrenForLabel = (label) => {
     if (label === 'Productievoorbereiding') return prepLinks;
-    if (label === 'Werkzaamheden') return werkzaamhedenLinks;
+    if (label === 'Werkzaamheden' || label === 'Bewerkingen') return werkzaamhedenLinks;
     if (label === 'Projecten') return projectLinks;
     if (label === 'Nieuws') return newsLinks;
     return [];
+  };
+
+  const normalizeHref = (href) => {
+    if (!href) return '#';
+    return href
+      .replace('../pages/werkzaamheden.html', '../html/werkzaamheden.html')
+      .replace('../pages/projecten.html', '../html/projecten.html')
+      .replace('../pages/over-ons.html', '../html/over-ons.html')
+      .replace('../pages/contact.html', '../html/contact.html')
+      .replace('../html/producten.html', '../html/projecten.html')
+      .replace('producten.html', 'projecten.html')
+      .replace('blog.html', 'nieuws.html')
+      .replace('blog-detail.html', 'nieuws.html');
   };
 
   const items = [
@@ -78,34 +101,32 @@ function initSidebarNavigation() {
     ...existingLinks
       .map((link) => {
         let label = link.textContent.trim();
-        let href = link.getAttribute('href') || '#';
+        let href = normalizeHref(link.getAttribute('href') || '#');
 
-        if (label === 'Blog') {
-          label = 'Nieuws';
-          href = 'nieuws.html';
+        if (label === 'Blog') label = 'Nieuws';
+        if (label === 'Offerte aanvragen') label = 'Contact';
+        if (label === 'Producten') {
+          label = 'Projecten';
+          href = 'projecten.html';
         }
 
-        if (href.includes('blog.html') || href.includes('blog-detail.html')) {
-          href = 'nieuws.html';
-        }
-
-        if (inPagesFolder && href && !href.startsWith('../') && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+        if (inPagesFolder && href && !href.startsWith('../') && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:') && !href.startsWith('#')) {
           href = `${htmlPrefix}${href}`;
         }
 
         return {
           label,
-          href,
+          href: normalizeHref(href),
           cta: link.classList.contains('nav-cta'),
           children: getChildrenForLabel(label)
         };
       })
-      .filter((item) => item.label !== 'Blog')
+      .filter((item) => item.label !== 'Blog' && item.label !== 'Producten')
   ];
 
   if (!items.some((item) => item.label === 'Nieuws')) {
     const newsItem = { label: 'Nieuws', href: `${htmlPrefix}nieuws.html`, children: newsLinks };
-    const contactIndex = items.findIndex((item) => item.label === 'Offerte aanvragen' || item.label === 'Contact');
+    const contactIndex = items.findIndex((item) => item.label === 'Contact');
     const insertIndex = contactIndex > -1 ? contactIndex : items.length;
     items.splice(insertIndex, 0, newsItem);
   }
@@ -147,7 +168,7 @@ function initSidebarNavigation() {
           const file = getFile(item.href) || 'index.html';
           const childActive = item.children && item.children.some((child) => getFile(child.href) === currentFile && (!getHash(child.href) || getHash(child.href) === currentHash));
           const active = file === currentFile || childActive || (currentFile === '' && file === 'index.html');
-          return `<div class="sidebar-item"><a class="sidebar-link${active ? ' is-active' : ''}${item.children && item.children.length ? ' has-sub' : ''}" href="${item.href}"><span class="sidebar-num">${String(index + 1).padStart(2, '0')}</span><span class="sidebar-label">${item.label.replace('Offerte aanvragen', 'Contact')}</span><span class="sidebar-arrow">→</span></a>${renderSubLinks(item.children)}</div>`;
+          return `<div class="sidebar-item"><a class="sidebar-link${active ? ' is-active' : ''}${item.children && item.children.length ? ' has-sub' : ''}" href="${item.href}"><span class="sidebar-num">${String(index + 1).padStart(2, '0')}</span><span class="sidebar-label">${item.label}</span><span class="sidebar-arrow">→</span></a>${renderSubLinks(item.children)}</div>`;
         }).join('')}
       </div>
       <div class="sidebar-foot">
@@ -187,4 +208,5 @@ function initSidebarNavigation() {
 window.addEventListener('DOMContentLoaded', initSidebarNavigation);
 loadLogoNavigationStyles();
 loadSanityPageImages();
+loadLivegangFixes();
 initSidebarNavigation();
