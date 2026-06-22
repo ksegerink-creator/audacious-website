@@ -1,4 +1,8 @@
 function applyAudaciousLivegangFixes() {
+  const CONTACT_ANCHOR = '../html/contact.html#offerte-aanvragen';
+  const CONTACT_ANCHOR_SAME_PAGE = '#offerte-aanvragen';
+  const ADDRESS = 'Mega 16, 6902 KL Zevenaar';
+
   const setText = (selector, value, root = document) => {
     const element = root.querySelector(selector);
     if (element) element.textContent = value;
@@ -9,6 +13,9 @@ function applyAudaciousLivegangFixes() {
     if (element) element.innerHTML = value;
   };
 
+  const isContactPage = () => window.location.pathname.endsWith('/contact.html') || Boolean(document.querySelector('[data-audacious-contact-form]'));
+  const quoteHref = () => isContactPage() ? CONTACT_ANCHOR_SAME_PAGE : CONTACT_ANCHOR;
+
   const normalizeHref = (href) => {
     if (!href) return href;
     return href
@@ -18,6 +25,8 @@ function applyAudaciousLivegangFixes() {
       .replace('../pages/projecten.html', '../html/projecten.html')
       .replace('../pages/over-ons.html', '../html/over-ons.html')
       .replace('../pages/contact.html', '../html/contact.html')
+      .replace('../html/contact.html#contact', '../html/contact.html#offerte-aanvragen')
+      .replace('contact.html#contact', 'contact.html#offerte-aanvragen')
       .replace('../html/producten.html', '../html/projecten.html')
       .replace('../pages/producten.html', '../html/projecten.html')
       .replace('producten.html', 'projecten.html')
@@ -27,12 +36,19 @@ function applyAudaciousLivegangFixes() {
 
   const normalizeLinks = () => {
     document.querySelectorAll('a[href]').forEach((link) => {
-      const href = link.getAttribute('href');
-      const normalized = normalizeHref(href);
-      if (normalized && normalized !== href) link.setAttribute('href', normalized);
+      const originalHref = link.getAttribute('href');
+      let href = normalizeHref(originalHref);
+      const label = link.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+      const isQuoteLink = link.classList.contains('nav-cta') || label.includes('offerte') || label.includes('aanvraag starten') || label.includes('contact opnemen');
+
+      if (isQuoteLink && !href?.startsWith('mailto:') && !href?.startsWith('tel:')) {
+        href = quoteHref();
+        if (link.classList.contains('nav-cta')) link.textContent = 'Offerte aanvragen';
+      }
+
+      if (href && href !== originalHref) link.setAttribute('href', href);
       if (link.textContent.trim() === 'Hero') link.remove();
       if (link.textContent.trim() === 'Producten') link.textContent = 'Projecten';
-      if (link.textContent.trim() === 'Offerte aanvragen') link.textContent = 'Contact';
     });
   };
 
@@ -42,9 +58,10 @@ function applyAudaciousLivegangFixes() {
       [/Voor intelligent\s*plaatwerk\.?/gi, 'Voor intelligent en gedurfd plaatwerk.'],
       [/Van jobber naar ketenregisseur/gi, 'Ketenregisseur'],
       [/\bSCM\b/g, 'Keten'],
-      [/Einsteinstraat 7, 6902 PB Zevenaar, Nederland/g, 'Mega 16, 6902 KL Zevenaar'],
+      [/Einsteinstraat 7, 6902 PB Zevenaar, Nederland/g, ADDRESS],
       [/Einsteinstraat 7/g, 'Mega 16'],
-      [/6902 PB Zevenaar/g, '6902 KL Zevenaar']
+      [/6902 PB Zevenaar/g, '6902 KL Zevenaar'],
+      [/Mega 16, 6902 KL Zevenaar, Nederland/g, ADDRESS]
     ];
 
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
@@ -79,6 +96,47 @@ function applyAudaciousLivegangFixes() {
     setText('.hero-proof span', 'Plaatwerk, constructiewerk, cleanroom verpakken, assemblage en vaste partners in één keten');
   };
 
+  const forceAddress = () => {
+    document.querySelectorAll('.footer-col, .sidebar-contact, .contact-info-list, .page-panel-list, .technical-list, .simple-footer').forEach((section) => {
+      if (!section.textContent.toLowerCase().includes('zevenaar') && !section.textContent.toLowerCase().includes('adres')) return;
+      section.querySelectorAll('span, strong, p, a').forEach((element) => {
+        const text = element.textContent.replace(/\s+/g, ' ').trim();
+        if (/einsteinstraat|6902 pb|mega 16|6902 kl|zevenaar/i.test(text) && !/@/.test(text) && !/0316|\+31|kvk|btw|iban/i.test(text)) {
+          element.textContent = ADDRESS;
+        }
+      });
+    });
+
+    document.querySelectorAll('.footer-col:nth-child(4) span, .sidebar-contact span, .simple-footer span:last-child').forEach((element) => {
+      element.textContent = ADDRESS;
+    });
+
+    document.querySelectorAll('.page-panel-row').forEach((row) => {
+      const label = row.querySelector('span')?.textContent.trim().toLowerCase();
+      if (label === 'adres') {
+        const value = row.querySelector('strong');
+        if (value) value.textContent = ADDRESS;
+      }
+    });
+  };
+
+  const ensureContactFormAnchor = () => {
+    const section = document.querySelector('.contact-form-section') || document.querySelector('[data-audacious-contact-form]')?.closest('section');
+    if (!section) return;
+    section.id = 'offerte-aanvragen';
+    const form = section.querySelector('[data-audacious-contact-form]');
+    if (form) {
+      form.setAttribute('action', 'mailto:info@audacious.com');
+      form.setAttribute('method', 'post');
+      form.setAttribute('enctype', 'text/plain');
+    }
+
+    if (window.location.hash === '#offerte-aanvragen' && !section.dataset.scrolledToQuote) {
+      section.dataset.scrolledToQuote = 'true';
+      window.setTimeout(() => section.scrollIntoView({behavior: 'smooth', block: 'start'}), 180);
+    }
+  };
+
   const ensureCleanroomLinks = () => {
     const footerWork = document.querySelector('.footer-col:nth-child(3)');
     if (footerWork && !footerWork.textContent.toLowerCase().includes('cleanroom')) {
@@ -106,8 +164,7 @@ function applyAudaciousLivegangFixes() {
   };
 
   const removeContactCmsIntro = () => {
-    const isContactPage = window.location.pathname.endsWith('/contact.html') || document.querySelector('[data-audacious-contact-form]');
-    if (!isContactPage) return;
+    if (!isContactPage()) return;
     document.querySelectorAll('.cms-rendered-section').forEach((section) => {
       const text = section.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
       if (text.includes('intro') || text.includes('contact')) section.remove();
@@ -129,9 +186,11 @@ function applyAudaciousLivegangFixes() {
   normalizeLinks();
   replaceTextNodes();
   applyHomeCopy();
+  ensureContactFormAnchor();
   ensureCleanroomLinks();
   removeContactCmsIntro();
   normalizeFooter();
+  forceAddress();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
