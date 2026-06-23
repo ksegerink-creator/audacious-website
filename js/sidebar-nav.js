@@ -35,14 +35,69 @@ function initSidebarNavigation() {
   if (!nav || nav.dataset.sidebarReady === 'true') return;
   nav.dataset.sidebarReady = 'true';
 
-  const existingLinks = Array.from(nav.querySelectorAll('.nav-links a'));
-  const logo = nav.querySelector('.nav-logo');
-  const homeHref = logo ? logo.getAttribute('href') || 'index.html' : 'index.html';
   const currentFile = window.location.pathname.split('/').pop() || 'index.html';
   const currentHash = window.location.hash || '';
   const inPagesFolder = window.location.pathname.includes('/pages/');
   const htmlPrefix = inPagesFolder ? '../html/' : '';
   const pagesPrefix = inPagesFolder ? '' : '../pages/';
+
+  const logo = nav.querySelector('.nav-logo');
+  const homeHref = `${htmlPrefix}index.html`;
+  if (logo) logo.setAttribute('href', homeHref);
+
+  const werkzaamhedenFiles = [
+    'werkzaamheden.html',
+    'lasersnijden.html',
+    'kanten.html',
+    'lassen.html',
+    'cleanroom-verpakken.html',
+    'assembleren.html'
+  ];
+  const projectFiles = [
+    'projecten.html',
+    'project-food-frame.html',
+    'project-plaatwerk-behuizingen.html',
+    'project-rontgenarm.html',
+    'project-verpakkingsframes.html',
+    'project-behuizing.html',
+    'project-schuifdeuren.html',
+    'project-transportwagen-kooi.html'
+  ];
+  const nieuwsFiles = [
+    'nieuws.html',
+    'nieuws-iso-9001-vervolg.html',
+    'nieuws-vervanging-klein-transport.html',
+    'nieuws-nieuwe-glasparel-straalcabine.html',
+    'nieuws-grotere-stikstoftank.html',
+    'nieuws-nieuwe-afzuiging-nedermann.html'
+  ];
+
+  const isActivePrimary = (key) => {
+    if (key === 'productievoorbereiding') return ['productievoorbereiding.html', 'engineering.html', 'materialen.html'].includes(currentFile);
+    if (key === 'werkzaamheden') return werkzaamhedenFiles.includes(currentFile);
+    if (key === 'projecten') return projectFiles.includes(currentFile);
+    if (key === 'nieuws') return nieuwsFiles.includes(currentFile);
+    if (key === 'contact') return currentFile === 'contact.html';
+    return false;
+  };
+
+  const primaryLinks = [
+    { key: 'productievoorbereiding', label: 'Productievoorbereiding', href: `${htmlPrefix}productievoorbereiding.html` },
+    { key: 'werkzaamheden', label: 'Werkzaamheden', href: `${htmlPrefix}werkzaamheden.html` },
+    { key: 'projecten', label: 'Projecten', href: `${htmlPrefix}projecten.html` },
+    { key: 'nieuws', label: 'Nieuws', href: `${htmlPrefix}nieuws.html` },
+    { key: 'contact', label: 'Offerte aanvragen', href: `${htmlPrefix}contact.html`, cta: true }
+  ];
+
+  const navLinks = nav.querySelector('.nav-links');
+  if (navLinks) {
+    navLinks.innerHTML = primaryLinks.map((item) => {
+      const classes = [isActivePrimary(item.key) ? 'is-active' : '', item.cta ? 'nav-cta' : ''].filter(Boolean).join(' ');
+      return `<li><a${classes ? ` class="${classes}"` : ''} href="${item.href}">${item.label}</a></li>`;
+    }).join('');
+  }
+
+  const existingLinks = Array.from(nav.querySelectorAll('.nav-links a'));
 
   const prepLinks = [
     { label: 'Productievoorbereiding', href: `${htmlPrefix}productievoorbereiding.html` },
@@ -53,17 +108,20 @@ function initSidebarNavigation() {
   const werkzaamhedenLinks = [
     { label: 'Lasersnijden', href: `${pagesPrefix}lasersnijden.html` },
     { label: 'Kanten', href: `${pagesPrefix}kanten.html` },
-    { label: 'Walsen', href: `${pagesPrefix}walsen.html` },
-    { label: 'Persen', href: `${pagesPrefix}persen.html` },
     { label: 'Lassen', href: `${pagesPrefix}lassen.html` },
-    { label: 'Oppervlaktebehandeling', href: `${pagesPrefix}oppervlaktebehandelingen.html` },
     { label: 'Cleanroom verpakken', href: `${pagesPrefix}cleanroom-verpakken.html` },
     { label: 'Assemblage', href: `${pagesPrefix}assembleren.html` }
   ];
 
   const projectLinks = [
     { label: 'Alle projecten', href: `${htmlPrefix}projecten.html` },
-    { label: 'Markten', href: `${htmlPrefix}markten.html` }
+    { label: 'Food-industrie frame', href: `${pagesPrefix}project-food-frame.html` },
+    { label: 'Plaatwerkbehuizingen', href: `${pagesPrefix}project-plaatwerk-behuizingen.html` },
+    { label: 'Röntgenarm', href: `${pagesPrefix}project-rontgenarm.html` },
+    { label: 'Verpakkingsframes', href: `${pagesPrefix}project-verpakkingsframes.html` },
+    { label: 'Behuizing', href: `${pagesPrefix}project-behuizing.html` },
+    { label: 'Schuifdeuren', href: `${pagesPrefix}project-schuifdeuren.html` },
+    { label: 'Transportwagen en kooi', href: `${pagesPrefix}project-transportwagen-kooi.html` }
   ];
 
   const newsLinks = [
@@ -97,7 +155,7 @@ function initSidebarNavigation() {
   };
 
   const items = [
-    { label: 'Home', href: inPagesFolder ? '../html/index.html' : homeHref.includes('index.html') ? homeHref : 'index.html' },
+    { label: 'Home', href: homeHref },
     ...existingLinks
       .map((link) => {
         let label = link.textContent.trim();
@@ -107,7 +165,7 @@ function initSidebarNavigation() {
         if (label === 'Offerte aanvragen') label = 'Contact';
         if (label === 'Producten') {
           label = 'Projecten';
-          href = 'projecten.html';
+          href = `${htmlPrefix}projecten.html`;
         }
 
         if (inPagesFolder && href && !href.startsWith('../') && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:') && !href.startsWith('#')) {
@@ -123,13 +181,6 @@ function initSidebarNavigation() {
       })
       .filter((item) => item.label !== 'Blog' && item.label !== 'Producten')
   ];
-
-  if (!items.some((item) => item.label === 'Nieuws')) {
-    const newsItem = { label: 'Nieuws', href: `${htmlPrefix}nieuws.html`, children: newsLinks };
-    const contactIndex = items.findIndex((item) => item.label === 'Contact');
-    const insertIndex = contactIndex > -1 ? contactIndex : items.length;
-    items.splice(insertIndex, 0, newsItem);
-  }
 
   const toggle = document.createElement('button');
   toggle.type = 'button';
