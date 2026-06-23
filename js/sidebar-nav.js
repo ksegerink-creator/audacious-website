@@ -69,11 +69,26 @@ function initSidebarNavigation() {
     ['nieuws-vervanging-klein-transport.html', '/nieuws/vervanging-klein-transport'],
     ['nieuws-nieuwe-glasparel-straalcabine.html', '/nieuws/nieuwe-glasparel-straalcabine'],
     ['nieuws-grotere-stikstoftank.html', '/nieuws/grotere-stikstoftank'],
-    ['nieuws-nieuwe-afzuiging-nedermann.html', '/nieuws/nieuwe-afzuiging-nedermann']
+    ['nieuws-nieuwe-afzuiging-nedermann.html', '/nieuws/nieuwe-afzuiging-nedermann'],
+    ['halfgeleiderindustrie.html', '/halfgeleiderindustrie'],
+    ['medische-industrie.html', '/medische-industrie'],
+    ['voedingsmiddelenindustrie.html', '/voedingsmiddelenindustrie'],
+    ['drank-zuivelindustrie.html', '/drank-zuivelindustrie'],
+    ['verpakkingsindustrie.html', '/verpakkingsindustrie'],
+    ['bouw-meubelindustrie.html', '/bouw-meubelindustrie']
   ]);
 
   const fileName = window.location.pathname.split('/').pop() || 'index.html';
   const activePath = cleanMap.get(fileName) || pathname;
+  const marketPaths = [
+    '/markten-en-diensten',
+    '/halfgeleiderindustrie',
+    '/medische-industrie',
+    '/voedingsmiddelenindustrie',
+    '/drank-zuivelindustrie',
+    '/verpakkingsindustrie',
+    '/bouw-meubelindustrie'
+  ];
 
   const logo = nav.querySelector('.nav-logo');
   if (logo) logo.setAttribute('href', '/');
@@ -100,7 +115,8 @@ function initSidebarNavigation() {
     { label: 'Persen', href: '/persen' },
     { label: 'Lassen', href: '/lassen' },
     { label: 'Oppervlaktebehandelingen', href: '/oppervlaktebehandelingen' },
-    { label: 'Assembleren', href: '/assembleren' }
+    { label: 'Assembleren', href: '/assembleren' },
+    { label: 'Cleanroom verpakken', href: '/cleanroom-verpakken' }
   ];
 
   const overOnsLinks = [
@@ -121,7 +137,7 @@ function initSidebarNavigation() {
     if (item.key === 'werkzaamheden') return ['/werkzaamheden', '/lasersnijden', '/kanten', '/walsen', '/persen', '/lassen', '/oppervlaktebehandelingen', '/assembleren', '/cleanroom-verpakken'].includes(activePath);
     if (item.key === 'projecten') return activePath === '/projecten' || activePath.startsWith('/projecten/');
     if (item.key === 'nieuws') return activePath === '/nieuws' || activePath.startsWith('/nieuws/');
-    if (item.key === 'over-ons') return ['/over-ons', '/markten-en-diensten', '/werken-bij-audacious'].includes(activePath);
+    if (item.key === 'over-ons') return ['/over-ons', '/werken-bij-audacious'].includes(activePath) || marketPaths.includes(activePath);
     if (item.key === 'contact') return activePath === '/contact';
     return false;
   };
@@ -170,7 +186,7 @@ function initSidebarNavigation() {
       <div class="sidebar-list">
         ${items.map((item, index) => {
           const childActive = item.children && item.children.some((child) => child.href === activePath);
-          const active = item.href === activePath || childActive || (item.href === '/projecten' && activePath.startsWith('/projecten/')) || (item.href === '/nieuws' && activePath.startsWith('/nieuws/'));
+          const active = item.href === activePath || childActive || (item.href === '/projecten' && activePath.startsWith('/projecten/')) || (item.href === '/nieuws' && activePath.startsWith('/nieuws/')) || (item.href === '/over-ons' && marketPaths.includes(activePath));
           return `<div class="sidebar-item"><a class="sidebar-link${active ? ' is-active' : ''}${item.children && item.children.length ? ' has-sub' : ''}" href="${item.href}"><span class="sidebar-num">${String(index + 1).padStart(2, '0')}</span><span class="sidebar-label">${item.label}</span><span class="sidebar-arrow">→</span></a>${renderSubLinks(item.children)}</div>`;
         }).join('')}
       </div>
