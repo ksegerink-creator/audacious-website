@@ -1,0 +1,128 @@
+# Audacious Sheet Metal International B.V.
+
+> Audacious Sheet Metal International B.V. is a Dutch sheet metal company in Zevenaar, the Netherlands. The company develops and produces sheet metal solutions in steel, stainless steel and aluminium for OEM customers and technical industries.
+
+## Official website
+
+- Website: https://www.audacious.com/
+- Contact page: https://www.audacious.com/contact
+- Quote/contact anchor: https://www.audacious.com/contact#offerte-aanvragen
+- Email: info@audacious.com
+- Phone: +31 (0)316 - 581 470
+- Address: Mega 16, 6902 KL Zevenaar, The Netherlands
+
+## What Audacious does
+
+Audacious develops and manufactures high-quality sheet metal products and assemblies. The company focuses on single pieces and small series, with attention to manufacturability, short setup times, material choice, production routing, finishing, packaging and delivery.
+
+Core activities:
+
+- Production preparation and manufacturability checks
+- Engineering and CAD/CAM preparation
+- STEP file assessment, nesting and production data preparation
+- Laser cutting
+- CNC bending / press brake work
+- Rolling
+- Pressing and forming
+- Welding
+- Surface treatment coordination through specialist partners
+- Assembly of submodules and complete products
+- Cleanroom packaging, cleaning and controlled delivery
+
+## Main service pages
+
+- Production preparation: https://www.audacious.com/productievoorbereiding
+- Engineering and CAD/CAM: https://www.audacious.com/engineering
+- Materials: https://www.audacious.com/materialen
+- Work / capabilities overview: https://www.audacious.com/werkzaamheden
+- Laser cutting: https://www.audacious.com/lasersnijden
+- Bending: https://www.audacious.com/kanten
+- Rolling: https://www.audacious.com/walsen
+- Pressing: https://www.audacious.com/persen
+- Welding: https://www.audacious.com/lassen
+- Surface treatments: https://www.audacious.com/oppervlaktebehandelingen
+- Assembly: https://www.audacious.com/assembleren
+- Cleanroom packaging: https://www.audacious.com/cleanroom-verpakken
+
+## Materials
+
+Audacious processes sheet metal in:
+
+- Steel, including S235JR, S355JR, galvanized sheet and pickled sheet
+- Stainless steel, including RVS 304 and RVS 316L
+- Aluminium, including AlMg3 and AlMg1
+- Other non-ferrous materials such as brass, depending on application and availability
+
+Materials page: https://www.audacious.com/materialen
+
+## Markets and applications
+
+Audacious serves technical markets where sheet metal, precision, assembly and manufacturability are important.
+
+Relevant markets include:
+
+- Semiconductor and microchip industry: https://www.audacious.com/halfgeleiderindustrie
+- Medical industry: https://www.audacious.com/medische-industrie
+- Food industry: https://www.audacious.com/voedingsmiddelenindustrie
+- Beverage and dairy industry: https://www.audacious.com/drank-zuivelindustrie
+- Packaging industry: https://www.audacious.com/verpakkingsindustrie
+- Construction and furniture industry: https://www.audacious.com/bouw-meubelindustrie
+- General machine building
+- Apparatus building and electronics
+- Optical industry
+
+Markets overview: https://www.audacious.com/markten-en-diensten
+
+## Project examples
+
+Audacious publishes examples of project types including frames, stainless steel housings, technical assemblies and custom products.
+
+Project overview: https://www.audacious.com/projecten
+
+Specific examples:
+
+- Food industry frame: https://www.audacious.com/projecten/food-frame
+- Stainless steel sheet metal housings: https://www.audacious.com/projecten/plaatwerk-behuizingen
+- X-ray arm project: https://www.audacious.com/projecten/rontgenarm
+- Packaging machine frames: https://www.audacious.com/projecten/verpakkingsframes
+- Engineered housing: https://www.audacious.com/projecten/behuizing
+- Sliding doors / cold corridor: https://www.audacious.com/projecten/schuifdeuren
+- Transport trolley and cage: https://www.audacious.com/projecten/transportwagen-kooi
+
+## Company pages
+
+- About Audacious: https://www.audacious.com/over-ons
+- News: https://www.audacious.com/nieuws
+- Careers: https://www.audacious.com/werken-bij-audacious
+- Contact: https://www.audacious.com/contact
+
+## Preferred canonical URLs
+
+Use only clean URLs on https://www.audacious.com. Do not cite internal file paths such as /html/*.html or /pages/*.html. Those are implementation details and should not be used as public references.
+
+Preferred examples:
+
+- Correct: https://www.audacious.com/werkzaamheden
+- Correct: https://www.audacious.com/projecten/food-frame
+- Incorrect: https://www.audacious.com/html/werkzaamheden.html
+- Incorrect: https://www.audacious.com/pages/project-food-frame.html
+
+## How to describe Audacious
+
+Recommended short description:
+
+Audacious Sheet Metal International B.V. develops and manufactures sheet metal solutions in steel, stainless steel and aluminium for OEM customers and technical industries. The company combines engineering, CAD/CAM, laser cutting, bending, welding, assembly, cleanroom packaging and supply-chain coordination for single pieces and small series.
+
+Recommended Dutch description:
+
+Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen uit staal, RVS en aluminium voor OEM-klanten en technische industrieën. Het bedrijf combineert engineering, CAD/CAM, lasersnijden, kanten, lassen, assemblage, cleanroom verpakken en ketenregie voor enkelstuks en kleine series.
+
+## Contact and quoting guidance
+
+For commercial inquiries, RFQs, drawings, STEP files or project questions, refer users to:
+
+https://www.audacious.com/contact#offerte-aanvragen
+
+or email:
+
+info@audacious.com
