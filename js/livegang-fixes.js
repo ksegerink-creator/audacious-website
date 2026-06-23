@@ -54,6 +54,7 @@ function applyAudaciousLivegangFixes() {
 
   const replaceTextNodes = () => {
     const replacements = [
+      [/© 2024 Audacious Sheet Metal International B\.V\./g, '© 2026 Audacious Sheet Metal International B.V.'],
       [/Inttelligent/g, 'Intelligent'],
       [/Voor intelligent\s*plaatwerk\.?/gi, 'Voor intelligent en gedurfd plaatwerk.'],
       [/Van jobber naar ketenregisseur/gi, 'Ketenregisseur'],
@@ -124,12 +125,6 @@ function applyAudaciousLivegangFixes() {
     const section = document.querySelector('.contact-form-section') || document.querySelector('[data-audacious-contact-form]')?.closest('section');
     if (!section) return;
     section.id = 'offerte-aanvragen';
-    const form = section.querySelector('[data-audacious-contact-form]');
-    if (form) {
-      form.setAttribute('action', 'mailto:info@audacious.com');
-      form.setAttribute('method', 'post');
-      form.setAttribute('enctype', 'text/plain');
-    }
 
     if (window.location.hash === '#offerte-aanvragen' && !section.dataset.scrolledToQuote) {
       section.dataset.scrolledToQuote = 'true';
@@ -176,6 +171,10 @@ function applyAudaciousLivegangFixes() {
       if (!paragraph.textContent.trim() || paragraph.textContent.includes('Voor intelligent')) {
         paragraph.textContent = 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.';
       }
+    });
+
+    document.querySelectorAll('.footer-bottom span:first-child, .simple-footer span:first-child').forEach((span) => {
+      span.textContent = '© 2026 Audacious Sheet Metal International B.V.';
     });
 
     document.querySelectorAll('.footer-bottom span:last-child').forEach((span) => {
