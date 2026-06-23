@@ -7,25 +7,9 @@ function initAudaciousContactForm() {
   const section = form.closest('section');
   if (section) section.id = 'offerte-aanvragen';
 
-  const endpoint = 'https://api.web3forms.com/submit';
-  const accessKey = 'a0e257fd-aba3-435f-8217-91a7cfbc6bae';
-  const maxSingleFileSize = 2 * 1024 * 1024;
-  const maxTotalFileSize = 2 * 1024 * 1024;
-
-  const ensureHiddenField = (name, value) => {
-    let input = form.querySelector(`input[name="${name}"]`);
-    if (!input) {
-      input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = name;
-      form.prepend(input);
-    }
-    if (!input.value) input.value = value;
-  };
-
-  ensureHiddenField('access_key', accessKey);
-  ensureHiddenField('subject', 'Nieuwe aanvraag via Audacious.com');
-  ensureHiddenField('from_name', 'Audacious website');
+  const endpoint = '/api/contact';
+  const maxSingleFileSize = 4 * 1024 * 1024;
+  const maxTotalFileSize = 4 * 1024 * 1024;
 
   let status = form.querySelector('[data-form-status]');
   if (!status) {
@@ -74,51 +58,35 @@ function initAudaciousContactForm() {
 
     const tooLarge = selectedFiles.find(({file}) => file.size > maxSingleFileSize);
     if (tooLarge) {
-      setStatus(`Bestand "${tooLarge.file.name}" is ${formatSize(tooLarge.file.size)}. Upload maximaal 2 MB via het formulier, of mail grotere bestanden direct naar info@audacious.com.`, 'error');
+      setStatus(`Bestand "${tooLarge.file.name}" is ${formatSize(tooLarge.file.size)}. Upload maximaal 4 MB per aanvraag.`, 'error');
       return false;
     }
 
     const totalSize = selectedFiles.reduce((sum, item) => sum + item.file.size, 0);
     if (totalSize > maxTotalFileSize) {
-      setStatus(`De geselecteerde bestanden zijn samen ${formatSize(totalSize)}. Upload maximaal 2 MB via het formulier, of mail grotere bestanden direct naar info@audacious.com.`, 'error');
+      setStatus(`De geselecteerde bestanden zijn samen ${formatSize(totalSize)}. Upload maximaal 4 MB per aanvraag.`, 'error');
       return false;
     }
 
     return true;
   };
 
-  const buildFallbackFileNote = () => {
-    const selectedFiles = getSelectedFiles();
-    if (!selectedFiles.length) return '';
-    return selectedFiles.map(({file}) => `${file.name} (${formatSize(file.size)})`).join(', ');
-  };
-
-  const buildFormData = ({includeFiles = true} = {}) => {
+  const buildFormData = () => {
     const formData = new FormData();
     getFields().forEach((field) => {
       if (!field.name || field.disabled) return;
       if ((field.type === 'checkbox' || field.type === 'radio') && !field.checked) return;
 
       if (field.type === 'file') {
-        if (includeFiles) {
-          Array.from(field.files || []).forEach((file) => {
-            formData.append(field.name, file, file.name);
-          });
-        }
+        Array.from(field.files || []).forEach((file) => {
+          formData.append(field.name, file, file.name);
+        });
         return;
       }
 
       formData.append(field.name, field.value);
     });
 
-    const fileNote = buildFallbackFileNote();
-    if (!includeFiles && fileNote) {
-      formData.append('bijlage_opmerking', `Bestanden geselecteerd maar niet meegestuurd door de browser/API: ${fileNote}. Neem contact op met de aanvrager voor de bestanden.`);
-    }
-
-    formData.set('access_key', accessKey);
-    formData.set('subject', 'Nieuwe aanvraag via Audacious.com');
-    formData.set('from_name', 'Audacious website');
     formData.append('page_url', window.location.href);
     return formData;
   };
@@ -158,8 +126,6 @@ function initAudaciousContactForm() {
       return;
     }
 
-    const selectedFiles = getSelectedFiles();
-
     if (submitButton) {
       submitButton.disabled = true;
       submitButton.textContent = 'Verzenden...';
@@ -168,26 +134,12 @@ function initAudaciousContactForm() {
     setStatus('', 'idle');
 
     try {
-      await postFormData(buildFormData({includeFiles: true}));
+      await postFormData(buildFormData());
       resetFields();
-      setStatus('Bedankt. Uw aanvraag is verzonden naar Audacious.', 'success');
+      setStatus('Bedankt. Uw aanvraag en eventuele bijlage zijn verzonden naar Audacious.', 'success');
     } catch (error) {
       console.error('Audacious contactformulier:', error);
-
-      if (selectedFiles.length) {
-        try {
-          await postFormData(buildFormData({includeFiles: false}));
-          resetFields();
-          setStatus('Uw aanvraag is verzonden. De bijlage is niet meegestuurd; mail het bestand apart naar info@audacious.com onder vermelding van uw naam.', 'success');
-          return;
-        } catch (fallbackError) {
-          console.error('Audacious contactformulier fallback:', fallbackError);
-          setStatus(`Verzenden is niet gelukt. Foutmelding: ${fallbackError.message || error.message || 'onbekend'}. Mail direct naar info@audacious.com.`, 'error');
-          return;
-        }
-      }
-
-      setStatus(`Verzenden is niet gelukt. Foutmelding: ${error.message || 'onbekend'}. Mail direct naar info@audacious.com.`, 'error');
+      setStatus(`Verzenden is niet gelukt. Foutmelding: ${error.message || 'onbekend'}.`, 'error');
     } finally {
       if (submitButton) {
         submitButton.disabled = false;
