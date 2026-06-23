@@ -8,6 +8,7 @@
     { "source": "/html/materialen.html", "destination": "/materialen", "permanent": true },
     { "source": "/html/werkzaamheden.html", "destination": "/werkzaamheden", "permanent": true },
     { "source": "/html/projecten.html", "destination": "/projecten", "permanent": true },
+    { "source": "/html/producten.html", "destination": "/projecten", "permanent": true },
     { "source": "/html/nieuws.html", "destination": "/nieuws", "permanent": true },
     { "source": "/html/over-ons.html", "destination": "/over-ons", "permanent": true },
     { "source": "/html/markten.html", "destination": "/markten-en-diensten", "permanent": true },
@@ -32,7 +33,13 @@
     { "source": "/html/nieuws-vervanging-klein-transport.html", "destination": "/nieuws/vervanging-klein-transport", "permanent": true },
     { "source": "/html/nieuws-nieuwe-glasparel-straalcabine.html", "destination": "/nieuws/nieuwe-glasparel-straalcabine", "permanent": true },
     { "source": "/html/nieuws-grotere-stikstoftank.html", "destination": "/nieuws/grotere-stikstoftank", "permanent": true },
-    { "source": "/html/nieuws-nieuwe-afzuiging-nedermann.html", "destination": "/nieuws/nieuwe-afzuiging-nedermann", "permanent": true }
+    { "source": "/html/nieuws-nieuwe-afzuiging-nedermann.html", "destination": "/nieuws/nieuwe-afzuiging-nedermann", "permanent": true },
+    { "source": "/pages/halfgeleiderindustrie.html", "destination": "/halfgeleiderindustrie", "permanent": true },
+    { "source": "/pages/medische-industrie.html", "destination": "/medische-industrie", "permanent": true },
+    { "source": "/pages/voedingsmiddelenindustrie.html", "destination": "/voedingsmiddelenindustrie", "permanent": true },
+    { "source": "/pages/drank-zuivelindustrie.html", "destination": "/drank-zuivelindustrie", "permanent": true },
+    { "source": "/pages/verpakkingsindustrie.html", "destination": "/verpakkingsindustrie", "permanent": true },
+    { "source": "/pages/bouw-meubelindustrie.html", "destination": "/bouw-meubelindustrie", "permanent": true }
   ],
   "rewrites": [
     { "source": "/", "destination": "/html/index.html" },
@@ -65,6 +72,12 @@
     { "source": "/nieuws/vervanging-klein-transport", "destination": "/html/nieuws-vervanging-klein-transport.html" },
     { "source": "/nieuws/nieuwe-glasparel-straalcabine", "destination": "/html/nieuws-nieuwe-glasparel-straalcabine.html" },
     { "source": "/nieuws/grotere-stikstoftank", "destination": "/html/nieuws-grotere-stikstoftank.html" },
-    { "source": "/nieuws/nieuwe-afzuiging-nedermann", "destination": "/html/nieuws-nieuwe-afzuiging-nedermann.html" }
+    { "source": "/nieuws/nieuwe-afzuiging-nedermann", "destination": "/html/nieuws-nieuwe-afzuiging-nedermann.html" },
+    { "source": "/halfgeleiderindustrie", "destination": "/pages/halfgeleiderindustrie.html" },
+    { "source": "/medische-industrie", "destination": "/pages/medische-industrie.html" },
+    { "source": "/voedingsmiddelenindustrie", "destination": "/pages/voedingsmiddelenindustrie.html" },
+    { "source": "/drank-zuivelindustrie", "destination": "/pages/drank-zuivelindustrie.html" },
+    { "source": "/verpakkingsindustrie", "destination": "/pages/verpakkingsindustrie.html" },
+    { "source": "/bouw-meubelindustrie", "destination": "/pages/bouw-meubelindustrie.html" }
   ]
 }
