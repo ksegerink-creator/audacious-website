@@ -1,0 +1,291 @@
+/* Mobile text safety and overflow guardrails.
+   Purpose: prevent headings, buttons, cards and data rows from being clipped or pushed outside their sections. */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  min-width: 0;
+}
+
+img,
+svg,
+video,
+canvas,
+picture {
+  max-width: 100%;
+  height: auto;
+}
+
+section,
+main,
+header,
+footer,
+nav,
+.container,
+.page-shell,
+.page-hero,
+.page-section,
+.page-cta,
+.site-footer,
+.simple-footer {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+a,
+button,
+strong,
+span,
+li,
+.page-title,
+.hero-title,
+.display-xl,
+.display-lg,
+.display-md,
+.products-title,
+.org-control-title,
+.contact-title,
+.aud-service-title,
+.page-card h3,
+.technical-list h3,
+.sidebar-label {
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+}
+
+.page-title,
+.hero-title,
+.display-xl,
+.display-lg,
+.products-title,
+.org-control-title,
+.contact-title,
+.aud-service-title {
+  padding-bottom: 0.06em;
+}
+
+.btn,
+.page-cta a,
+.contact-button,
+.aud-service-button,
+.nav-menu-toggle,
+.sidebar-link,
+.sidebar-sublink,
+.footer-col a,
+.footer-affiliation-list span {
+  white-space: normal;
+}
+
+.page-card,
+.proof-item,
+.org-roadmap-item,
+.product-line,
+.material-card,
+.contact-panel,
+.footer-brand,
+.footer-col {
+  min-width: 0;
+}
+
+.technical-list article,
+.page-panel-row,
+.contact-info-item,
+.product-line,
+.product-spec-row,
+.page-card-grid,
+.page-spec-strip,
+.contact-checklist-grid {
+  min-width: 0;
+}
+
+.technical-list p,
+.page-card p,
+.product-line-title p,
+.org-roadmap-copy p,
+.contact-copy,
+.page-lead,
+.hero-sub,
+.footer-brand p,
+.footer-col a,
+.footer-col span {
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 900px) {
+  .page-title,
+  .products-title,
+  .org-control-title,
+  .contact-title,
+  .aud-service-title {
+    line-height: 0.98 !important;
+    letter-spacing: -0.065em !important;
+  }
+
+  .page-hero,
+  .hero,
+  .contact-closing,
+  .org-control,
+  .products-ledger,
+  .materials-showcase {
+    overflow-x: clip;
+  }
+}
+
+@media (max-width: 760px) {
+  .container,
+  .page-shell .container,
+  .page-cta .container,
+  .simple-footer .container,
+  .contact-closing .container,
+  .site-footer .container,
+  html body .site-footer .container {
+    width: min(calc(100vw - 1.5rem), 100%) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  nav {
+    max-width: calc(100vw - 1rem) !important;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-top: 7rem;
+    padding-bottom: 4rem;
+  }
+
+  .page-hero {
+    min-height: auto !important;
+    padding-top: 7rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  .hero-title,
+  .display-xl {
+    font-size: clamp(2.35rem, 12vw, 4rem) !important;
+    line-height: 1.06 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  .page-title {
+    font-size: clamp(2.7rem, 14vw, 4.6rem) !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.065em !important;
+  }
+
+  .products-title,
+  .org-control-title,
+  .contact-title,
+  .aud-service-title {
+    font-size: clamp(2.45rem, 12.5vw, 4rem) !important;
+    line-height: 1 !important;
+    letter-spacing: -0.06em !important;
+  }
+
+  .page-section h2,
+  .display-lg,
+  .display-md {
+    line-height: 1.06 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  .hero-actions,
+  .contact-actions,
+  .cta-actions,
+  .not-found-actions {
+    align-items: stretch !important;
+  }
+
+  .hero-actions .btn,
+  .contact-button,
+  .page-cta a,
+  .aud-service-button,
+  .not-found-actions a {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .hero-micro {
+    align-items: flex-start;
+  }
+
+  .page-card,
+  .proof-item,
+  .org-roadmap-item,
+  .product-line,
+  .contact-panel,
+  html body .footer-brand,
+  html body .footer-col {
+    min-height: auto !important;
+  }
+
+  .page-spec-strip span,
+  .contact-checklist-grid span,
+  .product-note-strip span,
+  .product-spec-row span,
+  .footer-affiliation-list span {
+    line-height: 1.35 !important;
+  }
+
+  .sidebar-panel {
+    max-height: calc(100svh - 1rem) !important;
+  }
+
+  .sidebar-list {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+  }
+
+  .sidebar-foot {
+    flex: 0 0 auto !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .nav-logo {
+    min-width: 144px !important;
+  }
+
+  .nav-logo::after {
+    font-size: 0.9rem !important;
+  }
+
+  .nav-menu-toggle {
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+  }
+
+  .hero-badge span,
+  .page-kicker,
+  .products-kicker,
+  .org-control-eyebrow,
+  .contact-kicker {
+    letter-spacing: 0.1em !important;
+  }
+
+  .hero-title,
+  .page-title,
+  .products-title,
+  .org-control-title,
+  .contact-title,
+  .aud-service-title {
+    text-wrap: balance;
+  }
+}
