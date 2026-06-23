@@ -35,6 +35,7 @@
     { "source": "/html/nieuws-nieuwe-afzuiging-nedermann.html", "destination": "/nieuws/nieuwe-afzuiging-nedermann", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/", "destination": "/html/index.html" },
     { "source": "/productievoorbereiding", "destination": "/html/productievoorbereiding.html" },
     { "source": "/engineering", "destination": "/html/engineering.html" },
     { "source": "/materialen", "destination": "/html/materialen.html" },
