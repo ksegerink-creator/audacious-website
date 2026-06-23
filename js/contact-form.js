@@ -7,11 +7,11 @@ function initAudaciousContactForm() {
   const section = form.closest('section');
   if (section) section.id = 'offerte-aanvragen';
 
-  const endpoint = 'https://api.web3forms.com/submit';
+  const endpoint = form.dataset.formEndpoint || 'https://api.web3forms.com/submit';
   const accessKey = 'a0e257fd-aba3-435f-8217-91a7cfbc6bae';
 
-  form.setAttribute('action', endpoint);
   form.setAttribute('method', 'POST');
+  form.setAttribute('autocomplete', 'on');
 
   const ensureHiddenField = (name, value) => {
     let input = form.querySelector(`input[name="${name}"]`);
@@ -57,7 +57,7 @@ function initAudaciousContactForm() {
     }
 
     if (!window.fetch) {
-      form.submit();
+      setStatus('Deze browser ondersteunt verzenden niet goed. Mail direct naar info@audacious.com.', 'error');
       return;
     }
 
