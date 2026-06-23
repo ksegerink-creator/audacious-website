@@ -1,3 +1,5 @@
+@import url('./mobile-safety.css');
+
 html body .site-footer {
   --audacious-mark-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364 320'%3E%3Cpath fill='%23f58220' d='M40 222 0 151 90 0h100L40 222Zm284 0L194 0h100l70 151-40 71ZM52 244h258l-30 76H82l-30-76Z'/%3E%3C/svg%3E");
   position: relative !important;
