@@ -67,10 +67,9 @@
         <div>
           <p class="contact-form-kicker">Aanvraag</p>
           <h2 class="contact-form-title">Stuur uw aanvraag direct door.</h2>
-          <p class="contact-form-intro">Vul de belangrijkste gegevens in. Na verzenden komt de aanvraag rechtstreeks bij Audacious binnen.</p>
+          <p class="contact-form-intro">Vul de belangrijkste gegevens in en voeg desgewenst tekeningen, STEP-bestanden of specificaties toe. Na verzenden komt de aanvraag rechtstreeks bij Audacious binnen.</p>
         </div>
         <div class="audacious-contact-form" role="form" aria-label="Offerteaanvraag Audacious" data-audacious-contact-form>
-          <input type="hidden" name="access_key" value="a0e257fd-aba3-435f-8217-91a7cfbc6bae">
           <input type="hidden" name="subject" value="Nieuwe aanvraag via Audacious.com">
           <input type="hidden" name="from_name" value="Audacious website">
           <input type="checkbox" name="botcheck" tabindex="-1" style="display:none">
@@ -119,9 +118,10 @@
               <label for="contact-planning">Aantal / planning</label>
               <input id="contact-planning" name="aantal_planning" type="text" autocomplete="off" placeholder="Bijv. 20 stuks, levering week 34">
             </div>
-            <div class="contact-field">
-              <label for="contact-attachment">Bestanden</label>
-              <input id="contact-attachment" name="bestanden" type="text" autocomplete="off" placeholder="Bijv. STEP-bestand en PDF-tekening beschikbaar">
+            <div class="contact-field contact-file-field">
+              <label for="contact-attachment">Bestanden uploaden</label>
+              <input id="contact-attachment" name="attachment" type="file" multiple accept=".pdf,.step,.stp,.dxf,.dwg,.zip,.jpg,.jpeg,.png">
+              <span class="contact-file-hint">PDF, STEP/STP, DXF/DWG, ZIP of afbeelding</span>
             </div>
           </div>
 
