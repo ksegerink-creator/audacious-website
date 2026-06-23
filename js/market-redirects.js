@@ -1,11 +1,11 @@
 (function () {
   const redirects = {
-    '#halfgeleiderindustrie': '../pages/halfgeleiderindustrie.html',
-    '#medische-industrie': '../pages/medische-industrie.html',
-    '#voedingsmiddelenindustrie': '../pages/voedingsmiddelenindustrie.html',
-    '#drank-zuivel': '../pages/drank-zuivelindustrie.html',
-    '#verpakkingsindustrie': '../pages/verpakkingsindustrie.html',
-    '#bouw-meubel': '../pages/bouw-meubelindustrie.html'
+    '#halfgeleiderindustrie': '/halfgeleiderindustrie',
+    '#medische-industrie': '/medische-industrie',
+    '#voedingsmiddelenindustrie': '/voedingsmiddelenindustrie',
+    '#drank-zuivel': '/drank-zuivelindustrie',
+    '#verpakkingsindustrie': '/verpakkingsindustrie',
+    '#bouw-meubel': '/bouw-meubelindustrie'
   };
 
   function redirectMarketHash() {
