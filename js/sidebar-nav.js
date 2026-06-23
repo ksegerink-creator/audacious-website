@@ -22,7 +22,6 @@ function loadLivegangFixes() {
   const script = document.createElement('script');
   script.src = '../js/livegang-fixes.js';
   script.defer = true;
-  script.datasetLivegangFixes = 'true';
   script.dataset.livegangFixes = 'true';
   document.head.appendChild(script);
 }
@@ -36,96 +35,78 @@ function initSidebarNavigation() {
   if (!nav || nav.dataset.sidebarReady === 'true') return;
   nav.dataset.sidebarReady = 'true';
 
-  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  const pathname = window.location.pathname.replace(/\/$/, '') || '/';
   const currentHash = window.location.hash || '';
-  const inPagesFolder = window.location.pathname.includes('/pages/');
-  const htmlPrefix = inPagesFolder ? '../html/' : '';
-  const pagesPrefix = inPagesFolder ? '' : '../pages/';
+
+  const cleanMap = new Map([
+    ['index.html', '/'],
+    ['productievoorbereiding.html', '/productievoorbereiding'],
+    ['engineering.html', '/engineering'],
+    ['materialen.html', '/materialen'],
+    ['werkzaamheden.html', '/werkzaamheden'],
+    ['projecten.html', '/projecten'],
+    ['nieuws.html', '/nieuws'],
+    ['over-ons.html', '/over-ons'],
+    ['markten.html', '/markten-en-diensten'],
+    ['werken-bij-audacious.html', '/werken-bij-audacious'],
+    ['contact.html', '/contact'],
+    ['lasersnijden.html', '/lasersnijden'],
+    ['kanten.html', '/kanten'],
+    ['walsen.html', '/walsen'],
+    ['persen.html', '/persen'],
+    ['lassen.html', '/lassen'],
+    ['oppervlaktebehandelingen.html', '/oppervlaktebehandelingen'],
+    ['assembleren.html', '/assembleren'],
+    ['cleanroom-verpakken.html', '/cleanroom-verpakken'],
+    ['project-food-frame.html', '/projecten/food-frame'],
+    ['project-plaatwerk-behuizingen.html', '/projecten/plaatwerk-behuizingen'],
+    ['project-rontgenarm.html', '/projecten/rontgenarm'],
+    ['project-verpakkingsframes.html', '/projecten/verpakkingsframes'],
+    ['project-behuizing.html', '/projecten/behuizing'],
+    ['project-schuifdeuren.html', '/projecten/schuifdeuren'],
+    ['project-transportwagen-kooi.html', '/projecten/transportwagen-kooi'],
+    ['nieuws-iso-9001-vervolg.html', '/nieuws/iso-9001-vervolg'],
+    ['nieuws-vervanging-klein-transport.html', '/nieuws/vervanging-klein-transport'],
+    ['nieuws-nieuwe-glasparel-straalcabine.html', '/nieuws/nieuwe-glasparel-straalcabine'],
+    ['nieuws-grotere-stikstoftank.html', '/nieuws/grotere-stikstoftank'],
+    ['nieuws-nieuwe-afzuiging-nedermann.html', '/nieuws/nieuwe-afzuiging-nedermann']
+  ]);
+
+  const fileName = window.location.pathname.split('/').pop() || 'index.html';
+  const activePath = cleanMap.get(fileName) || pathname;
 
   const logo = nav.querySelector('.nav-logo');
-  const homeHref = `${htmlPrefix}index.html`;
-  if (logo) logo.setAttribute('href', homeHref);
+  if (logo) logo.setAttribute('href', '/');
 
-  const prepFiles = ['productievoorbereiding.html', 'engineering.html', 'materialen.html'];
-  const werkzaamhedenFiles = [
-    'werkzaamheden.html',
-    'lasersnijden.html',
-    'kanten.html',
-    'walsen.html',
-    'persen.html',
-    'lassen.html',
-    'oppervlaktebehandelingen.html',
-    'cleanroom-verpakken.html',
-    'assembleren.html'
+  const primaryLinks = [
+    { key: 'home', label: 'Home', href: '/' },
+    { key: 'productievoorbereiding', label: 'Productievoorbereiding', href: '/productievoorbereiding' },
+    { key: 'werkzaamheden', label: 'Werkzaamheden', href: '/werkzaamheden' },
+    { key: 'projecten', label: 'Projecten', href: '/projecten' },
+    { key: 'nieuws', label: 'Nieuws', href: '/nieuws' },
+    { key: 'over-ons', label: 'Over ons', href: '/over-ons' },
+    { key: 'contact', label: 'Contact', href: '/contact' }
   ];
-  const projectFiles = [
-    'projecten.html',
-    'project-food-frame.html',
-    'project-plaatwerk-behuizingen.html',
-    'project-rontgenarm.html',
-    'project-verpakkingsframes.html',
-    'project-behuizing.html',
-    'project-schuifdeuren.html',
-    'project-transportwagen-kooi.html'
-  ];
-  const nieuwsFiles = [
-    'nieuws.html',
-    'nieuws-iso-9001-vervolg.html',
-    'nieuws-vervanging-klein-transport.html',
-    'nieuws-nieuwe-glasparel-straalcabine.html',
-    'nieuws-grotere-stikstoftank.html',
-    'nieuws-nieuwe-afzuiging-nedermann.html'
-  ];
-  const overOnsFiles = ['over-ons.html', 'markten.html', 'werken-bij-audacious.html'];
 
   const prepLinks = [
-    { label: 'Engineering', href: `${htmlPrefix}engineering.html` },
-    { label: 'Materialen', href: `${htmlPrefix}materialen.html` }
+    { label: 'Engineering', href: '/engineering' },
+    { label: 'Materialen', href: '/materialen' }
   ];
 
   const werkzaamhedenLinks = [
-    { label: 'Lasersnijden', href: `${pagesPrefix}lasersnijden.html` },
-    { label: 'Kanten', href: `${pagesPrefix}kanten.html` },
-    { label: 'Walsen', href: `${pagesPrefix}walsen.html` },
-    { label: 'Persen', href: `${pagesPrefix}persen.html` },
-    { label: 'Lassen', href: `${pagesPrefix}lassen.html` },
-    { label: 'Oppervlaktebehandelingen', href: `${pagesPrefix}oppervlaktebehandelingen.html` },
-    { label: 'Assembleren', href: `${pagesPrefix}assembleren.html` }
+    { label: 'Lasersnijden', href: '/lasersnijden' },
+    { label: 'Kanten', href: '/kanten' },
+    { label: 'Walsen', href: '/walsen' },
+    { label: 'Persen', href: '/persen' },
+    { label: 'Lassen', href: '/lassen' },
+    { label: 'Oppervlaktebehandelingen', href: '/oppervlaktebehandelingen' },
+    { label: 'Assembleren', href: '/assembleren' }
   ];
 
   const overOnsLinks = [
-    { label: 'Markten en Diensten', href: `${htmlPrefix}markten.html` },
-    { label: 'Werken bij Audacious', href: `${htmlPrefix}werken-bij-audacious.html` }
+    { label: 'Markten en Diensten', href: '/markten-en-diensten' },
+    { label: 'Werken bij Audacious', href: '/werken-bij-audacious' }
   ];
-
-  const isActivePrimary = (key) => {
-    if (key === 'home') return currentFile === 'index.html' || currentFile === '';
-    if (key === 'productievoorbereiding') return prepFiles.includes(currentFile);
-    if (key === 'werkzaamheden') return werkzaamhedenFiles.includes(currentFile);
-    if (key === 'projecten') return projectFiles.includes(currentFile);
-    if (key === 'nieuws') return nieuwsFiles.includes(currentFile);
-    if (key === 'over-ons') return overOnsFiles.includes(currentFile);
-    if (key === 'contact') return currentFile === 'contact.html';
-    return false;
-  };
-
-  const primaryLinks = [
-    { key: 'home', label: 'Home', href: homeHref },
-    { key: 'productievoorbereiding', label: 'Productievoorbereiding', href: `${htmlPrefix}productievoorbereiding.html`, children: prepLinks },
-    { key: 'werkzaamheden', label: 'Werkzaamheden', href: `${htmlPrefix}werkzaamheden.html`, children: werkzaamhedenLinks },
-    { key: 'projecten', label: 'Projecten', href: `${htmlPrefix}projecten.html` },
-    { key: 'nieuws', label: 'Nieuws', href: `${htmlPrefix}nieuws.html` },
-    { key: 'over-ons', label: 'Over ons', href: `${htmlPrefix}over-ons.html`, children: overOnsLinks },
-    { key: 'contact', label: 'Contact', href: `${htmlPrefix}contact.html` }
-  ];
-
-  const navLinks = nav.querySelector('.nav-links');
-  if (navLinks) {
-    navLinks.innerHTML = primaryLinks.map((item) => {
-      const classes = [isActivePrimary(item.key) ? 'is-active' : ''].filter(Boolean).join(' ');
-      return `<li><a${classes ? ` class="${classes}"` : ''} href="${item.href}">${item.label}</a></li>`;
-    }).join('');
-  }
 
   const getChildrenForLabel = (label) => {
     if (label === 'Productievoorbereiding') return prepLinks;
@@ -134,22 +115,28 @@ function initSidebarNavigation() {
     return [];
   };
 
-  const normalizeHref = (href) => {
-    if (!href) return '#';
-    return href
-      .replace('../pages/werkzaamheden.html', '../html/werkzaamheden.html')
-      .replace('../pages/projecten.html', '../html/projecten.html')
-      .replace('../pages/over-ons.html', '../html/over-ons.html')
-      .replace('../pages/contact.html', '../html/contact.html')
-      .replace('../html/producten.html', '../html/projecten.html')
-      .replace('producten.html', 'projecten.html')
-      .replace('blog.html', 'nieuws.html')
-      .replace('blog-detail.html', 'nieuws.html');
+  const isActivePrimary = (item) => {
+    if (item.key === 'home') return activePath === '/';
+    if (item.key === 'productievoorbereiding') return ['/productievoorbereiding', '/engineering', '/materialen'].includes(activePath);
+    if (item.key === 'werkzaamheden') return ['/werkzaamheden', '/lasersnijden', '/kanten', '/walsen', '/persen', '/lassen', '/oppervlaktebehandelingen', '/assembleren', '/cleanroom-verpakken'].includes(activePath);
+    if (item.key === 'projecten') return activePath === '/projecten' || activePath.startsWith('/projecten/');
+    if (item.key === 'nieuws') return activePath === '/nieuws' || activePath.startsWith('/nieuws/');
+    if (item.key === 'over-ons') return ['/over-ons', '/markten-en-diensten', '/werken-bij-audacious'].includes(activePath);
+    if (item.key === 'contact') return activePath === '/contact';
+    return false;
   };
+
+  const navLinks = nav.querySelector('.nav-links');
+  if (navLinks) {
+    navLinks.innerHTML = primaryLinks.map((item) => {
+      const classes = [isActivePrimary(item) ? 'is-active' : ''].filter(Boolean).join(' ');
+      return `<li><a${classes ? ` class="${classes}"` : ''} href="${item.href}">${item.label}</a></li>`;
+    }).join('');
+  }
 
   const items = primaryLinks.map((item) => ({
     label: item.label,
-    href: normalizeHref(item.href),
+    href: item.href,
     children: getChildrenForLabel(item.label)
   }));
 
@@ -165,15 +152,10 @@ function initSidebarNavigation() {
   sidebar.className = 'sidebar-menu';
   sidebar.setAttribute('aria-hidden', 'true');
 
-  const getFile = (href) => href.split('/').pop().split('#')[0] || '';
-  const getHash = (href) => href.includes('#') ? `#${href.split('#')[1]}` : '';
-
   const renderSubLinks = (children) => {
     if (!children || !children.length) return '';
     return `<div class="sidebar-sublist">${children.map((child, childIndex) => {
-      const childFile = getFile(child.href);
-      const childHash = getHash(child.href);
-      const active = childFile === currentFile && (!childHash || childHash === currentHash);
+      const active = child.href === activePath && (!child.href.includes('#') || child.href.endsWith(currentHash));
       return `<a class="sidebar-sublink${active ? ' is-active' : ''}" href="${child.href}"><span class="sidebar-subnum">${String(childIndex + 1).padStart(2, '0')}</span><span>${child.label}</span><span class="sidebar-subarrow">→</span></a>`;
     }).join('')}</div>`;
   };
@@ -182,14 +164,13 @@ function initSidebarNavigation() {
     <div class="sidebar-backdrop" data-sidebar-close></div>
     <aside class="sidebar-panel" aria-label="Navigatiemenu">
       <div class="sidebar-head">
-        <a class="sidebar-brand" href="${items[0].href}">Audacious<span>.</span></a>
+        <a class="sidebar-brand" href="/">Audacious<span>.</span></a>
         <button class="sidebar-close" type="button" aria-label="Menu sluiten" data-sidebar-close>×</button>
       </div>
       <div class="sidebar-list">
         ${items.map((item, index) => {
-          const file = getFile(item.href) || 'index.html';
-          const childActive = item.children && item.children.some((child) => getFile(child.href) === currentFile && (!getHash(child.href) || getHash(child.href) === currentHash));
-          const active = file === currentFile || childActive || (currentFile === '' && file === 'index.html');
+          const childActive = item.children && item.children.some((child) => child.href === activePath);
+          const active = item.href === activePath || childActive || (item.href === '/projecten' && activePath.startsWith('/projecten/')) || (item.href === '/nieuws' && activePath.startsWith('/nieuws/'));
           return `<div class="sidebar-item"><a class="sidebar-link${active ? ' is-active' : ''}${item.children && item.children.length ? ' has-sub' : ''}" href="${item.href}"><span class="sidebar-num">${String(index + 1).padStart(2, '0')}</span><span class="sidebar-label">${item.label}</span><span class="sidebar-arrow">→</span></a>${renderSubLinks(item.children)}</div>`;
         }).join('')}
       </div>
