@@ -66,7 +66,28 @@ li,
 .sidebar-label {
   overflow-wrap: break-word;
   word-break: normal;
-  hyphens: auto;
+  hyphens: manual;
+}
+
+.nav-logo,
+.nav-logo::after,
+.nav-links a,
+.nav-menu-toggle,
+.sidebar-label,
+.sidebar-sublink,
+.btn,
+.page-cta a,
+.contact-button,
+.aud-service-button,
+.not-found-actions a,
+.hero-badge span,
+.page-kicker,
+.products-kicker,
+.org-control-eyebrow,
+.contact-kicker {
+  hyphens: none !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
 }
 
 .page-title,
@@ -125,6 +146,13 @@ li,
 .footer-col a,
 .footer-col span {
   overflow-wrap: break-word;
+}
+
+.contact-info-item a,
+.sidebar-contact a,
+.footer-col a[href^="mailto:"] {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 @media (max-width: 900px) {
