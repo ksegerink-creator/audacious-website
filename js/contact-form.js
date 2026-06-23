@@ -7,11 +7,8 @@ function initAudaciousContactForm() {
   const section = form.closest('section');
   if (section) section.id = 'offerte-aanvragen';
 
-  const endpoint = form.dataset.formEndpoint || 'https://api.web3forms.com/submit';
+  const endpoint = 'https://api.web3forms.com/submit';
   const accessKey = 'a0e257fd-aba3-435f-8217-91a7cfbc6bae';
-
-  form.setAttribute('method', 'POST');
-  form.setAttribute('autocomplete', 'on');
 
   const ensureHiddenField = (name, value) => {
     let input = form.querySelector(`input[name="${name}"]`);
@@ -40,21 +37,41 @@ function initAudaciousContactForm() {
     else form.appendChild(status);
   }
 
-  const submitButton = form.querySelector('button[type="submit"]');
+  const submitButton = form.querySelector('[data-contact-submit]');
   const defaultSubmitText = submitButton ? submitButton.textContent : '';
+  const fields = Array.from(form.querySelectorAll('input, select, textarea'));
 
   const setStatus = (message, state) => {
     status.textContent = message;
     status.dataset.state = state || 'idle';
   };
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
+  const validateFields = () => {
+    for (const field of fields) {
+      if (field.type === 'hidden' || field.type === 'checkbox') continue;
+      if (typeof field.checkValidity === 'function' && !field.checkValidity()) {
+        if (typeof field.reportValidity === 'function') field.reportValidity();
+        field.focus();
+        return false;
+      }
     }
+    return true;
+  };
+
+  const buildFormData = () => {
+    const formData = new FormData();
+    fields.forEach((field) => {
+      if (!field.name || field.disabled) return;
+      if ((field.type === 'checkbox' || field.type === 'radio') && !field.checked) return;
+      formData.append(field.name, field.value);
+    });
+    formData.set('access_key', accessKey);
+    formData.append('page_url', window.location.href);
+    return formData;
+  };
+
+  const submitContact = async () => {
+    if (!validateFields()) return;
 
     if (!window.fetch) {
       setStatus('Deze browser ondersteunt verzenden niet goed. Mail direct naar info@audacious.com.', 'error');
@@ -69,12 +86,9 @@ function initAudaciousContactForm() {
     setStatus('', 'idle');
 
     try {
-      const formData = new FormData(form);
-      formData.append('page_url', window.location.href);
-
       const response = await fetch(endpoint, {
         method: 'POST',
-        body: formData,
+        body: buildFormData(),
         headers: {
           Accept: 'application/json'
         }
@@ -86,7 +100,11 @@ function initAudaciousContactForm() {
         throw new Error(result.message || 'Formulier kon niet worden verzonden.');
       }
 
-      form.reset();
+      fields.forEach((field) => {
+        if (field.type === 'hidden' || field.type === 'checkbox') return;
+        if (field.tagName === 'SELECT') field.selectedIndex = 0;
+        else field.value = '';
+      });
       setStatus('Bedankt. Uw aanvraag is verzonden naar Audacious.', 'success');
     } catch (error) {
       console.error('Audacious contactformulier:', error);
@@ -97,6 +115,17 @@ function initAudaciousContactForm() {
         submitButton.textContent = defaultSubmitText;
       }
     }
+  };
+
+  if (submitButton) {
+    submitButton.addEventListener('click', submitContact);
+  }
+
+  form.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+    if (event.target && event.target.tagName === 'TEXTAREA') return;
+    event.preventDefault();
+    submitContact();
   });
 
   if (window.location.hash === '#offerte-aanvragen' && section) {
