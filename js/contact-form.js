@@ -63,6 +63,14 @@ function initAudaciousContactForm() {
     fields.forEach((field) => {
       if (!field.name || field.disabled) return;
       if ((field.type === 'checkbox' || field.type === 'radio') && !field.checked) return;
+
+      if (field.type === 'file') {
+        Array.from(field.files || []).forEach((file) => {
+          formData.append(field.name, file, file.name);
+        });
+        return;
+      }
+
       formData.append(field.name, field.value);
     });
     formData.set('access_key', accessKey);
