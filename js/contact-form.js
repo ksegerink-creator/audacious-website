@@ -7,49 +7,48 @@ function initAudaciousContactForm() {
   const section = form.closest('section');
   if (section) section.id = 'offerte-aanvragen';
 
-  const buildMailto = () => {
-    const data = new FormData(form);
-    const subjectValue = data.get('subject') || 'Aanvraag plaatwerk';
-    const bodyLines = [
-      'Nieuwe aanvraag via audacious.com',
-      '',
-      `Naam: ${data.get('name') || '-'}`,
-      `Bedrijf: ${data.get('company') || '-'}`,
-      `E-mail: ${data.get('email') || '-'}`,
-      `Telefoon: ${data.get('phone') || '-'}`,
-      `Onderwerp: ${subjectValue}`,
-      `Materiaal / bewerking: ${data.get('process') || '-'}`,
-      `Aantal / planning: ${data.get('planning') || '-'}`,
-      `Tekening / STEP-bestand: ${data.get('attachmentNote') || '-'}`,
-      '',
-      'Bericht:',
-      data.get('message') || '-'
-    ];
+  const endpoint = 'https://api.web3forms.com/submit';
+  const accessKey = 'a0e257fd-aba3-435f-8217-91a7cfbc6bae';
 
-    const subject = encodeURIComponent(`Website aanvraag - ${subjectValue}`);
-    const body = encodeURIComponent(bodyLines.join('\n'));
-    return `mailto:info@audacious.com?subject=${subject}&body=${body}`;
-  };
+  form.setAttribute('action', endpoint);
+  form.setAttribute('method', 'POST');
 
-  const showFallback = () => {
-    let notice = form.querySelector('.contact-form-fallback');
-    if (!notice) {
-      notice = document.createElement('p');
-      notice.className = 'contact-form-fallback';
-      notice.style.margin = '0';
-      notice.style.padding = '1rem 1.55rem';
-      notice.style.background = '#fff3e8';
-      notice.style.color = '#11110f';
-      notice.style.fontWeight = '700';
-      notice.style.gridColumn = '1 / -1';
-      const actions = form.querySelector('.contact-form-actions');
-      if (actions) form.insertBefore(notice, actions);
-      else form.appendChild(notice);
+  const ensureHiddenField = (name, value) => {
+    let input = form.querySelector(`input[name="${name}"]`);
+    if (!input) {
+      input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      form.prepend(input);
     }
-    notice.innerHTML = 'Uw mailprogramma wordt geopend. Werkt dat niet? Mail direct naar <a href="mailto:info@audacious.com">info@audacious.com</a>.';
+    if (!input.value) input.value = value;
   };
 
-  form.addEventListener('submit', (event) => {
+  ensureHiddenField('access_key', accessKey);
+  ensureHiddenField('subject', 'Nieuwe aanvraag via Audacious.com');
+  ensureHiddenField('from_name', 'Audacious website');
+
+  let status = form.querySelector('[data-form-status]');
+  if (!status) {
+    status = document.createElement('p');
+    status.className = 'contact-form-status';
+    status.setAttribute('data-form-status', '');
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+    const actions = form.querySelector('.contact-form-actions');
+    if (actions) form.insertBefore(status, actions);
+    else form.appendChild(status);
+  }
+
+  const submitButton = form.querySelector('button[type="submit"]');
+  const defaultSubmitText = submitButton ? submitButton.textContent : '';
+
+  const setStatus = (message, state) => {
+    status.textContent = message;
+    status.dataset.state = state || 'idle';
+  };
+
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     if (!form.checkValidity()) {
@@ -57,9 +56,47 @@ function initAudaciousContactForm() {
       return;
     }
 
-    const mailto = buildMailto();
-    showFallback();
-    window.location.href = mailto;
+    if (!window.fetch) {
+      form.submit();
+      return;
+    }
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Verzenden...';
+    }
+
+    setStatus('', 'idle');
+
+    try {
+      const formData = new FormData(form);
+      formData.append('page_url', window.location.href);
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || 'Formulier kon niet worden verzonden.');
+      }
+
+      form.reset();
+      setStatus('Bedankt. Uw aanvraag is verzonden naar Audacious.', 'success');
+    } catch (error) {
+      console.error('Audacious contactformulier:', error);
+      setStatus('Verzenden is niet gelukt. Mail direct naar info@audacious.com of probeer het opnieuw.', 'error');
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = defaultSubmitText;
+      }
+    }
   });
 
   if (window.location.hash === '#offerte-aanvragen' && section) {
