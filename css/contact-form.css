@@ -112,6 +112,30 @@ body:has([data-audacious-contact-form]) .cms-rendered-section {
   line-height: 1.5;
 }
 
+.contact-form-status {
+  grid-column: 1 / -1;
+  display: none;
+  margin: 0;
+  padding: 1rem clamp(1.1rem, 2.2vw, 1.55rem);
+  background: #fff3e8;
+  color: #11110f;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.contact-form-status[data-state="success"],
+.contact-form-status[data-state="error"] {
+  display: block;
+}
+
+.contact-form-status[data-state="success"] {
+  background: #f3fbef;
+}
+
+.contact-form-status[data-state="error"] {
+  background: #fff3e8;
+}
+
 .contact-form-actions {
   grid-column: 1 / -1;
   display: flex;
@@ -134,12 +158,18 @@ body:has([data-audacious-contact-form]) .cms-rendered-section {
   color: #11110f;
   font-weight: 900;
   cursor: pointer;
-  transition: transform .18s ease, background .18s ease;
+  transition: transform .18s ease, background .18s ease, opacity .18s ease;
 }
 
 .contact-form-submit:hover {
   transform: translateY(-2px);
   background: #ff9638;
+}
+
+.contact-form-submit[disabled] {
+  cursor: wait;
+  opacity: .72;
+  transform: none;
 }
 
 .contact-form-alt {
