@@ -6,6 +6,7 @@
   <url><loc>https://www.audacious.com/materialen</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.audacious.com/werkzaamheden</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.audacious.com/lasersnijden</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.audacious.com/lasergraveren</loc><priority>0.65</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.audacious.com/kanten</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.audacious.com/walsen</loc><priority>0.65</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.audacious.com/persen</loc><priority>0.65</priority><changefreq>monthly</changefreq></url>
