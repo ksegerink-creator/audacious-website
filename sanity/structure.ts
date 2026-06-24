@@ -49,11 +49,11 @@ export const structure: StructureResolver = (S) =>
       singleton(S, 'homePage', 'Homepage aanpassen'),
       S.divider(),
       S.listItem()
-        .title('Pagina’s aanpassen')
+        .title('Paginas aanpassen')
         .schemaType('page')
         .child(
           S.list()
-            .title('Pagina’s aanpassen')
+            .title('Paginas aanpassen')
             .items([
               pageBySlug(S, 'Over ons', 'over-ons'),
               pageBySlug(S, 'Contact', 'contact'),
@@ -94,16 +94,16 @@ export const structure: StructureResolver = (S) =>
             .title('Projecten aanpassen')
             .items([
               pageBySlug(S, 'Projecten overzicht', 'projecten'),
-              S.documentListItem().schemaType('page').title('Food frame').id('page-project-food-frame'),
-              S.documentListItem().schemaType('page').title('Plaatwerk behuizingen').id('page-project-plaatwerk-behuizingen'),
-              S.documentListItem().schemaType('page').title('Röntgenarm').id('page-project-rontgenarm'),
-              S.documentListItem().schemaType('page').title('Verpakkingsframes').id('page-project-verpakkingsframes'),
-              S.documentListItem().schemaType('page').title('Behuizing').id('page-project-behuizing'),
-              S.documentListItem().schemaType('page').title('Schuifdeuren').id('page-project-schuifdeuren'),
-              S.documentListItem().schemaType('page').title('Transportwagen kooi').id('page-project-transportwagen-kooi'),
+              pageBySlug(S, 'Food frame', 'project-food-frame'),
+              pageBySlug(S, 'Plaatwerk behuizingen', 'project-plaatwerk-behuizingen'),
+              pageBySlug(S, 'Rontgenarm', 'project-rontgenarm'),
+              pageBySlug(S, 'Verpakkingsframes', 'project-verpakkingsframes'),
+              pageBySlug(S, 'Behuizing', 'project-behuizing'),
+              pageBySlug(S, 'Schuifdeuren', 'project-schuifdeuren'),
+              pageBySlug(S, 'Transportwagen kooi', 'project-transportwagen-kooi'),
               S.divider(),
               S.documentList()
-                .title('Alle projectpagina’s')
+                .title('Alle projectpaginas')
                 .schemaType('page')
                 .filter('_type == "page" && slug.current match "project-*"')
                 .defaultOrdering([{field: 'title', direction: 'asc'}])
@@ -118,7 +118,7 @@ export const structure: StructureResolver = (S) =>
             .items([
               pageBySlug(S, 'Nieuws overzicht', 'nieuws'),
               S.documentTypeListItem('blogPost').title('Nieuwsitems'),
-              S.documentTypeListItem('blogCategory').title('Categorieën')
+              S.documentTypeListItem('blogCategory').title('Categorieen')
             ])
         ),
       S.listItem()
@@ -132,9 +132,9 @@ export const structure: StructureResolver = (S) =>
               marketBySlug(S, 'Halfgeleiderindustrie', 'halfgeleiderindustrie'),
               marketBySlug(S, 'Medische industrie', 'medische-industrie'),
               marketBySlug(S, 'Voedingsmiddelenindustrie', 'voedingsmiddelenindustrie'),
-              marketBySlug(S, 'Drank- en zuivelindustrie', 'drank-zuivelindustrie'),
+              marketBySlug(S, 'Drank en zuivelindustrie', 'drank-zuivelindustrie'),
               marketBySlug(S, 'Verpakkingsindustrie', 'verpakkingsindustrie'),
-              marketBySlug(S, 'Bouw- en meubelindustrie', 'bouw-meubelindustrie'),
+              marketBySlug(S, 'Bouw en meubelindustrie', 'bouw-meubelindustrie'),
               S.divider(),
               S.documentTypeListItem('market').title('Alle markten')
             ])
@@ -149,7 +149,7 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title('Alles / beheer')
             .items([
-              S.documentTypeListItem('page').title('Alle pagina’s'),
+              S.documentTypeListItem('page').title('Alle paginas'),
               S.documentTypeListItem('service').title('Alle werkzaamheden'),
               S.documentTypeListItem('market').title('Alle markten'),
               S.documentTypeListItem('blogPost').title('Alle nieuwsitems'),
