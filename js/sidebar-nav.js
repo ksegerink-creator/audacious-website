@@ -26,10 +26,20 @@ function loadLivegangFixes() {
   document.head.appendChild(script);
 }
 
+function loadStructuredData() {
+  if (document.querySelector('script[data-structured-data-loader]')) return;
+  const script = document.createElement('script');
+  script.src = '../js/structured-data.js';
+  script.defer = true;
+  script.dataset.structuredDataLoader = 'true';
+  document.head.appendChild(script);
+}
+
 function initSidebarNavigation() {
   loadLogoNavigationStyles();
   loadSanityPageImages();
   loadLivegangFixes();
+  loadStructuredData();
 
   const nav = document.querySelector('nav');
   if (!nav || nav.dataset.sidebarReady === 'true') return;
@@ -228,4 +238,5 @@ window.addEventListener('DOMContentLoaded', initSidebarNavigation);
 loadLogoNavigationStyles();
 loadSanityPageImages();
 loadLivegangFixes();
+loadStructuredData();
 initSidebarNavigation();
