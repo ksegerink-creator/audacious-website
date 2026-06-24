@@ -41,9 +41,18 @@ function imageUrlWithParams(url, width = 1400) {
   return `${url}${separator}auto=format&fit=crop&w=${width}&q=88`;
 }
 
+function ensureIntroImageStyles() {
+  if (document.querySelector('link[href="../css/home-intro-image.css"]')) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = '../css/home-intro-image.css';
+  document.head.appendChild(link);
+}
+
 function applyIntroImage(imageUrl) {
   const visual = document.querySelector('.intro-visual');
   if (!visual || !imageUrl) return;
+  ensureIntroImageStyles();
   visual.classList.add('has-sanity-image');
   visual.setAttribute('aria-hidden', 'false');
   visual.innerHTML = `<img class="intro-visual-photo" src="${imageUrlWithParams(imageUrl)}" alt="" loading="lazy">`;
