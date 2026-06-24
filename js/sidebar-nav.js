@@ -35,6 +35,27 @@ function loadStructuredData() {
   document.head.appendChild(script);
 }
 
+function escapeSidebarText(value) {
+  return String(value || '').replace(/[&<>"']/g, (char) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[char]));
+}
+
+async function fetchSidebarServicesFromSanity() {
+  const projectId = 'wehjzlhm';
+  const dataset = 'production';
+  const apiVersion = '2025-02-19';
+  const query = `*[_type == "service" && defined(slug.current)] | order(coalesce(order, 999) asc, title asc){title,"slug":slug.current,order}`;
+  const endpoint = `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${encodeURIComponent(query)}`;
+  const response = await fetch(endpoint, {cache: 'no-store'});
+  if (!response.ok) throw new Error(`Sanity menu services failed: ${response.status}`);
+  return (await response.json())?.result || [];
+}
+
+function serviceToMenuLink(service) {
+  const slug = String(service?.slug || '').replace(/^\/+/, '');
+  if (!slug || !service?.title) return null;
+  return {label: service.title, href: `/${slug}`};
+}
+
 function initSidebarNavigation() {
   loadLogoNavigationStyles();
   loadSanityPageImages();
@@ -61,6 +82,7 @@ function initSidebarNavigation() {
     ['werken-bij-audacious.html', '/werken-bij-audacious'],
     ['contact.html', '/contact'],
     ['lasersnijden.html', '/lasersnijden'],
+    ['lasergraveren.html', '/lasergraveren'],
     ['kanten.html', '/kanten'],
     ['walsen.html', '/walsen'],
     ['persen.html', '/persen'],
@@ -90,15 +112,7 @@ function initSidebarNavigation() {
 
   const fileName = window.location.pathname.split('/').pop() || 'index.html';
   const activePath = cleanMap.get(fileName) || pathname;
-  const marketPaths = [
-    '/markten-en-diensten',
-    '/halfgeleiderindustrie',
-    '/medische-industrie',
-    '/voedingsmiddelenindustrie',
-    '/drank-zuivelindustrie',
-    '/verpakkingsindustrie',
-    '/bouw-meubelindustrie'
-  ];
+  const marketPaths = ['/markten-en-diensten', '/halfgeleiderindustrie', '/medische-industrie', '/voedingsmiddelenindustrie', '/drank-zuivelindustrie', '/verpakkingsindustrie', '/bouw-meubelindustrie'];
 
   const logo = nav.querySelector('.nav-logo');
   if (logo) logo.setAttribute('href', '/');
@@ -118,15 +132,15 @@ function initSidebarNavigation() {
     { label: 'Materialen', href: '/materialen' }
   ];
 
-  const werkzaamhedenLinks = [
-    { label: 'Lasersnijden', href: '/lasersnijden' },
+  let werkzaamhedenLinks = [
     { label: 'Kanten', href: '/kanten' },
+    { label: 'Lasersnijden', href: '/lasersnijden' },
+    { label: 'Lassen', href: '/lassen' },
     { label: 'Walsen', href: '/walsen' },
     { label: 'Persen', href: '/persen' },
-    { label: 'Lassen', href: '/lassen' },
     { label: 'Oppervlaktebehandelingen', href: '/oppervlaktebehandelingen' },
     { label: 'Assembleren', href: '/assembleren' },
-    { label: 'Cleanroom verpakken', href: '/cleanroom-verpakken' }
+    { label: 'Lasergraveren', href: '/lasergraveren' }
   ];
 
   const overOnsLinks = [
@@ -144,12 +158,20 @@ function initSidebarNavigation() {
   const isActivePrimary = (item) => {
     if (item.key === 'home') return activePath === '/';
     if (item.key === 'productievoorbereiding') return ['/productievoorbereiding', '/engineering', '/materialen'].includes(activePath);
-    if (item.key === 'werkzaamheden') return ['/werkzaamheden', '/lasersnijden', '/kanten', '/walsen', '/persen', '/lassen', '/oppervlaktebehandelingen', '/assembleren', '/cleanroom-verpakken'].includes(activePath);
+    if (item.key === 'werkzaamheden') return activePath === '/werkzaamheden' || werkzaamhedenLinks.some((child) => child.href === activePath) || activePath === '/cleanroom-verpakken';
     if (item.key === 'projecten') return activePath === '/projecten' || activePath.startsWith('/projecten/');
     if (item.key === 'nieuws') return activePath === '/nieuws' || activePath.startsWith('/nieuws/');
     if (item.key === 'over-ons') return ['/over-ons', '/werken-bij-audacious'].includes(activePath) || marketPaths.includes(activePath);
     if (item.key === 'contact') return activePath === '/contact';
     return false;
+  };
+
+  const renderSubLinks = (children) => {
+    if (!children || !children.length) return '';
+    return `<div class="sidebar-sublist">${children.map((child, childIndex) => {
+      const active = child.href === activePath && (!child.href.includes('#') || child.href.endsWith(currentHash));
+      return `<a class="sidebar-sublink${active ? ' is-active' : ''}" href="${escapeSidebarText(child.href)}"><span class="sidebar-subnum">${String(childIndex + 1).padStart(2, '0')}</span><span>${escapeSidebarText(child.label)}</span><span class="sidebar-subarrow">→</span></a>`;
+    }).join('')}</div>`;
   };
 
   const navLinks = nav.querySelector('.nav-links');
@@ -160,11 +182,7 @@ function initSidebarNavigation() {
     }).join('');
   }
 
-  const items = primaryLinks.map((item) => ({
-    label: item.label,
-    href: item.href,
-    children: getChildrenForLabel(item.label)
-  }));
+  const items = primaryLinks.map((item) => ({label: item.label, href: item.href, key: item.key, children: getChildrenForLabel(item.label)}));
 
   const toggle = document.createElement('button');
   toggle.type = 'button';
@@ -178,14 +196,6 @@ function initSidebarNavigation() {
   sidebar.className = 'sidebar-menu';
   sidebar.setAttribute('aria-hidden', 'true');
 
-  const renderSubLinks = (children) => {
-    if (!children || !children.length) return '';
-    return `<div class="sidebar-sublist">${children.map((child, childIndex) => {
-      const active = child.href === activePath && (!child.href.includes('#') || child.href.endsWith(currentHash));
-      return `<a class="sidebar-sublink${active ? ' is-active' : ''}" href="${child.href}"><span class="sidebar-subnum">${String(childIndex + 1).padStart(2, '0')}</span><span>${child.label}</span><span class="sidebar-subarrow">→</span></a>`;
-    }).join('')}</div>`;
-  };
-
   sidebar.innerHTML = `
     <div class="sidebar-backdrop" data-sidebar-close></div>
     <aside class="sidebar-panel" aria-label="Navigatiemenu">
@@ -197,7 +207,7 @@ function initSidebarNavigation() {
         ${items.map((item, index) => {
           const childActive = item.children && item.children.some((child) => child.href === activePath);
           const active = item.href === activePath || childActive || (item.href === '/projecten' && activePath.startsWith('/projecten/')) || (item.href === '/nieuws' && activePath.startsWith('/nieuws/')) || (item.href === '/over-ons' && marketPaths.includes(activePath));
-          return `<div class="sidebar-item"><a class="sidebar-link${active ? ' is-active' : ''}${item.children && item.children.length ? ' has-sub' : ''}" href="${item.href}"><span class="sidebar-num">${String(index + 1).padStart(2, '0')}</span><span class="sidebar-label">${item.label}</span><span class="sidebar-arrow">→</span></a>${renderSubLinks(item.children)}</div>`;
+          return `<div class="sidebar-item" data-sidebar-key="${item.key}"><a class="sidebar-link${active ? ' is-active' : ''}${item.children && item.children.length ? ' has-sub' : ''}" href="${item.href}"><span class="sidebar-num">${String(index + 1).padStart(2, '0')}</span><span class="sidebar-label">${item.label}</span><span class="sidebar-arrow">→</span></a>${renderSubLinks(item.children)}</div>`;
         }).join('')}
       </div>
       <div class="sidebar-foot">
@@ -212,6 +222,22 @@ function initSidebarNavigation() {
   `;
 
   document.body.appendChild(sidebar);
+
+  const updateWerkzaamhedenSubmenu = (children) => {
+    if (!children.length) return;
+    werkzaamhedenLinks = children;
+    const item = sidebar.querySelector('[data-sidebar-key="werkzaamheden"]');
+    if (!item) return;
+    const oldSublist = item.querySelector('.sidebar-sublist');
+    const nextSublist = document.createElement('div');
+    nextSublist.innerHTML = renderSubLinks(children);
+    if (oldSublist) oldSublist.replaceWith(nextSublist.firstElementChild);
+  };
+
+  fetchSidebarServicesFromSanity()
+    .then((services) => services.map(serviceToMenuLink).filter(Boolean))
+    .then(updateWerkzaamhedenSubmenu)
+    .catch((error) => console.warn('Sanity werkzaamheden-menu kon niet geladen worden. Fallback blijft actief.', error));
 
   const openMenu = () => {
     sidebar.classList.add('is-open');
