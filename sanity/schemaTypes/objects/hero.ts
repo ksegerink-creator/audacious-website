@@ -4,44 +4,66 @@ const hideUnlessHomePage = ({document}: {document?: {_type?: string}}) => docume
 
 export const hero = defineType({
   name: 'hero',
-  title: 'Hero',
+  title: 'Bovenste deel van de pagina',
   type: 'object',
   fields: [
-    defineField({name: 'eyebrow', title: 'Eyebrow', type: 'string'}),
-    defineField({name: 'title', title: 'Titel', type: 'string', validation: Rule => Rule.required()}),
-    defineField({name: 'highlight', title: 'Accentwoord', type: 'string'}),
-    defineField({name: 'intro', title: 'Intro', type: 'text', rows: 4}),
+    defineField({
+      name: 'eyebrow',
+      title: 'Kleine oranje tekst boven de titel',
+      type: 'string',
+      description: 'Bijvoorbeeld: WERKZAAMHEDEN, INTRO of AUDACIOUS.'
+    }),
+    defineField({
+      name: 'title',
+      title: 'Grote titel bovenaan',
+      type: 'string',
+      description: 'Dit is de grootste titel bovenaan de pagina.',
+      validation: Rule => Rule.required()
+    }),
+    defineField({
+      name: 'highlight',
+      title: 'Oranje deel van de titel',
+      type: 'string',
+      description: 'Optioneel. Dit tekstdeel wordt als accent/oranje weergegeven.'
+    }),
+    defineField({
+      name: 'intro',
+      title: 'Intro onder de grote titel',
+      type: 'text',
+      rows: 4,
+      description: 'Korte uitleg direct onder de titel. Houd dit bij voorkeur op 1 tot 3 zinnen.'
+    }),
     defineField({
       name: 'image',
-      title: 'Hero afbeelding',
+      title: 'Afbeelding bovenaan',
       type: 'image',
       options: {hotspot: true},
-      description: 'Afbeelding voor deze hero. Op de homepage wordt deze gebruikt als fallback/poster wanneer er ook een video is ingesteld.'
+      description: 'Deze afbeelding wordt gebruikt in de hero van deze pagina.'
     }),
     defineField({
       name: 'videoFile',
-      title: 'Hero video bestand (.mp4)',
+      title: 'Homepage video bestand',
       type: 'file',
       options: {accept: 'video/mp4,video/webm'},
-      description: 'Alleen voor de homepage. Upload hier het bedrijfsfilmpje als hero-achtergrond.',
+      description: 'Alleen voor de homepage. Upload hier het bedrijfsfilmpje als achtergrondvideo.',
       hidden: hideUnlessHomePage
     }),
     defineField({
       name: 'videoUrl',
-      title: 'Hero video URL',
+      title: 'Homepage video URL',
       type: 'url',
       description: 'Alleen voor de homepage. Gebruik alleen een directe .mp4/.webm URL.',
       hidden: hideUnlessHomePage
     }),
     defineField({
       name: 'videoPoster',
-      title: 'Video poster / fallback beeld',
+      title: 'Afbeelding als video niet geladen is',
       type: 'image',
       options: {hotspot: true},
-      description: 'Alleen voor de homepage. Afbeelding die wordt getoond als de video nog niet geladen is.',
+      description: 'Alleen voor de homepage. Fallback-afbeelding voordat de video geladen is.',
       hidden: hideUnlessHomePage
     }),
-    defineField({name: 'primaryCta', title: 'Primaire knop', type: 'cta'}),
-    defineField({name: 'secondaryCta', title: 'Secundaire knop', type: 'cta'})
+    defineField({name: 'primaryCta', title: 'Eerste knop bovenaan', type: 'cta'}),
+    defineField({name: 'secondaryCta', title: 'Tweede knop bovenaan', type: 'cta'})
   ]
 })
