@@ -52,6 +52,23 @@ function applyAudaciousLivegangFixes() {
   const isContactPage = () => getCurrentCleanPath() === '/contact' || Boolean(document.querySelector('[data-audacious-contact-form]'));
   const quoteHref = () => isContactPage() ? CONTACT_ANCHOR_SAME_PAGE : CONTACT_ANCHOR;
 
+  const ensureFavicons = () => {
+    const links = [
+      { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+      { rel: 'shortcut icon', href: '/favicon.svg', type: 'image/svg+xml' }
+    ];
+
+    document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]').forEach((link) => link.remove());
+
+    links.forEach((item) => {
+      const link = document.createElement('link');
+      link.rel = item.rel;
+      link.href = item.href;
+      link.type = item.type;
+      document.head.appendChild(link);
+    });
+  };
+
   const normalizeHref = (href) => {
     if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('http')) return href;
     const [pathPart, hashPart] = href.split('#');
@@ -114,6 +131,7 @@ function applyAudaciousLivegangFixes() {
     }
   };
 
+  ensureFavicons();
   normalizeHeadUrls();
   normalizeLinks();
   ensureContactFormAnchor();
