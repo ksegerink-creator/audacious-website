@@ -17,6 +17,45 @@ function audaciousServiceHref(slug) {
   return `/${slug.replace(/^\/+/, '')}`;
 }
 
+function audaciousNormalizeHomeServiceCounters() {
+  const slider = document.querySelector('.aud-services-slider');
+  if (!slider) return;
+
+  const slides = Array.from(slider.querySelectorAll('.aud-service-slide'));
+  const total = slides.length;
+  if (!total) return;
+
+  slider.style.setProperty('--slide-count', total);
+
+  slides.forEach((slide, slideIndex) => {
+    const counter = slide.querySelector('.aud-service-counter');
+    if (counter) {
+      counter.textContent = `${String(slideIndex + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`;
+    }
+
+    const dots = slide.querySelector('.aud-service-dots');
+    if (!dots) return;
+
+    const existingDots = dots.querySelectorAll('.aud-service-dot');
+    if (existingDots.length === total) return;
+
+    dots.innerHTML = '';
+    slides.forEach((_, dotIndex) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `aud-service-dot${dotIndex === slideIndex ? ' is-active' : ''}`;
+      button.setAttribute('aria-label', `Ga naar service ${dotIndex + 1}`);
+      button.addEventListener('click', () => {
+        const sliderTop = slider.getBoundingClientRect().top + window.scrollY;
+        const scrollable = Math.max(0, slider.offsetHeight - window.innerHeight);
+        const targetY = sliderTop + (scrollable * (dotIndex / Math.max(1, total - 1)));
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      });
+      dots.appendChild(button);
+    });
+  });
+}
+
 async function audaciousFetchHomeServices() {
   const query = `*[_type == "service" && defined(slug.current)] | order(coalesce(order, 999) asc, title asc){
     title,
@@ -43,11 +82,17 @@ function audaciousRenderServiceSlide(service, index, total) {
 
 async function audaciousApplyHomeServicesFromSanity() {
   const slider = document.querySelector('.aud-services-slider');
-  if (!slider || slider.dataset.sanitySynced === 'true') return;
+  if (!slider || slider.dataset.sanitySynced === 'true') {
+    audaciousNormalizeHomeServiceCounters();
+    return;
+  }
 
   try {
     const services = (await audaciousFetchHomeServices()).filter((service) => service && service.slug && service.title);
-    if (!services.length) return;
+    if (!services.length) {
+      audaciousNormalizeHomeServiceCounters();
+      return;
+    }
 
     slider.dataset.sanitySynced = 'true';
     slider.innerHTML = `
@@ -59,9 +104,13 @@ async function audaciousApplyHomeServicesFromSanity() {
       </div>
     `;
 
+    audaciousNormalizeHomeServiceCounters();
     if (typeof window.initServiceSlider === 'function') window.initServiceSlider();
+    window.setTimeout(audaciousNormalizeHomeServiceCounters, 100);
+    window.setTimeout(audaciousNormalizeHomeServiceCounters, 700);
   } catch (error) {
     console.warn('Sanity werkzaamheden konden niet geladen worden. Fallback slider blijft actief.', error);
+    audaciousNormalizeHomeServiceCounters();
   }
 }
 
@@ -69,5 +118,9 @@ window.addEventListener('DOMContentLoaded', () => {
   audaciousApplyHomeServicesFromSanity();
   window.setTimeout(audaciousApplyHomeServicesFromSanity, 800);
   window.setTimeout(audaciousApplyHomeServicesFromSanity, 1800);
+  window.setTimeout(audaciousNormalizeHomeServiceCounters, 2500);
 });
-window.addEventListener('load', () => window.setTimeout(audaciousApplyHomeServicesFromSanity, 400));
+window.addEventListener('load', () => window.setTimeout(() => {
+  audaciousApplyHomeServicesFromSanity();
+  audaciousNormalizeHomeServiceCounters();
+}, 400));
