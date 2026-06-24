@@ -5,9 +5,9 @@ export const seo = defineType({
   title: 'SEO',
   type: 'object',
   fields: [
-    defineField({name: 'metaTitle', title: 'Meta title', type: 'string'}),
-    defineField({name: 'metaDescription', title: 'Meta description', type: 'text', rows: 3}),
-    defineField({name: 'ogImage', title: 'Social image', type: 'image', options: {hotspot: true}}),
-    defineField({name: 'noIndex', title: 'Niet indexeren', type: 'boolean', initialValue: false})
+    defineField({name: 'metaTitle', title: 'SEO titel', type: 'string', description: 'Korte titel voor zoekmachines.'}),
+    defineField({name: 'metaDescription', title: 'SEO beschrijving', type: 'text', rows: 3, description: 'Korte beschrijving voor zoekmachines.'}),
+    defineField({name: 'ogImage', title: 'Afbeelding voor delen', type: 'image', options: {hotspot: true}}),
+    defineField({name: 'noIndex', title: 'Verbergen voor zoekmachines', type: 'boolean', initialValue: false})
   ]
 })
