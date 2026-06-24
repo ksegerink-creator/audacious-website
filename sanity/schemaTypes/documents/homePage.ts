@@ -28,6 +28,7 @@ export const homePage = defineType({
     defineField({name: 'hero', title: 'Bovenste deel van de homepage', type: 'hero', group: 'hero'}),
     defineField({name: 'introTitle', title: 'Intro titel', type: 'string', group: 'intro'}),
     defineField({name: 'introText', title: 'Intro tekst', type: 'text', rows: 4, group: 'intro'}),
+    defineField({name: 'introImage', title: 'Foto rechts naast intro', type: 'image', options: {hotspot: true}, group: 'intro'}),
     defineField({name: 'processEyebrow', title: 'Kleine oranje titel boven procesblok', type: 'string', group: 'process'}),
     defineField({name: 'processTitle', title: 'Grote titel procesblok', type: 'string', group: 'process'}),
     defineField({name: 'processText', title: 'Tekst procesblok', type: 'text', rows: 4, group: 'process'}),
