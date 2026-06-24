@@ -35,6 +35,20 @@ function resolveSanityHref(target) {
   return `/${slug}`;
 }
 
+function imageUrlWithParams(url, width = 1400) {
+  if (!url) return '';
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}auto=format&fit=crop&w=${width}&q=88`;
+}
+
+function applyIntroImage(imageUrl) {
+  const visual = document.querySelector('.intro-visual');
+  if (!visual || !imageUrl) return;
+  visual.classList.add('has-sanity-image');
+  visual.setAttribute('aria-hidden', 'false');
+  visual.innerHTML = `<img class="intro-visual-photo" src="${imageUrlWithParams(imageUrl)}" alt="" loading="lazy">`;
+}
+
 function applySanityHomeCopy(home) {
   if (!home) return;
   const hero = home.hero || {};
@@ -53,6 +67,7 @@ function applySanityHomeCopy(home) {
   setHref('.hero-actions .btn-outline', secondaryHref);
   setHtml('.intro-title', home.introTitle);
   setText('.intro-body', home.introText);
+  applyIntroImage(home.introImageUrl);
   setText('.products-kicker', home.projectsEyebrow);
   setHtml('.products-title', home.projectsTitle);
   setText('.products-stage-head p:not(.products-kicker)', home.projectsIntro);
@@ -134,7 +149,7 @@ async function fetchSanityContent() {
   const query = `{
     "home": *[_type == "homePage"][0]{
       hero{eyebrow,title,highlight,intro,primaryCta{label,linkType,url,anchor,internalPage->{_type,"slug":slug.current}},secondaryCta{label,linkType,url,anchor,internalPage->{_type,"slug":slug.current}}},
-      introTitle,introText,projectsEyebrow,projectsTitle,projectsIntro,
+      introTitle,introText,"introImageUrl":introImage.asset->url,projectsEyebrow,projectsTitle,projectsIntro,
       featuredServices[]->{title,"slug":slug.current,intro,summary,order},
       featuredMarkets[]->{title,"slug":slug.current,intro,order},
       featuredProductGroups[]->{title,"slug":slug.current,intro,order,applications}
