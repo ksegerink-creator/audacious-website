@@ -16,6 +16,7 @@ function applyAudaciousLivegangFixes() {
     ['werken-bij-audacious.html', '/werken-bij-audacious'],
     ['contact.html', '/contact'],
     ['lasersnijden.html', '/lasersnijden'],
+    ['lasergraveren.html', '/lasergraveren'],
     ['kanten.html', '/kanten'],
     ['walsen.html', '/walsen'],
     ['persen.html', '/persen'],
@@ -67,6 +68,15 @@ function applyAudaciousLivegangFixes() {
       link.type = item.type;
       document.head.appendChild(link);
     });
+  };
+
+  const ensureHomeServicesSync = () => {
+    if (!document.querySelector('.aud-services-slider') || document.querySelector('script[data-sanity-home-services]')) return;
+    const script = document.createElement('script');
+    script.src = '../js/sanity-home-services.js';
+    script.defer = true;
+    script.dataset.sanityHomeServices = 'true';
+    document.head.appendChild(script);
   };
 
   const normalizeHref = (href) => {
@@ -132,6 +142,7 @@ function applyAudaciousLivegangFixes() {
   };
 
   ensureFavicons();
+  ensureHomeServicesSync();
   normalizeHeadUrls();
   normalizeLinks();
   ensureContactFormAnchor();
