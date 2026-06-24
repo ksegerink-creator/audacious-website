@@ -26,12 +26,12 @@
 }
 
 .sidebar-link {
-  grid-template-columns: 2.15rem minmax(0, 1fr) auto !important;
+  grid-template-columns: 1.85rem minmax(0, 1fr) 1rem !important;
   align-items: center !important;
   min-height: auto !important;
   padding-top: 1.05rem !important;
   padding-bottom: 1.05rem !important;
-  gap: 1rem !important;
+  gap: 0.85rem !important;
 }
 
 .sidebar-label {
@@ -43,7 +43,8 @@
   word-break: normal !important;
   hyphens: none !important;
   line-height: 0.98 !important;
-  font-size: clamp(1.5rem, 3vw, 2.25rem) !important;
+  font-size: clamp(1.28rem, 2.25vw, 1.88rem) !important;
+  letter-spacing: -0.075em !important;
 }
 
 .sidebar-link.has-sub {
@@ -60,7 +61,7 @@
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  padding: 0 0 0 3.2rem;
+  padding: 0 0 0 3rem;
   border-bottom: 0 solid rgba(255,255,255,0.11);
   transform: translateY(-6px);
   transition:
@@ -73,9 +74,9 @@
 
 .sidebar-item:hover .sidebar-sublist,
 .sidebar-item:focus-within .sidebar-sublist {
-  max-height: 360px;
+  max-height: 420px;
   opacity: 1;
-  padding: 0.45rem 0 0.85rem 3.2rem;
+  padding: 0.45rem 0 0.85rem 3rem;
   border-bottom-width: 1px;
   transform: translateY(0);
 }
@@ -141,7 +142,7 @@
   }
 
   .sidebar-label {
-    font-size: clamp(1.2rem, 2.35vw, 1.7rem) !important;
+    font-size: clamp(1.1rem, 2vw, 1.48rem) !important;
     line-height: 1 !important;
   }
 
@@ -152,7 +153,7 @@
 
   .sidebar-item:hover .sidebar-sublist,
   .sidebar-item:focus-within .sidebar-sublist {
-    max-height: 280px;
+    max-height: 320px;
     padding-top: 0.32rem;
     padding-bottom: 0.62rem;
   }
@@ -164,20 +165,20 @@
 
 @media (max-width: 620px) {
   .sidebar-link {
-    grid-template-columns: 1.75rem minmax(0, 1fr) auto !important;
+    grid-template-columns: 1.6rem minmax(0, 1fr) 0.9rem !important;
   }
 
   .sidebar-label {
-    font-size: clamp(1.25rem, 7vw, 1.82rem) !important;
+    font-size: clamp(1.14rem, 6vw, 1.55rem) !important;
   }
 
   .sidebar-sublist {
-    padding-left: 2.6rem;
+    padding-left: 2.45rem;
   }
 
   .sidebar-item:hover .sidebar-sublist,
   .sidebar-item:focus-within .sidebar-sublist {
-    padding-left: 2.6rem;
+    padding-left: 2.45rem;
   }
 }
 
