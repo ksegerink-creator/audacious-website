@@ -2,7 +2,6 @@ function applyAudaciousLivegangFixes() {
   const SITE_ORIGIN = 'https://www.audacious.com';
   const CONTACT_ANCHOR = '/contact#offerte-aanvragen';
   const CONTACT_ANCHOR_SAME_PAGE = '#offerte-aanvragen';
-  const CORRECT_ADDRESS = 'Mega 16, 6902 KL Zevenaar';
 
   const cleanPathByFile = new Map([
     ['index.html', '/'], ['productievoorbereiding.html', '/productievoorbereiding'], ['engineering.html', '/engineering'], ['materialen.html', '/materialen'], ['werkzaamheden.html', '/werkzaamheden'], ['projecten.html', '/projecten'], ['nieuws.html', '/nieuws'], ['over-ons.html', '/over-ons'], ['markten.html', '/markten-en-diensten'], ['werken-bij-audacious.html', '/werken-bij-audacious'], ['contact.html', '/contact'], ['lasersnijden.html', '/lasersnijden'], ['lasergraveren.html', '/lasergraveren'], ['kanten.html', '/kanten'], ['walsen.html', '/walsen'], ['persen.html', '/persen'], ['lassen.html', '/lassen'], ['oppervlaktebehandelingen.html', '/oppervlaktebehandelingen'], ['assembleren.html', '/assembleren'], ['cleanroom-verpakken.html', '/cleanroom-verpakken'], ['project-food-frame.html', '/projecten/food-frame'], ['project-plaatwerk-behuizingen.html', '/projecten/plaatwerk-behuizingen'], ['project-rontgenarm.html', '/projecten/rontgenarm'], ['project-verpakkingsframes.html', '/projecten/verpakkingsframes'], ['project-behuizing.html', '/projecten/behuizing'], ['project-schuifdeuren.html', '/projecten/schuifdeuren'], ['project-transportwagen-kooi.html', '/projecten/transportwagen-kooi'], ['nieuws-iso-9001-vervolg.html', '/nieuws/iso-9001-vervolg'], ['nieuws-vervanging-klein-transport.html', '/nieuws/vervanging-klein-transport'], ['nieuws-nieuwe-glasparel-straalcabine.html', '/nieuws/nieuwe-glasparel-straalcabine'], ['nieuws-grotere-stikstoftank.html', '/nieuws/grotere-stikstoftank'], ['nieuws-nieuwe-afzuiging-nedermann.html', '/nieuws/nieuwe-afzuiging-nedermann'], ['halfgeleiderindustrie.html', '/halfgeleiderindustrie'], ['medische-industrie.html', '/medische-industrie'], ['voedingsmiddelenindustrie.html', '/voedingsmiddelenindustrie'], ['drank-zuivelindustrie.html', '/drank-zuivelindustrie'], ['verpakkingsindustrie.html', '/verpakkingsindustrie'], ['bouw-meubelindustrie.html', '/bouw-meubelindustrie']
@@ -35,35 +34,6 @@ function applyAudaciousLivegangFixes() {
     script.defer = true;
     script.dataset.sanityHomeServices = 'true';
     document.head.appendChild(script);
-  };
-
-  const ensureCorrectFooterAddress = () => {
-    document.querySelectorAll('.site-footer span, .simple-footer span, .footer-col span, .contact-info-item strong').forEach((node) => {
-      const text = node.textContent || '';
-      if (text.includes('Einsteinstraat') || text.includes('6902 PB') || text.includes('Zevenaar, Nederland')) node.textContent = CORRECT_ADDRESS;
-    });
-  };
-
-  const ensureHomeFooterCta = () => {
-    if (getCurrentCleanPath() !== '/') return;
-    const footer = document.querySelector('.site-footer, .simple-footer');
-    if (!footer) return;
-
-    if (!document.getElementById('home-footer-cta-style')) {
-      const style = document.createElement('style');
-      style.id = 'home-footer-cta-style';
-      style.textContent = '.home-footer-cta{padding:5rem 0;background:#f8f6f2;border-top:1px solid rgba(17,17,15,.12)}.home-footer-cta .container{width:min(calc(100vw - clamp(2rem,5vw,6rem)),1480px);margin:0 auto}.home-footer-cta-card{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;padding:3rem;background:#11110f;color:#fff}.home-footer-cta h2{margin:0;font-family:var(--font-display);font-size:clamp(2.4rem,5vw,5.8rem);line-height:.9;letter-spacing:-.08em;color:#fff}.home-footer-cta p{max-width:720px;margin:1rem 0 0;color:rgba(255,255,255,.72);line-height:1.7}.home-footer-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 1.35rem;border-radius:999px;background:#f58220;color:#11110f;font-weight:850;text-decoration:none}@media(max-width:900px){.home-footer-cta-card{grid-template-columns:1fr;padding:1.5rem}}';
-      document.head.appendChild(style);
-    }
-
-    let cta = document.getElementById('home-footer-cta');
-    if (!cta) {
-      cta = document.createElement('section');
-      cta.id = 'home-footer-cta';
-      cta.className = 'home-footer-cta';
-      cta.innerHTML = '<div class="container"><div class="home-footer-cta-card"><div><h2>Een vergelijkbaar project bespreken?</h2><p>Stuur uw tekening, bestand of omschrijving mee. Audacious kijkt mee naar materiaalkeuze, maakbaarheid, bewerkingen en de beste productieroute.</p></div><a href="/contact#offerte-aanvragen">Aanvraag starten</a></div></div>';
-    }
-    if (cta.nextElementSibling !== footer) footer.parentNode.insertBefore(cta, footer);
   };
 
   const normalizeHref = (href) => {
@@ -131,8 +101,6 @@ function applyAudaciousLivegangFixes() {
   normalizeHeadUrls();
   normalizeLinks();
   ensureContactFormAnchor();
-  ensureHomeFooterCta();
-  ensureCorrectFooterAddress();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
