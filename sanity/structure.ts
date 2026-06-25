@@ -74,15 +74,6 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title('Werkzaamheden aanpassen')
             .items([
-              serviceBySlug(S, 'Lasersnijden', 'lasersnijden'),
-              serviceBySlug(S, 'Kanten', 'kanten'),
-              serviceBySlug(S, 'Walsen', 'walsen'),
-              serviceBySlug(S, 'Persen', 'persen'),
-              serviceBySlug(S, 'Lassen', 'lassen'),
-              serviceBySlug(S, 'Oppervlaktebehandelingen', 'oppervlaktebehandelingen'),
-              serviceBySlug(S, 'Assembleren', 'assembleren'),
-              serviceBySlug(S, 'Cleanroom verpakken', 'cleanroom-verpakken'),
-              S.divider(),
               S.documentTypeListItem('service').title('Alle werkzaamheden')
             ])
         ),
@@ -94,19 +85,16 @@ export const structure: StructureResolver = (S) =>
             .title('Projecten aanpassen')
             .items([
               pageBySlug(S, 'Projecten overzicht', 'projecten'),
-              pageBySlug(S, 'Food frame', 'project-food-frame'),
-              pageBySlug(S, 'Plaatwerk behuizingen', 'project-plaatwerk-behuizingen'),
-              pageBySlug(S, 'Rontgenarm', 'project-rontgenarm'),
-              pageBySlug(S, 'Verpakkingsframes', 'project-verpakkingsframes'),
-              pageBySlug(S, 'Behuizing', 'project-behuizing'),
-              pageBySlug(S, 'Schuifdeuren', 'project-schuifdeuren'),
-              pageBySlug(S, 'Transportwagen kooi', 'project-transportwagen-kooi'),
-              S.divider(),
-              S.documentList()
+              S.listItem()
                 .title('Alle projectpaginas')
                 .schemaType('page')
-                .filter('_type == "page" && slug.current match "project-*"')
-                .defaultOrdering([{field: 'title', direction: 'asc'}])
+                .child(
+                  S.documentList()
+                    .title('Alle projectpaginas')
+                    .schemaType('page')
+                    .filter('_type == "page" && slug.current match "project-*"')
+                    .defaultOrdering([{field: 'title', direction: 'asc'}])
+                )
             ])
         ),
       S.listItem()
@@ -129,13 +117,6 @@ export const structure: StructureResolver = (S) =>
             .title('Markten aanpassen')
             .items([
               pageBySlug(S, 'Markten overzicht', 'markten'),
-              marketBySlug(S, 'Halfgeleiderindustrie', 'halfgeleiderindustrie'),
-              marketBySlug(S, 'Medische industrie', 'medische-industrie'),
-              marketBySlug(S, 'Voedingsmiddelenindustrie', 'voedingsmiddelenindustrie'),
-              marketBySlug(S, 'Drank en zuivelindustrie', 'drank-zuivelindustrie'),
-              marketBySlug(S, 'Verpakkingsindustrie', 'verpakkingsindustrie'),
-              marketBySlug(S, 'Bouw en meubelindustrie', 'bouw-meubelindustrie'),
-              S.divider(),
               S.documentTypeListItem('market').title('Alle markten')
             ])
         ),
