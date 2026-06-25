@@ -21,6 +21,10 @@ function setHref(selector, value, root = document) {
   if (element && value) element.setAttribute('href', value);
 }
 
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>"']/g, (char) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[char]));
+}
+
 function resolveSanityHref(target) {
   if (!target) return '';
   if (target.linkType === 'external') return target.url || '';
@@ -134,6 +138,41 @@ function applySanityProducts(productGroups) {
   });
 }
 
+function renderFooterLink(link) {
+  const label = link?.label;
+  const href = link?.internalPage ? resolveSanityHref(link.internalPage) : resolveSanityHref(link);
+  if (!label || !href) return '';
+  const target = link.openInNewTab ? ' target="_blank" rel="noopener"' : '';
+  return `<a href="${escapeHtml(href)}"${target}>${escapeHtml(label)}</a>`;
+}
+
+function applyFooterColumns(settings) {
+  const footerGrid = document.querySelector('.site-footer .footer-grid');
+  const brand = document.querySelector('.site-footer .footer-brand');
+  if (!footerGrid || !brand) return;
+
+  const columns = Array.isArray(settings.footerColumns) ? settings.footerColumns : [];
+  const address = settings.address ? String(settings.address).split('\n').filter(Boolean).join(', ') : '';
+  const email = settings.email || '';
+  const phone = settings.phone || '';
+  const contactLinks = [
+    email ? `<a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a>` : '',
+    phone ? `<a href="tel:${escapeHtml(phone.replace(/[^+0-9]/g, ''))}">${escapeHtml(phone)}</a>` : '',
+    address ? `<span>${escapeHtml(address)}</span>` : ''
+  ].filter(Boolean).join('');
+
+  const renderedColumns = columns.map((column) => {
+    const links = (column.links || []).map(renderFooterLink).join('');
+    if (!column.title && !links) return '';
+    return `<div class="footer-col"><h3>${escapeHtml(column.title)}</h3>${links}</div>`;
+  }).join('');
+
+  const contactColumn = contactLinks ? `<div class="footer-col"><h3>Contact</h3>${contactLinks}</div>` : '';
+  footerGrid.innerHTML = '';
+  footerGrid.appendChild(brand);
+  footerGrid.insertAdjacentHTML('beforeend', `${renderedColumns}${contactColumn}`);
+}
+
 function applySanitySiteSettings(settings) {
   if (!settings) return;
   const email = settings.email;
@@ -146,12 +185,10 @@ function applySanitySiteSettings(settings) {
   if (email) setHref('.contact-info-item:nth-child(3) a', `mailto:${email}`);
   setText('.contact-info-item:nth-child(4) a', phone);
   if (phone) setHref('.contact-info-item:nth-child(4) a', `tel:${phone.replace(/[^+0-9]/g, '')}`);
+  setText('.footer-brand p', settings.footerBrandText || settings.tagline);
   if (company) setText('.footer-bottom span:first-child', `© 2026 ${company}`);
-  setText('.footer-col:nth-child(4) a[href^="mailto"]', email);
-  if (email) setHref('.footer-col:nth-child(4) a[href^="mailto"]', `mailto:${email}`);
-  setText('.footer-col:nth-child(4) a[href^="tel"]', phone);
-  if (phone) setHref('.footer-col:nth-child(4) a[href^="tel"]', `tel:${phone.replace(/[^+0-9]/g, '')}`);
-  setText('.footer-col:nth-child(4) span', address);
+  setText('.footer-bottom span:last-child', settings.footerBottomText);
+  applyFooterColumns(settings);
 }
 
 async function fetchSanityContent() {
@@ -163,8 +200,8 @@ async function fetchSanityContent() {
       featuredMarkets[]->{title,"slug":slug.current,intro,order},
       featuredProductGroups[]->{title,"slug":slug.current,intro,order,applications}
     },
-    "navigation": *[_type == "navigation"][0]{items[]{label,linkType,url,anchor,internalPage->{_type,"slug":slug.current},children[]{label,linkType,url,anchor,internalPage->{_type,"slug":slug.current}}}},
-    "settings": *[_type == "siteSettings"][0]{companyName,email,phone,address}
+    "navigation": *[_type == "navigation"][0]{items[]{label,linkType,url,anchor,openInNewTab,internalPage->{_type,"slug":slug.current},children[]{label,linkType,url,anchor,openInNewTab,internalPage->{_type,"slug":slug.current}}}},
+    "settings": *[_type == "siteSettings"][0]{companyName,tagline,email,phone,address,footerBrandText,footerBottomText,linkedinUrl,footerColumns[]{title,links[]{label,linkType,url,anchor,openInNewTab,internalPage->{_type,"slug":slug.current}}}}
   }`;
   const url = `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}?query=${encodeURIComponent(query)}`;
   const response = await fetch(url);
