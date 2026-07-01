@@ -41,6 +41,19 @@ export const page = defineType({
         defineField({name: 'rows', title: 'Specificatieregels', type: 'array', of: [defineArrayMember({type: 'object', fields: [defineField({name: 'label', title: 'Label links', type: 'string'}), defineField({name: 'value', title: 'Tekst rechts', type: 'string'})], preview: {select: {title: 'label', subtitle: 'value'}}})]})
       ]
     }),
+    defineField({
+      name: 'projectOverview',
+      title: 'Projectenblok op overzichtspagina',
+      description: 'Alleen gebruikt op de pagina Projecten overzicht. Hiermee pas je de tekst links naast de projectkaarten aan.',
+      type: 'object',
+      group: 'content',
+      fields: [
+        defineField({name: 'eyebrow', title: 'Kleine titel', type: 'string'}),
+        defineField({name: 'title', title: 'Grote titel', type: 'string'}),
+        defineField({name: 'intro', title: 'Korte tekst', type: 'text', rows: 3}),
+        defineField({name: 'tags', title: 'Labels onder tekst', type: 'array', of: [defineArrayMember({type: 'string'})]})
+      ]
+    }),
     defineField({name: 'blocks', title: 'Tekstblokken op de pagina', description: 'Alles wat onder de bovenkant staat. Voeg blokken toe in de juiste volgorde.', type: 'array', of: editableBlocks, group: 'content'}),
     defineField({name: 'galleryEyebrow', title: 'Kleine titel boven fotogalerij', type: 'string', initialValue: 'Projectfotos', group: 'media'}),
     defineField({name: 'galleryTitle', title: 'Grote titel boven fotogalerij', type: 'string', initialValue: 'Beeld van het project.', group: 'media'}),
