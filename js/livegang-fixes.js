@@ -27,6 +27,15 @@ function applyAudaciousLivegangFixes() {
     });
   };
 
+  const ensureTextWrapFixes = () => {
+    const href = '../css/text-wrap-fixes.css';
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = href;
+    document.head.appendChild(stylesheet);
+  };
+
   const ensureHomeServicesSync = () => {
     if (!document.querySelector('.aud-services-slider') || document.querySelector('script[data-sanity-home-services]')) return;
     const script = document.createElement('script');
@@ -118,6 +127,7 @@ function applyAudaciousLivegangFixes() {
   };
 
   ensureFavicons();
+  ensureTextWrapFixes();
   ensureHomeServicesSync();
   normalizeHeadUrls();
   normalizeLinks();
