@@ -1,3 +1,4 @@
+import {readFile} from 'node:fs/promises';
 import formidable from 'formidable';
 import nodemailer from 'nodemailer';
 
@@ -28,6 +29,11 @@ const escapeHtml = (value = '') => String(value)
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;')
   .replace(/'/g, '&#039;');
+
+const splitRecipients = (value = '') => String(value)
+  .split(/[;,]/)
+  .map((item) => item.trim())
+  .filter(Boolean);
 
 const parseMultipart = (request) => new Promise((resolve, reject) => {
   const form = formidable({
@@ -117,6 +123,113 @@ const createTransporter = () => {
   });
 };
 
+const shouldUseGraph = () => {
+  const provider = String(process.env.MAIL_PROVIDER || process.env.MAIL_DRIVER || '').toLowerCase();
+  return provider === 'graph' || provider === 'microsoft_graph' || Boolean(
+    process.env.MICROSOFT_TENANT_ID &&
+    process.env.MICROSOFT_CLIENT_ID &&
+    process.env.MICROSOFT_CLIENT_SECRET
+  );
+};
+
+const getGraphToken = async () => {
+  const tenantId = process.env.MICROSOFT_TENANT_ID;
+  const clientId = process.env.MICROSOFT_CLIENT_ID;
+  const clientSecret = process.env.MICROSOFT_CLIENT_SECRET;
+
+  if (!tenantId || !clientId || !clientSecret) {
+    throw new Error('Microsoft Graph is niet geconfigureerd. Voeg MICROSOFT_TENANT_ID, MICROSOFT_CLIENT_ID en MICROSOFT_CLIENT_SECRET toe in Vercel.');
+  }
+
+  const body = new URLSearchParams({
+    client_id: clientId,
+    client_secret: clientSecret,
+    scope: 'https://graph.microsoft.com/.default',
+    grant_type: 'client_credentials'
+  });
+
+  const tokenResponse = await fetch(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body
+  });
+
+  const tokenPayload = await tokenResponse.json().catch(() => ({}));
+
+  if (!tokenResponse.ok || !tokenPayload.access_token) {
+    const detail = tokenPayload.error_description || tokenPayload.error || `HTTP ${tokenResponse.status}`;
+    throw new Error(`Microsoft Graph token ophalen mislukt: ${detail}`);
+  }
+
+  return tokenPayload.access_token;
+};
+
+const toGraphAttachments = async (attachments) => Promise.all(
+  attachments.map(async (attachment) => ({
+    '@odata.type': '#microsoft.graph.fileAttachment',
+    name: attachment.filename,
+    contentType: attachment.contentType,
+    contentBytes: (await readFile(attachment.path)).toString('base64')
+  }))
+);
+
+const sendWithGraph = async ({mail, attachments, to, from}) => {
+  const token = await getGraphToken();
+  const sender = process.env.GRAPH_FROM || from || process.env.CONTACT_FROM;
+  const recipients = splitRecipients(to);
+
+  if (!sender) {
+    throw new Error('Microsoft Graph afzender ontbreekt. Voeg GRAPH_FROM of CONTACT_FROM toe in Vercel.');
+  }
+
+  if (!recipients.length) {
+    throw new Error('Ontvanger ontbreekt. Voeg CONTACT_TO toe in Vercel.');
+  }
+
+  const graphAttachments = await toGraphAttachments(attachments);
+  const graphMessage = {
+    message: {
+      subject: `Nieuwe aanvraag via Audacious.com${mail.type ? ` - ${mail.type}` : ''}`,
+      body: {
+        contentType: 'HTML',
+        content: mail.html
+      },
+      toRecipients: recipients.map((address) => ({emailAddress: {address}})),
+      replyTo: mail.email ? [{emailAddress: {address: mail.email, name: mail.name || undefined}}] : [],
+      attachments: graphAttachments
+    },
+    saveToSentItems: true
+  };
+
+  const graphResponse = await fetch(`https://graph.microsoft.com/v1.0/users/${encodeURIComponent(sender)}/sendMail`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(graphMessage)
+  });
+
+  if (!graphResponse.ok) {
+    const detail = await graphResponse.text().catch(() => '');
+    throw new Error(`Microsoft Graph mail verzenden mislukt: HTTP ${graphResponse.status}${detail ? ` - ${detail}` : ''}`);
+  }
+};
+
+const sendWithSmtp = async ({mail, attachments, to, from}) => {
+  const transporter = createTransporter();
+
+  await transporter.sendMail({
+    from,
+    to,
+    replyTo: mail.email || undefined,
+    subject: `Nieuwe aanvraag via Audacious.com${mail.type ? ` - ${mail.type}` : ''}`,
+    text: mail.text,
+    html: mail.html,
+    attachments
+  });
+};
+
 export default async function handler(request, response) {
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -152,19 +265,14 @@ export default async function handler(request, response) {
 
     const attachments = normalizeAttachments(files);
     const mail = buildMessage(fields, attachments);
-    const transporter = createTransporter();
     const to = process.env.CONTACT_TO || 'info@audacious.com';
-    const from = process.env.CONTACT_FROM || process.env.SMTP_USER;
+    const from = process.env.CONTACT_FROM || process.env.GRAPH_FROM || process.env.SMTP_USER;
 
-    await transporter.sendMail({
-      from,
-      to,
-      replyTo: mail.email || undefined,
-      subject: `Nieuwe aanvraag via Audacious.com${mail.type ? ` - ${mail.type}` : ''}`,
-      text: mail.text,
-      html: mail.html,
-      attachments
-    });
+    if (shouldUseGraph()) {
+      await sendWithGraph({mail, attachments, to, from});
+    } else {
+      await sendWithSmtp({mail, attachments, to, from});
+    }
 
     json(response, 200, {success: true, message: 'Aanvraag verzonden.'});
   } catch (error) {
