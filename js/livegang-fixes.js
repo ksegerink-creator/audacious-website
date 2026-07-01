@@ -4,7 +4,7 @@ function applyAudaciousLivegangFixes() {
   const CONTACT_ANCHOR_SAME_PAGE = '#offerte-aanvragen';
 
   const cleanPathByFile = new Map([
-    ['index.html', '/'], ['productievoorbereiding.html', '/productievoorbereiding'], ['engineering.html', '/engineering'], ['materialen.html', '/materialen'], ['werkzaamheden.html', '/werkzaamheden'], ['projecten.html', '/projecten'], ['nieuws.html', '/nieuws'], ['over-ons.html', '/over-ons'], ['markten.html', '/markten-en-diensten'], ['werken-bij-audacious.html', '/werken-bij-audacious'], ['contact.html', '/contact'], ['lasersnijden.html', '/lasersnijden'], ['lasergraveren.html', '/lasergraveren'], ['kanten.html', '/kanten'], ['walsen.html', '/walsen'], ['persen.html', '/persen'], ['lassen.html', '/lassen'], ['oppervlaktebehandelingen.html', '/oppervlaktebehandelingen'], ['assembleren.html', '/assembleren'], ['cleanroom-verpakken.html', '/cleanroom-verpakken'], ['project-food-frame.html', '/projecten/food-frame'], ['project-plaatwerk-behuizingen.html', '/projecten/plaatwerk-behuizingen'], ['project-rontgenarm.html', '/projecten/rontgenarm'], ['project-verpakkingsframes.html', '/projecten/verpakkingsframes'], ['project-behuizing.html', '/projecten/behuizing'], ['project-schuifdeuren.html', '/projecten/schuifdeuren'], ['project-transportwagen-kooi.html', '/projecten/transportwagen-kooi'], ['nieuws-iso-9001-vervolg.html', '/nieuws/iso-9001-vervolg'], ['nieuws-vervanging-klein-transport.html', '/nieuws/vervanging-klein-transport'], ['nieuws-nieuwe-glasparel-straalcabine.html', '/nieuws/nieuwe-glasparel-straalcabine'], ['nieuws-grotere-stikstoftank.html', '/nieuws/grotere-stikstoftank'], ['nieuws-nieuwe-afzuiging-nedermann.html', '/nieuws/nieuwe-afzuiging-nedermann'], ['halfgeleiderindustrie.html', '/halfgeleiderindustrie'], ['medische-industrie.html', '/medische-industrie'], ['voedingsmiddelenindustrie.html', '/voedingsmiddelenindustrie'], ['drank-zuivelindustrie.html', '/drank-zuivelindustrie'], ['verpakkingsindustrie.html', '/verpakkingsindustrie'], ['bouw-meubelindustrie.html', '/bouw-meubelindustrie']
+    ['index.html', '/'], ['productievoorbereiding.html', '/productievoorbereiding'], ['engineering.html', '/engineering'], ['materialen.html', '/materialen'], ['werkzaamheden.html', '/werkzaamheden'], ['projecten.html', '/projecten'], ['over-ons.html', '/over-ons'], ['markten.html', '/markten-en-diensten'], ['werken-bij-audacious.html', '/werken-bij-audacious'], ['contact.html', '/contact'], ['lasersnijden.html', '/lasersnijden'], ['lasergraveren.html', '/lasergraveren'], ['kanten.html', '/kanten'], ['walsen.html', '/walsen'], ['persen.html', '/persen'], ['lassen.html', '/lassen'], ['oppervlaktebehandelingen.html', '/oppervlaktebehandelingen'], ['assembleren.html', '/assembleren'], ['cleanroom-verpakken.html', '/cleanroom-verpakken'], ['project-food-frame.html', '/projecten/food-frame'], ['project-plaatwerk-behuizingen.html', '/projecten/plaatwerk-behuizingen'], ['project-rontgenarm.html', '/projecten/rontgenarm'], ['project-verpakkingsframes.html', '/projecten/verpakkingsframes'], ['project-behuizing.html', '/projecten/behuizing'], ['project-schuifdeuren.html', '/projecten/schuifdeuren'], ['project-transportwagen-kooi.html', '/projecten/transportwagen-kooi'], ['halfgeleiderindustrie.html', '/halfgeleiderindustrie'], ['medische-industrie.html', '/medische-industrie'], ['voedingsmiddelenindustrie.html', '/voedingsmiddelenindustrie'], ['drank-zuivelindustrie.html', '/drank-zuivelindustrie'], ['verpakkingsindustrie.html', '/verpakkingsindustrie'], ['bouw-meubelindustrie.html', '/bouw-meubelindustrie']
   ]);
 
   const getCurrentCleanPath = () => {
@@ -42,10 +42,30 @@ function applyAudaciousLivegangFixes() {
     const file = pathPart.split('/').pop();
     let clean = cleanPathByFile.get(file) || pathPart;
     if (/producten\.html$/.test(pathPart)) clean = '/projecten';
-    if (file === 'blog.html' || file === 'blog-detail.html') clean = '/nieuws';
+    if (file === 'blog.html' || file === 'blog-detail.html') clean = '/';
     if (hashPart === 'contact') return CONTACT_ANCHOR;
     if (hashPart) return `${clean}#${hashPart}`;
     return clean;
+  };
+
+  const isNewsHref = (href) => {
+    if (!href) return false;
+    const cleanHref = href.replace(/^https?:\/\/[^/]+/i, '').replace(/\/$/, '') || '/';
+    return cleanHref === '/nieuws' || cleanHref.startsWith('/nieuws/') || /nieuws.*\.html$/i.test(cleanHref);
+  };
+
+  const removeNewsLinks = () => {
+    document.querySelectorAll('a[href]').forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      const label = link.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+      if (isNewsHref(href) || label === 'nieuws' || label === 'nieuwsitems') {
+        const listItem = link.closest('li');
+        const sidebarItem = link.closest('.sidebar-item');
+        if (sidebarItem) sidebarItem.remove();
+        else if (listItem) listItem.remove();
+        else link.remove();
+      }
+    });
   };
 
   const normalizeLinks = () => {
@@ -58,6 +78,7 @@ function applyAudaciousLivegangFixes() {
       if (href && href !== originalHref) link.setAttribute('href', href);
       if (link.textContent.trim() === 'Hero') link.remove();
     });
+    removeNewsLinks();
   };
 
   const normalizeHeadUrls = () => {
