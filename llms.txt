@@ -92,7 +92,6 @@ Specific examples:
 ## Company pages
 
 - About Audacious: https://www.audacious.com/over-ons
-- News: https://www.audacious.com/nieuws
 - Careers: https://www.audacious.com/werken-bij-audacious
 - Contact: https://www.audacious.com/contact
 
