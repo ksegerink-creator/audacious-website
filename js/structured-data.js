@@ -18,7 +18,6 @@
     '/assembleren': 'Assembleren',
     '/cleanroom-verpakken': 'Cleanroom verpakken',
     '/projecten': 'Projecten',
-    '/nieuws': 'Nieuws',
     '/over-ons': 'Over ons',
     '/markten-en-diensten': 'Markten en Diensten',
     '/werken-bij-audacious': 'Werken bij Audacious',
@@ -41,6 +40,8 @@
 
   function cleanPath() {
     const path = window.location.pathname.replace(/\/$/, '') || '/';
+    if (path.startsWith('/nieuws')) return '/';
+    if (path.startsWith('/html/nieuws')) return '/';
     if (path.startsWith('/html/index')) return '/';
     if (path.startsWith('/html/')) return `/${path.split('/').pop().replace(/\.html$/, '')}`;
     if (path.startsWith('/pages/project-')) return `/projecten/${path.split('/').pop().replace(/^project-/, '').replace(/\.html$/, '')}`;
@@ -61,7 +62,6 @@
     const items = [{ name: 'Home', item: `${origin}/` }];
     if (path !== '/') {
       if (path.startsWith('/projecten/')) items.push({ name: 'Projecten', item: `${origin}/projecten` });
-      if (path.startsWith('/nieuws/')) items.push({ name: 'Nieuws', item: `${origin}/nieuws` });
       if (services.has(path)) items.push({ name: 'Werkzaamheden', item: `${origin}/werkzaamheden` });
       items.push({ name: labels[path] || titleFor(path), item: `${origin}${path}` });
     }
