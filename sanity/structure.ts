@@ -18,30 +18,6 @@ const pageBySlug = (S: any, title: string, slug: string) =>
         .params({slug})
     )
 
-const serviceBySlug = (S: any, title: string, slug: string) =>
-  S.listItem()
-    .title(title)
-    .schemaType('service')
-    .child(
-      S.documentList()
-        .title(title)
-        .schemaType('service')
-        .filter('_type == "service" && slug.current == $slug')
-        .params({slug})
-    )
-
-const marketBySlug = (S: any, title: string, slug: string) =>
-  S.listItem()
-    .title(title)
-    .schemaType('market')
-    .child(
-      S.documentList()
-        .title(title)
-        .schemaType('market')
-        .filter('_type == "market" && slug.current == $slug')
-        .params({slug})
-    )
-
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Audacious beheer')
@@ -63,7 +39,6 @@ export const structure: StructureResolver = (S) =>
               pageBySlug(S, 'Materialen', 'materialen'),
               pageBySlug(S, 'Werkzaamheden overzicht', 'werkzaamheden'),
               pageBySlug(S, 'Projecten overzicht', 'projecten'),
-              pageBySlug(S, 'Nieuws overzicht', 'nieuws'),
               pageBySlug(S, 'Markten overzicht', 'markten')
             ])
         ),
@@ -98,18 +73,6 @@ export const structure: StructureResolver = (S) =>
             ])
         ),
       S.listItem()
-        .title('Nieuws aanpassen')
-        .schemaType('blogPost')
-        .child(
-          S.list()
-            .title('Nieuws aanpassen')
-            .items([
-              pageBySlug(S, 'Nieuws overzicht', 'nieuws'),
-              S.documentTypeListItem('blogPost').title('Nieuwsitems'),
-              S.documentTypeListItem('blogCategory').title('Categorieen')
-            ])
-        ),
-      S.listItem()
         .title('Markten aanpassen')
         .schemaType('market')
         .child(
@@ -133,7 +96,6 @@ export const structure: StructureResolver = (S) =>
               S.documentTypeListItem('page').title('Alle paginas'),
               S.documentTypeListItem('service').title('Alle werkzaamheden'),
               S.documentTypeListItem('market').title('Alle markten'),
-              S.documentTypeListItem('blogPost').title('Alle nieuwsitems'),
               S.documentTypeListItem('productGroup').title('Productgroepen'),
               S.documentTypeListItem('author').title('Auteurs')
             ])
