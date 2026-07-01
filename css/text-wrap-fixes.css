@@ -1,0 +1,39 @@
+h1,
+h2,
+h3,
+h4,
+.display-xl,
+.display-lg,
+.display-md,
+.page-title,
+.page-section h2,
+.page-inline-cta-card h2,
+.page-cta h2,
+.page-hero-media-copy strong,
+.cms-title,
+.project-gallery-title,
+.project-index-intro h2,
+.project-card-link h3 {
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+  text-wrap: balance;
+}
+
+@media (max-width: 700px) {
+  .page-title {
+    font-size: clamp(2.9rem, 13vw, 4.5rem);
+    line-height: 0.96;
+    letter-spacing: -0.07em;
+  }
+
+  .page-section h2,
+  .page-inline-cta-card h2,
+  .page-cta h2,
+  .cms-title,
+  .project-gallery-title {
+    font-size: clamp(2rem, 9vw, 3.2rem);
+    line-height: 1;
+    letter-spacing: -0.06em;
+  }
+}
