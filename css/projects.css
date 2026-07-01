@@ -78,6 +78,7 @@
 }
 
 .project-card-link {
+  --project-image: none;
   position: relative;
   display: grid;
   min-height: 420px;
@@ -121,9 +122,21 @@
   aspect-ratio: 1;
   right: 10%;
   top: 16%;
-  border: 2px solid rgba(245,130,32,0.9);
+  overflow: hidden;
+  border: 2px solid rgba(245,130,32,0.96);
+  background:
+    linear-gradient(180deg, rgba(17,17,15,0.12), rgba(17,17,15,0.52)),
+    var(--project-image),
+    linear-gradient(135deg, rgba(245,130,32,0.18), rgba(245,130,32,0.04));
+  background-position: center;
+  background-size: cover;
   transform: rotate(var(--shape-rotate, 0deg));
-  box-shadow: 0 0 0 1rem rgba(245,130,32,0.04), inset 0 0 0 1px rgba(255,255,255,0.12);
+  box-shadow: 0 0 0 1rem rgba(245,130,32,0.04), inset 0 0 0 1px rgba(255,255,255,0.14);
+  opacity: 0.92;
+}
+
+.project-card-link.has-project-image .project-card-visual::before {
+  opacity: 1;
 }
 
 .project-card-visual::after {
@@ -142,7 +155,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(17,17,15,0.08), rgba(17,17,15,0.88));
+  background: linear-gradient(180deg, rgba(17,17,15,0.08), rgba(17,17,15,0.9));
 }
 
 .project-card-content {
