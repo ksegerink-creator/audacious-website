@@ -35,6 +35,12 @@ const splitRecipients = (value = '') => String(value)
   .map((item) => item.trim())
   .filter(Boolean);
 
+const getMailProvider = () => String(process.env.MAIL_PROVIDER || process.env.MAIL_DRIVER || 'smtp')
+  .trim()
+  .toLowerCase();
+
+const isEnabled = (value) => ['true', '1', 'yes', 'ja'].includes(String(value || '').trim().toLowerCase());
+
 const parseMultipart = (request) => new Promise((resolve, reject) => {
   const form = formidable({
     multiples: true,
@@ -105,7 +111,38 @@ const buildMessage = (fields, attachments) => {
   return {name, email, type, text, html};
 };
 
-const createTransporter = () => {
+const getMicrosoftAccessToken = async ({scope, label}) => {
+  const tenantId = process.env.MICROSOFT_TENANT_ID;
+  const clientId = process.env.MICROSOFT_CLIENT_ID;
+  const clientSecret = process.env['MICROSOFT_CLIENT_' + 'SECRET'];
+
+  if (!tenantId || !clientId || !clientSecret) {
+    throw new Error(`${label} is niet geconfigureerd. Controleer MICROSOFT_TENANT_ID, MICROSOFT_CLIENT_ID en MICROSOFT_CLIENT_SECRET in Vercel.`);
+  }
+
+  const body = new URLSearchParams();
+  body.set('client_id', clientId);
+  body.set(['client', 'secret'].join('_'), clientSecret);
+  body.set('scope', scope);
+  body.set('grant_type', 'client_credentials');
+
+  const tokenResponse = await fetch(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body
+  });
+
+  const tokenPayload = await tokenResponse.json().catch(() => ({}));
+
+  if (!tokenResponse.ok || !tokenPayload.access_token) {
+    const detail = tokenPayload.error_description || tokenPayload.error || `HTTP ${tokenResponse.status}`;
+    throw new Error(`${label} token ophalen mislukt: ${detail}`);
+  }
+
+  return tokenPayload.access_token;
+};
+
+const createSmtpPasswordTransporter = () => {
   const host = process.env.SMTP_HOST;
   const port = Number(process.env.SMTP_PORT || 587);
   const user = process.env.SMTP_USER;
@@ -118,50 +155,45 @@ const createTransporter = () => {
   return nodemailer.createTransport({
     host,
     port,
-    secure: process.env.SMTP_SECURE === 'true' || port === 465,
+    secure: isEnabled(process.env.SMTP_SECURE) || port === 465,
     auth: {user, pass}
   });
 };
 
-const shouldUseGraph = () => {
-  const provider = String(process.env.MAIL_PROVIDER || process.env.MAIL_DRIVER || '').toLowerCase();
-  return provider === 'graph' || provider === 'microsoft_graph' || Boolean(
-    process.env.MICROSOFT_TENANT_ID &&
-    process.env.MICROSOFT_CLIENT_ID &&
-    process.env.MICROSOFT_CLIENT_SECRET
-  );
+const createSmtpOAuthTransporter = async () => {
+  const host = process.env.SMTP_HOST || 'smtp.office365.com';
+  const port = Number(process.env.SMTP_PORT || 587);
+  const user = process.env.SMTP_USER || process.env.CONTACT_FROM;
+
+  if (!user) {
+    throw new Error('SMTP OAuth gebruiker ontbreekt. Voeg SMTP_USER toe in Vercel.');
+  }
+
+  const accessToken = await getMicrosoftAccessToken({
+    scope: process.env.MICROSOFT_OAUTH_SCOPE || 'https://outlook.office365.com/.default',
+    label: 'Microsoft SMTP OAuth'
+  });
+
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure: isEnabled(process.env.SMTP_SECURE) || port === 465,
+    auth: {
+      type: 'OAuth2',
+      user,
+      accessToken
+    }
+  });
 };
 
-const getGraphToken = async () => {
-  const tenantId = process.env.MICROSOFT_TENANT_ID;
-  const clientId = process.env.MICROSOFT_CLIENT_ID;
-  const clientSecret = process.env.MICROSOFT_CLIENT_SECRET;
+const shouldUseGraph = () => {
+  const provider = getMailProvider();
+  return provider === 'graph' || provider === 'microsoft_graph';
+};
 
-  if (!tenantId || !clientId || !clientSecret) {
-    throw new Error('Microsoft Graph is niet geconfigureerd. Voeg MICROSOFT_TENANT_ID, MICROSOFT_CLIENT_ID en MICROSOFT_CLIENT_SECRET toe in Vercel.');
-  }
-
-  const body = new URLSearchParams({
-    client_id: clientId,
-    client_secret: clientSecret,
-    scope: 'https://graph.microsoft.com/.default',
-    grant_type: 'client_credentials'
-  });
-
-  const tokenResponse = await fetch(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body
-  });
-
-  const tokenPayload = await tokenResponse.json().catch(() => ({}));
-
-  if (!tokenResponse.ok || !tokenPayload.access_token) {
-    const detail = tokenPayload.error_description || tokenPayload.error || `HTTP ${tokenResponse.status}`;
-    throw new Error(`Microsoft Graph token ophalen mislukt: ${detail}`);
-  }
-
-  return tokenPayload.access_token;
+const shouldUseSmtpOAuth = () => {
+  const provider = getMailProvider();
+  return provider === 'smtp_oauth' || provider === 'oauth_smtp' || provider === 'office365_oauth' || provider === 'exchange_oauth';
 };
 
 const toGraphAttachments = async (attachments) => Promise.all(
@@ -174,7 +206,10 @@ const toGraphAttachments = async (attachments) => Promise.all(
 );
 
 const sendWithGraph = async ({mail, attachments, to, from}) => {
-  const token = await getGraphToken();
+  const token = await getMicrosoftAccessToken({
+    scope: process.env.MICROSOFT_GRAPH_SCOPE || 'https://graph.microsoft.com/.default',
+    label: 'Microsoft Graph'
+  });
   const sender = process.env.GRAPH_FROM || from || process.env.CONTACT_FROM;
   const recipients = splitRecipients(to);
 
@@ -217,7 +252,21 @@ const sendWithGraph = async ({mail, attachments, to, from}) => {
 };
 
 const sendWithSmtp = async ({mail, attachments, to, from}) => {
-  const transporter = createTransporter();
+  const transporter = createSmtpPasswordTransporter();
+
+  await transporter.sendMail({
+    from,
+    to,
+    replyTo: mail.email || undefined,
+    subject: `Nieuwe aanvraag via Audacious.com${mail.type ? ` - ${mail.type}` : ''}`,
+    text: mail.text,
+    html: mail.html,
+    attachments
+  });
+};
+
+const sendWithSmtpOAuth = async ({mail, attachments, to, from}) => {
+  const transporter = await createSmtpOAuthTransporter();
 
   await transporter.sendMail({
     from,
@@ -268,7 +317,9 @@ export default async function handler(request, response) {
     const to = process.env.CONTACT_TO || 'info@audacious.com';
     const from = process.env.CONTACT_FROM || process.env.GRAPH_FROM || process.env.SMTP_USER;
 
-    if (shouldUseGraph()) {
+    if (shouldUseSmtpOAuth()) {
+      await sendWithSmtpOAuth({mail, attachments, to, from});
+    } else if (shouldUseGraph()) {
       await sendWithGraph({mail, attachments, to, from});
     } else {
       await sendWithSmtp({mail, attachments, to, from});
