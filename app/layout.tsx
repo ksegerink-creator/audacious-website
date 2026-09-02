@@ -1,4 +1,5 @@
 import './globals.css'
+import Script from 'next/script'
 import {sanityClient} from '@/sanity/lib/client'
 import {navigationQuery, siteSettingsQuery} from '@/sanity/lib/queries'
 import {SiteNavigation} from '@/components/SiteNavigation'
@@ -18,6 +19,18 @@ export default async function RootLayout({children}: {children: React.ReactNode}
   return (
     <html lang="nl">
       <body>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-8EHNBNNHQB"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-8EHNBNNHQB');
+          `}
+        </Script>
         <div className="next-page">
           <SiteNavigation navigation={navigation} />
           {children}
