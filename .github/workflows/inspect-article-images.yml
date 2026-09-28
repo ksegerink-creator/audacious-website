@@ -1,0 +1,16 @@
+name: Inspect Audacious Article Images
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find article images
+        shell: bash
+        run: |
+          set -e
+          curl -L -sS -A 'Mozilla/5.0' 'https://www.metaalnieuws.nl/nieuw-elan-bij-fijn-plaatwerkspecialist-audacious/' -o /tmp/page.html
+          grep -Eo 'https://www\.metaalnieuws\.nl/wp-content/uploads/[^"'\'' ]+\.(jpg|jpeg|png|webp)' /tmp/page.html | sort -u | grep -E '/aud[0-9]+' || true
