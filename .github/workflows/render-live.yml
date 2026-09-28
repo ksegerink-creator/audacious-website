@@ -1,0 +1,22 @@
+name: Render Audacious Live
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Render live homepage
+        shell: bash
+        run: |
+          set -e
+          google-chrome --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=1440,1600 --screenshot=audacious-live.png https://www.audacious.com/
+          ls -lh audacious-live.png
+      - name: Upload screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: audacious-live
+          path: audacious-live.png
