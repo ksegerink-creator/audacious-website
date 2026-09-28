@@ -9,18 +9,18 @@ jobs:
   find:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect public pages
+      - name: Find LinkedIn post URLs and images
         shell: bash
         run: |
           set -u
-          urls=(
-            "https://nl.linkedin.com/company/audacious-sheet-metal-services-bv"
-            "https://nl.linkedin.com/posts/audacious-sheet-metal-services-bv_audacious-sheetmetal-plaatwerk-activity-7444752958371618816-QvYj"
-            "https://www.metaalnieuws.nl/nieuw-elan-bij-fijn-plaatwerkspecialist-audacious/"
-          )
-          for url in "${urls[@]}"; do
-            echo "=== $url ==="
-            curl -L -sS -A 'Mozilla/5.0' "$url" -o /tmp/page.html
-            grep -Eio '<meta[^>]+(property|name)="(og:image|twitter:image)"[^>]+>' /tmp/page.html | head -10 || true
-            grep -Eio 'https://[^"'\'' <>]+\.(jpg|jpeg|png|webp)(\?[^"'\'' <>]*)?' /tmp/page.html | head -20 || true
-          done
+          curl -L -sS -A 'Mozilla/5.0' 'https://nl.linkedin.com/company/audacious-sheet-metal-services-bv' -o /tmp/company.html
+          grep -Eo 'https://nl\.linkedin\.com/posts/audacious-sheet-metal-services-bv_[^"<> ]+' /tmp/company.html | sed 's/&amp;/\&/g' | sort -u | head -20 | tee /tmp/posts.txt || true
+          n=0
+          while IFS= read -r url; do
+            n=$((n+1))
+            [ $n -gt 12 ] && break
+            echo "=== POST $n ==="
+            echo "$url"
+            curl -L -sS -A 'Mozilla/5.0' "$url" -o /tmp/post.html
+            grep -Eio '<meta[^>]+(property|name)="(og:image|twitter:image)"[^>]+>' /tmp/post.html | head -4 || true
+          done < /tmp/posts.txt
