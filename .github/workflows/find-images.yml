@@ -1,0 +1,26 @@
+name: Find Audacious Public Images
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect public pages
+        shell: bash
+        run: |
+          set -u
+          urls=(
+            "https://nl.linkedin.com/company/audacious-sheet-metal-services-bv"
+            "https://nl.linkedin.com/posts/audacious-sheet-metal-services-bv_audacious-sheetmetal-plaatwerk-activity-7444752958371618816-QvYj"
+            "https://www.metaalnieuws.nl/nieuw-elan-bij-fijn-plaatwerkspecialist-audacious/"
+          )
+          for url in "${urls[@]}"; do
+            echo "=== $url ==="
+            curl -L -sS -A 'Mozilla/5.0' "$url" -o /tmp/page.html
+            grep -Eio '<meta[^>]+(property|name)="(og:image|twitter:image)"[^>]+>' /tmp/page.html | head -10 || true
+            grep -Eio 'https://[^"'\'' <>]+\.(jpg|jpeg|png|webp)(\?[^"'\'' <>]*)?' /tmp/page.html | head -20 || true
+          done
