@@ -8,25 +8,12 @@ jobs:
   recover:
     runs-on: ubuntu-latest
     steps:
-      - name: Query Sanity APICDN
+      - name: Query Wayback for Sanity assets
         shell: bash
         run: |
           set -u
-          QUERY='{
-            "home": *[_type == "homePage"][0]{
-              "heroImageUrl": hero.image.asset->url,
-              "introImageUrl": introImage.asset->url,
-              "services": featuredServices[]->{title,"imageUrl":heroImage.asset->url},
-              "markets": featuredMarkets[]->{title,"imageUrl":image.asset->url},
-              "products": featuredProductGroups[]->{title,"imageUrl":image.asset->url},
-              "projectCards": projectCards[]{title,"imageUrl":link.internalPage->hero.image.asset->url,link{internalPage->{title,"slug":slug.current,"imageUrl":hero.image.asset->url}}}
-            },
-            "projects": *[_type=="page" && slug.current in ["project-food-frame","project-plaatwerk-behuizingen","project-rontgenarm","project-verpakkingsframes","project-schuifdeuren","project-behuizing","project-transportwagen-kooi"]]{title,"slug":slug.current,"imageUrl":hero.image.asset->url},
-            "servicesAll": *[_type=="service"]|order(order asc){title,"slug":slug.current,"imageUrl":heroImage.asset->url},
-            "marketsAll": *[_type=="market"]|order(order asc){title,"slug":slug.current,"imageUrl":image.asset->url},
-            "productsAll": *[_type=="productGroup"]|order(order asc){title,"slug":slug.current,"imageUrl":image.asset->url}
-          }'
-          echo "=== APICDN ==="
-          curl -sS --get -w "\nHTTP %{http_code}\n"             'https://wehjzlhm.apicdn.sanity.io/v2025-02-19/data/query/production'             --data-urlencode "query=$QUERY"
-          echo "=== API ==="
-          curl -sS --get -w "\nHTTP %{http_code}\n"             'https://wehjzlhm.api.sanity.io/v2025-02-19/data/query/production'             --data-urlencode "query=$QUERY"
+          echo "=== SANITY CDN CAPTURES ==="
+          curl -L -sS --get 'https://web.archive.org/cdx/search/cdx'             --data-urlencode 'url=cdn.sanity.io/images/wehjzlhm/production/*'             --data-urlencode 'output=json'             --data-urlencode 'filter=statuscode:200'             --data-urlencode 'filter=mimetype:image/*'             --data-urlencode 'collapse=urlkey'             --data-urlencode 'from=2026'             --data-urlencode 'to=2026' | head -c 60000
+          echo
+          echo "=== AUDACIOUS ASSET CAPTURES ==="
+          curl -L -sS --get 'https://web.archive.org/cdx/search/cdx'             --data-urlencode 'url=www.audacious.com/wp-content/uploads/*'             --data-urlencode 'output=json'             --data-urlencode 'filter=statuscode:200'             --data-urlencode 'collapse=urlkey'             --data-urlencode 'from=2020'             --data-urlencode 'to=2026' | head -c 60000
