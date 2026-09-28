@@ -1,0 +1,19 @@
+name: Diagnose Sanity Images
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query Sanity image data
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUERY='{"home": *[_type == "homePage"][0]{"heroImageUrl": hero.image.asset->url,"heroVideoFileUrl": hero.videoFile.asset->url,"heroVideoUrl": hero.videoUrl,"services": featuredServices[]->{title,"imageUrl": coalesce(hero.image.asset->url, heroImage.asset->url)},"markets": featuredMarkets[]->{title,"imageUrl": image.asset->url},"products": featuredProductGroups[]->{title,"imageUrl": image.asset->url},"projectCards": projectCards[]{title,"imageUrl": link.internalPage->hero.image.asset->url}},"pageImages": *[_type == "page" && defined(hero.image.asset)]{title,"slug":slug.current,"imageUrl":hero.image.asset->url}[0...20]}'
+          curl -sS --fail-with-body --get \
+            'https://wehjzlhm.api.sanity.io/v2025-02-19/data/query/production' \
+            --data-urlencode "query=$QUERY"
