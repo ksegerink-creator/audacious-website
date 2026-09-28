@@ -8,9 +8,21 @@ jobs:
   inspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Find article images
+      - name: Build article contact sheet
         shell: bash
         run: |
           set -e
-          curl -L -sS -A 'Mozilla/5.0' 'https://www.metaalnieuws.nl/nieuw-elan-bij-fijn-plaatwerkspecialist-audacious/' -o /tmp/page.html
-          grep -Eo 'https://www\.metaalnieuws\.nl/wp-content/uploads/[^"'\'' ]+\.(jpg|jpeg|png|webp)' /tmp/page.html | sort -u | grep -E '/aud[0-9]+' || true
+          mkdir -p imgs
+          for n in 1 2 3 4; do
+            curl -L -sS --fail "https://www.metaalnieuws.nl/wp-content/uploads/2023/11/aud${n}.jpg" -o "imgs/aud${n}.jpg"
+          done
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
+          for f in imgs/*.jpg; do
+            convert "$f" -resize '600x420^' -gravity center -extent 600x420 -background white -gravity south -splice 0x40 -fill black -pointsize 22 -annotate +0+8 "$(basename "$f")" "$f.tmp.png"
+          done
+          montage imgs/*.tmp.png -tile 2x2 -geometry +12+12 article-contact-sheet.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audacious-article-contact-sheet
+          path: article-contact-sheet.png
