@@ -214,10 +214,6 @@
   ],
   "rewrites": [
     {
-      "source": "/sanity-check",
-      "destination": "/api/sanity-health"
-    },
-    {
       "source": "/",
       "destination": "/html/index.html"
     },
