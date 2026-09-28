@@ -2,6 +2,18 @@ const PROJECT_ID = 'wehjzlhm';
 const DEFAULT_DATASET = 'production';
 const DEFAULT_API_VERSION = '2025-02-19';
 
+const sendJson = (res, statusCode, payload) => {
+  res.statusCode = statusCode;
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.end(JSON.stringify(payload));
+};
+
+const sendText = (res, statusCode, body, contentType = 'application/json; charset=utf-8') => {
+  res.statusCode = statusCode;
+  res.setHeader('Content-Type', contentType);
+  res.end(body);
+};
+
 export default async function handler(req, res) {
   try {
     if (req.method === 'GET' && req.query?.health === '1') {
@@ -24,18 +36,18 @@ export default async function handler(req, res) {
       const body = await response.text();
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.setHeader('Cache-Control', 'no-store');
-      return res.status(response.status).send(body);
+      return sendText(res, response.status, body);
     }
 
     if (req.method !== 'POST') {
       res.setHeader('Allow', 'POST, GET');
-      return res.status(405).json({ error: 'Method not allowed' });
+      return sendJson(res, 405, { error: 'Method not allowed' });
     }
 
     const { query, params = {}, dataset = DEFAULT_DATASET, apiVersion = DEFAULT_API_VERSION } = req.body || {};
 
     if (!query || typeof query !== 'string') {
-      return res.status(400).json({ error: 'Missing Sanity query' });
+      return sendJson(res, 400, { error: 'Missing Sanity query' });
     }
 
     const safeDataset = /^[a-zA-Z0-9_-]+$/.test(dataset) ? dataset : DEFAULT_DATASET;
@@ -55,9 +67,9 @@ export default async function handler(req, res) {
     const body = await response.text();
     res.setHeader('Content-Type', response.headers.get('content-type') || 'application/json; charset=utf-8');
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
-    return res.status(response.status).send(body);
+    return sendText(res, response.status, body, response.headers.get('content-type') || 'application/json; charset=utf-8');
   } catch (error) {
     console.error('Sanity proxy failed:', error);
-    return res.status(500).json({ error: 'Sanity proxy failed' });
+    return sendJson(res, 500, { error: 'Sanity proxy failed' });
   }
 }
