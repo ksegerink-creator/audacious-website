@@ -1,0 +1,32 @@
+name: Download Audacious LinkedIn Images
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download official company images
+        shell: bash
+        run: |
+          set -e
+          mkdir -p images
+          curl -L -sS --fail 'https://media.licdn.com/dms/image/v2/D4E22AQG0vnlFNOK8WQ/feedshare-shrink_800/B4EZuSV3GYKkAg-/0/1767686763702?e=2147483647&v=beta&t=LJKy9aEgKgt1znBt-8f_nps4--vQ9iEcNZGFOc7oz_U' -o images/img1.jpg
+          curl -L -sS --fail 'https://media.licdn.com/dms/image/v2/D4E10AQEpwtO3BbNTxg/image-shrink_800/B4EZ4XLTysHcAg-/0/1778505301450?e=2147483647&v=beta&t=PVkuyyVSJy0vdIZeWVQXpwREoKPJypBXluLxkoOE2j4' -o images/img2.jpg
+          curl -L -sS --fail 'https://media.licdn.com/dms/image/v2/D4E22AQFI3zNfX1jXpQ/feedshare-shrink_800/B4EZxGh0EGJYAg-/0/1770709795427?e=2147483647&v=beta&t=48RtNUXpG-1c2uYmPxS-34qcAmHr3cipYdW1M68N4gI' -o images/img3.jpg
+          curl -L -sS --fail 'https://media.licdn.com/dms/image/v2/D4E22AQGbMx01IKWFTg/feedshare-shrink_800/B4EZwPSFa_GcAg-/0/1769782925446?e=2147483647&v=beta&t=NpqXX0QwAWEGJ7p_3K2T2UwPXAqOimz4TyFSsGZy1DY' -o images/img4.jpg
+          curl -L -sS --fail 'https://dms.licdn.com/playlist/vid/v2/D4E05AQGDpKhJQkcpUA/thumbnail-with-play-button-overlay-high/B4EZ1ETTiGHkDU-/0/1774967409651?e=2147483647&v=beta&t=1SXeFS_EShd-kfTqrOaaxZivioTHKqqD4hmFlUXszig' -o images/img5.jpg
+          curl -L -sS --fail 'https://media.licdn.com/dms/image/v2/D4E22AQFbKAY-CHOVyg/feedshare-shrink_800/B4EZ5Qo9K3GUAc-/0/1779469374540?e=2147483647&v=beta&t=kNINehOSbPYbiWHeczxRFnVgyRfhCQb4-aDxrd5TQl0' -o images/img6.jpg
+          curl -L -sS --fail 'https://media.licdn.com/dms/image/v2/D4E22AQFQ0oA9WMZb6Q/feedshare-shrink_800/B4EaAWWoC5JEAc-/0/1787081425508?e=2147483647&v=beta&t=e8xdBVZeFGnuyaVfD7yyOJZG0THTOe7yWh9MFYEm9A8' -o images/img7.jpg
+          curl -L -sS --fail 'https://media.licdn.com/dms/image/v2/D4E10AQEIlet322VCaw/image-shrink_800/B4EZ25_.RuJEAg-/0/1776942048774?e=2147483647&v=beta&t=unuABcw5kFazrRFzSoFJCFNddokwg4a-UtzS8Nqo55Y' -o images/img8.jpg
+          curl -L -sS --fail 'https://media.licdn.com/dms/image/v2/D4E22AQG0jiU9dE5ktw/feedshare-image-high-res/B4EZ9bcgLUHoAc-/0/1783945626660?e=2147483647&v=beta&t=WA1u3UF1lSeNY0dX253lub-j1VE4vG0vRM1NfML5Xqw' -o images/img9.jpg
+          file images/*
+          ls -lh images
+      - name: Upload images
+        uses: actions/upload-artifact@v4
+        with:
+          name: audacious-linkedin-images
+          path: images
