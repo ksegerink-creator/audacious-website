@@ -9,14 +9,18 @@ jobs:
   render:
     runs-on: ubuntu-latest
     steps:
-      - name: Render live homepage
+      - name: Capture live site and image
         shell: bash
         run: |
           set -e
+          curl -sS https://www.audacious.com/assets/hero-press-brake.jpeg -o hero-press-brake.jpeg
           google-chrome --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=1440,1600 --screenshot=audacious-live.png https://www.audacious.com/
-          ls -lh audacious-live.png
-      - name: Upload screenshot
+          file hero-press-brake.jpeg audacious-live.png
+          ls -lh hero-press-brake.jpeg audacious-live.png
+      - name: Upload files
         uses: actions/upload-artifact@v4
         with:
           name: audacious-live
-          path: audacious-live.png
+          path: |
+            audacious-live.png
+            hero-press-brake.jpeg
