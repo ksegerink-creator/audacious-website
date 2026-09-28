@@ -236,8 +236,12 @@ async function audaciousFetchPageContent(slugs) {
     "news": *[_type == "blogPost" && slug.current in $slugs][0]{_type,title, slug, excerpt, "featuredImageUrl": featuredImage.asset->url, "categoryTitle": category->title, hero{eyebrow,title,highlight,intro,"imageUrl": image.asset->url}, galleryEyebrow, galleryTitle, "gallery": galleryImages[]{"url": asset->url, alt, caption}, "blocks": body[]{${blockFields}}, closingCta{title, button{label,linkType,url,anchor,email,phone,openInNewTab,internalPage->{_type,"slug":slug.current}}}, seo},
     "settings": *[_type == "siteSettings"][0]{title, companyName, tagline, email, phone, address}
   }`;
-  const endpoint = `https://${AUDACIOUS_PAGE_IMAGE_PROJECT_ID}.api.sanity.io/v${AUDACIOUS_PAGE_IMAGE_API_VERSION}/data/query/${AUDACIOUS_PAGE_IMAGE_DATASET}?query=${encodeURIComponent(query)}&$slugs=${encodeURIComponent(JSON.stringify(slugs))}`;
-  const response = await fetch(endpoint, {cache: 'no-store'});
+  const response = await fetch('/api/sanity-query', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    cache: 'no-store',
+    body: JSON.stringify({query, params: {slugs}, dataset: AUDACIOUS_PAGE_IMAGE_DATASET, apiVersion: AUDACIOUS_PAGE_IMAGE_API_VERSION})
+  });
   if (!response.ok) throw new Error(`Sanity page content request failed: ${response.status}`);
   return (await response.json())?.result || null;
 }
