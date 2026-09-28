@@ -165,8 +165,12 @@ async function fetchSanityImages() {
     "projectFallbacks": *[_type == "page" && slug.current in ["project-food-frame", "project-plaatwerk-behuizingen", "project-rontgenarm", "project-verpakkingsframes", "project-schuifdeuren", "project-behuizing", "project-transportwagen-kooi"]]{title, "slug": slug.current, "imageUrl": hero.image.asset->url},
     "posts": *[_type == "blogPost"] | order(publishedAt desc){"imageUrl": featuredImage.asset->url}
   }`;
-  const endpoint = `https://${SANITY_IMAGE_PROJECT_ID}.api.sanity.io/v${SANITY_IMAGE_API_VERSION}/data/query/${SANITY_IMAGE_DATASET}?query=${encodeURIComponent(query)}`;
-  const response = await fetch(endpoint, {cache: 'no-store'});
+  const response = await fetch('/api/sanity-query', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    cache: 'no-store',
+    body: JSON.stringify({query, dataset: SANITY_IMAGE_DATASET, apiVersion: SANITY_IMAGE_API_VERSION})
+  });
 
   if (!response.ok) {
     const details = await response.text();
