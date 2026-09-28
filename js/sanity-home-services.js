@@ -66,12 +66,8 @@ async function audaciousFetchHomeServices() {
     hero{title,intro,"imageUrl": image.asset->url},
     "heroImageUrl": heroImage.asset->url
   }`;
-  const response = await fetch('/api/sanity-query', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    cache: 'no-store',
-    body: JSON.stringify({query, dataset: AUDACIOUS_HOME_SERVICES_DATASET, apiVersion: AUDACIOUS_HOME_SERVICES_API_VERSION})
-  });
+  const endpoint = `https://${AUDACIOUS_HOME_SERVICES_PROJECT_ID}.api.sanity.io/v${AUDACIOUS_HOME_SERVICES_API_VERSION}/data/query/${AUDACIOUS_HOME_SERVICES_DATASET}?query=${encodeURIComponent(query)}`;
+  const response = await fetch(endpoint, {cache: 'no-store'});
   if (!response.ok) throw new Error(`Sanity services request failed: ${response.status}`);
   return (await response.json())?.result || [];
 }

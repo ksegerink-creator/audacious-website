@@ -24,12 +24,8 @@ async function audaciousFetchHomeProcessBlock() {
     processPanelCode,
     processItems[]{stepLabel,title,text}
   }`;
-  const response = await fetch('/api/sanity-query', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    cache: 'no-store',
-    body: JSON.stringify({query, dataset: AUDACIOUS_HOME_PROCESS_DATASET, apiVersion: AUDACIOUS_HOME_PROCESS_API_VERSION})
-  });
+  const endpoint = `https://${AUDACIOUS_HOME_PROCESS_PROJECT_ID}.api.sanity.io/v${AUDACIOUS_HOME_PROCESS_API_VERSION}/data/query/${AUDACIOUS_HOME_PROCESS_DATASET}?query=${encodeURIComponent(query)}`;
+  const response = await fetch(endpoint, {cache: 'no-store'});
   if (!response.ok) throw new Error(`Sanity homepage process request failed: ${response.status}`);
   return (await response.json())?.result || null;
 }
