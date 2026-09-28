@@ -30,8 +30,12 @@ async function fetchProjectOverviewData() {
     "overview": *[_type == "page" && slug.current == "projecten"][0]{projectOverview{eyebrow,title,intro,tags}},
     "projects": *[_type == "page" && slug.current in $projectSlugs]{title, "slug": slug.current, "imageUrl": coalesce(hero.image.asset->url, galleryImages[0].asset->url)}
   }`;
-  const endpoint = `https://${PROJECT_OVERVIEW_SANITY_PROJECT_ID}.api.sanity.io/v${PROJECT_OVERVIEW_SANITY_API_VERSION}/data/query/${PROJECT_OVERVIEW_SANITY_DATASET}?query=${encodeURIComponent(query)}&$projectSlugs=${encodeURIComponent(JSON.stringify(projectSlugs))}`;
-  const response = await fetch(endpoint, {cache: 'no-store'});
+  const response = await fetch('/api/sanity-query', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    cache: 'no-store',
+    body: JSON.stringify({query, params: {projectSlugs}, dataset: PROJECT_OVERVIEW_SANITY_DATASET, apiVersion: PROJECT_OVERVIEW_SANITY_API_VERSION})
+  });
   if (!response.ok) throw new Error(`Project overview request failed: ${response.status}`);
   return (await response.json())?.result || null;
 }
