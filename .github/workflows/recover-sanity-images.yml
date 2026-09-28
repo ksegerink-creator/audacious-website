@@ -1,0 +1,32 @@
+name: Recover Sanity Images
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query Sanity APICDN
+        shell: bash
+        run: |
+          set -u
+          QUERY='{
+            "home": *[_type == "homePage"][0]{
+              "heroImageUrl": hero.image.asset->url,
+              "introImageUrl": introImage.asset->url,
+              "services": featuredServices[]->{title,"imageUrl":heroImage.asset->url},
+              "markets": featuredMarkets[]->{title,"imageUrl":image.asset->url},
+              "products": featuredProductGroups[]->{title,"imageUrl":image.asset->url},
+              "projectCards": projectCards[]{title,"imageUrl":link.internalPage->hero.image.asset->url,link{internalPage->{title,"slug":slug.current,"imageUrl":hero.image.asset->url}}}
+            },
+            "projects": *[_type=="page" && slug.current in ["project-food-frame","project-plaatwerk-behuizingen","project-rontgenarm","project-verpakkingsframes","project-schuifdeuren","project-behuizing","project-transportwagen-kooi"]]{title,"slug":slug.current,"imageUrl":hero.image.asset->url},
+            "servicesAll": *[_type=="service"]|order(order asc){title,"slug":slug.current,"imageUrl":heroImage.asset->url},
+            "marketsAll": *[_type=="market"]|order(order asc){title,"slug":slug.current,"imageUrl":image.asset->url},
+            "productsAll": *[_type=="productGroup"]|order(order asc){title,"slug":slug.current,"imageUrl":image.asset->url}
+          }'
+          echo "=== APICDN ==="
+          curl -sS --get -w "\nHTTP %{http_code}\n"             'https://wehjzlhm.apicdn.sanity.io/v2025-02-19/data/query/production'             --data-urlencode "query=$QUERY"
+          echo "=== API ==="
+          curl -sS --get -w "\nHTTP %{http_code}\n"             'https://wehjzlhm.api.sanity.io/v2025-02-19/data/query/production'             --data-urlencode "query=$QUERY"
