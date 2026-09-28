@@ -193,8 +193,12 @@
       },
       "settings": *[_type == "siteSettings"][0]{companyName,email,phone,address,tagline}
     }`;
-    const endpoint = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${encodeURIComponent(query)}`;
-    const response = await fetch(endpoint, {cache: 'no-store'});
+    const response = await fetch('/api/sanity-query', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      cache: 'no-store',
+      body: JSON.stringify({query, dataset: DATASET, apiVersion: API_VERSION})
+    });
     if (!response.ok) throw new Error(`Sanity homepage request failed: ${response.status}`);
     return (await response.json())?.result || null;
   }
