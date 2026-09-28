@@ -510,13 +510,3 @@ body:has(.hero) .footer-bottom span {
     grid-column: auto;
   }
 }
-/* Local project image fallbacks while Sanity is unavailable. */
-body:has(.hero) .product-visual{
-  background:
-    linear-gradient(180deg,rgba(17,17,15,.03),rgba(17,17,15,.42)),
-    url('/assets/hero-press-brake.jpeg') center/cover no-repeat!important;
-}
-body:has(.hero) .product-tile:nth-child(2) .product-visual{background-position:38% center!important}
-body:has(.hero) .product-tile:nth-child(3) .product-visual{background-position:72% center!important}
-body:has(.hero) .product-tile:nth-child(4) .product-visual{background-position:24% center!important}
-body:has(.hero) .product-tile:nth-child(5) .product-visual{background-position:84% center!important}

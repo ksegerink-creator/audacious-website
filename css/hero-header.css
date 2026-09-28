@@ -106,7 +106,7 @@ nav.nav-scrolled {
   padding-bottom: 4.4rem;
   background:
     linear-gradient(90deg, rgba(7, 7, 6, 0.86) 0%, rgba(8, 8, 7, 0.76) 31%, rgba(8, 8, 7, 0.47) 52%, rgba(8, 8, 7, 0.10) 78%, rgba(8, 8, 7, 0.28) 100%),
-    url('/assets/hero-press-brake.jpeg') 61% center / cover no-repeat;
+    url('../assets/hero-press-brake.jpeg') 61% center / cover no-repeat;
   overflow: hidden;
 }
 

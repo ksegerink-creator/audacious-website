@@ -67,7 +67,7 @@
   position: absolute;
   inset: 0;
   z-index: -3;
-  background-image: var(--page-image, url('/assets/hero-press-brake.jpeg'));
+  background-image: var(--page-image, url('../assets/hero-press-brake.jpeg'));
   background-size: cover;
   background-position: var(--page-image-position, 60% center);
   filter: saturate(0.92) contrast(1.08);
@@ -165,7 +165,7 @@
   position: absolute;
   inset: 0;
   z-index: -2;
-  background-image: var(--page-image, url('/assets/hero-press-brake.jpeg'));
+  background-image: var(--page-image, url('../assets/hero-press-brake.jpeg'));
   background-size: cover;
   background-position: var(--page-image-position, center);
   filter: saturate(0.9) contrast(1.08);
