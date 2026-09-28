@@ -349,7 +349,9 @@
     height: 420px;
     border-radius: 4px;
     overflow: hidden;
-    background: var(--steel-dark);
+    background:
+      linear-gradient(180deg, rgba(17,17,15,0.08), rgba(17,17,15,0.30)),
+      url('/assets/audacious/lasersnijden.jpg') center / cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;

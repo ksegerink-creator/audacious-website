@@ -510,3 +510,9 @@ body:has(.hero) .footer-bottom span {
     grid-column: auto;
   }
 }
+/* AUDACIOUS LOCAL PROJECT FALLBACKS */
+body:has(.hero) .product-tile:nth-child(1) .product-visual{background:linear-gradient(180deg,rgba(17,17,15,.02),rgba(17,17,15,.52)),url('/assets/audacious/productiehal.jpg') center/cover no-repeat!important}
+body:has(.hero) .product-tile:nth-child(2) .product-visual{background:linear-gradient(180deg,rgba(17,17,15,.02),rgba(17,17,15,.52)),url('/assets/audacious/lasersnijden.jpg') center/cover no-repeat!important}
+body:has(.hero) .product-tile:nth-child(3) .product-visual{background:linear-gradient(180deg,rgba(17,17,15,.02),rgba(17,17,15,.52)),url('/assets/audacious/graveren.jpg') center/cover no-repeat!important}
+body:has(.hero) .product-tile:nth-child(4) .product-visual{background:linear-gradient(180deg,rgba(17,17,15,.02),rgba(17,17,15,.58)),url('/assets/audacious/lassen.jpg') center/cover no-repeat!important}
+body:has(.hero) .product-tile:nth-child(5) .product-visual{background:linear-gradient(180deg,rgba(17,17,15,.02),rgba(17,17,15,.52)),url('/assets/audacious/stikstof.jpg') center/cover no-repeat!important}
