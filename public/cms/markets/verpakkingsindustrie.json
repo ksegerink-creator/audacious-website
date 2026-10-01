@@ -1,0 +1,17 @@
+{
+  "title": "Verpakkingsindustrie",
+  "order": 5,
+  "intro": "Technische plaatwerkdelen, frames en behuizingen voor verpakkingsmachines en productielijnen.",
+  "relatedServices": [
+    "kanten",
+    "lasersnijden",
+    "lassen"
+  ],
+  "blocks": [],
+  "galleryImages": [],
+  "seo": {
+    "metaTitle": "Verpakkingsindustrie | Audacious",
+    "metaDescription": "Technische plaatwerkdelen, frames en behuizingen voor verpakkingsmachines en productielijnen.",
+    "noIndex": false
+  }
+}

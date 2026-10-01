@@ -1,0 +1,16 @@
+{
+  "title": "Omkastingen",
+  "order": 1,
+  "intro": "Plaatwerk omkastingen voor machines, installaties en technische modules.",
+  "applications": [
+    "Machinebouw",
+    "OEM-productie",
+    "Technische modules"
+  ],
+  "blocks": [],
+  "seo": {
+    "metaTitle": "Omkastingen | Audacious",
+    "metaDescription": "Plaatwerk omkastingen voor machines, installaties en technische modules.",
+    "noIndex": false
+  }
+}

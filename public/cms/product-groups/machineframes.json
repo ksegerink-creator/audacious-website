@@ -1,0 +1,16 @@
+{
+  "title": "Machineframes",
+  "order": 3,
+  "intro": "Frames en constructies voor machinebouw en industriële toepassingen.",
+  "applications": [
+    "Machinebouw",
+    "OEM-productie",
+    "Technische modules"
+  ],
+  "blocks": [],
+  "seo": {
+    "metaTitle": "Machineframes | Audacious",
+    "metaDescription": "Frames en constructies voor machinebouw en industriële toepassingen.",
+    "noIndex": false
+  }
+}

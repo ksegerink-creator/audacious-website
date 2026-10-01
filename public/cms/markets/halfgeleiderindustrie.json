@@ -1,0 +1,17 @@
+{
+  "title": "Halfgeleiderindustrie",
+  "order": 1,
+  "intro": "Plaatwerkcomponenten en samenstellingen voor technische omgevingen waar kwaliteit, reproduceerbaarheid en traceerbaarheid belangrijk zijn.",
+  "relatedServices": [
+    "kanten",
+    "lasersnijden",
+    "lassen"
+  ],
+  "blocks": [],
+  "galleryImages": [],
+  "seo": {
+    "metaTitle": "Halfgeleiderindustrie | Audacious",
+    "metaDescription": "Plaatwerkcomponenten en samenstellingen voor technische omgevingen waar kwaliteit, reproduceerbaarheid en traceerbaarheid belangrijk zijn.",
+    "noIndex": false
+  }
+}

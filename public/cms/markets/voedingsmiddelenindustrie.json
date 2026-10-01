@@ -1,0 +1,17 @@
+{
+  "title": "Voedingsmiddelenindustrie",
+  "order": 3,
+  "intro": "Plaatwerk en samenstellingen voor productieomgevingen met hoge eisen aan hygiëne, materiaalkeuze en afwerking.",
+  "relatedServices": [
+    "kanten",
+    "lasersnijden",
+    "lassen"
+  ],
+  "blocks": [],
+  "galleryImages": [],
+  "seo": {
+    "metaTitle": "Voedingsmiddelenindustrie | Audacious",
+    "metaDescription": "Plaatwerk en samenstellingen voor productieomgevingen met hoge eisen aan hygiëne, materiaalkeuze en afwerking.",
+    "noIndex": false
+  }
+}

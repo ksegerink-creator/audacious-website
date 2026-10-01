@@ -1,0 +1,17 @@
+{
+  "title": "Medische industrie",
+  "order": 2,
+  "intro": "Plaatwerkoplossingen voor toepassingen waar afwerking, nauwkeurigheid en betrouwbaarheid zwaar wegen.",
+  "relatedServices": [
+    "kanten",
+    "lasersnijden",
+    "lassen"
+  ],
+  "blocks": [],
+  "galleryImages": [],
+  "seo": {
+    "metaTitle": "Medische industrie | Audacious",
+    "metaDescription": "Plaatwerkoplossingen voor toepassingen waar afwerking, nauwkeurigheid en betrouwbaarheid zwaar wegen.",
+    "noIndex": false
+  }
+}

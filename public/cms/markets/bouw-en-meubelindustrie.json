@@ -1,0 +1,17 @@
+{
+  "title": "Bouw- en meubelindustrie",
+  "order": 6,
+  "intro": "Functionele en zichtbare plaatwerkproducten waarbij vormgeving, afwerking en maakbaarheid samenkomen.",
+  "relatedServices": [
+    "kanten",
+    "lasersnijden",
+    "lassen"
+  ],
+  "blocks": [],
+  "galleryImages": [],
+  "seo": {
+    "metaTitle": "Bouw- en meubelindustrie | Audacious",
+    "metaDescription": "Functionele en zichtbare plaatwerkproducten waarbij vormgeving, afwerking en maakbaarheid samenkomen.",
+    "noIndex": false
+  }
+}
