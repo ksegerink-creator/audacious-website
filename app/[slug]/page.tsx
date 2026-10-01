@@ -1,34 +1,22 @@
 import {notFound} from 'next/navigation'
-import {sanityClient} from '@/sanity/lib/client'
-import {pageBySlugQuery, servicesQuery, marketsQuery, productGroupsQuery} from '@/sanity/lib/queries'
+import {cms} from '@/lib/cms'
 import {Hero} from '@/components/Hero'
 import {CardGrid} from '@/components/CardGrid'
 
 export default async function GenericPage({params}: {params: Promise<{slug: string}>}) {
   const {slug} = await params
-  const page = await sanityClient.fetch(pageBySlugQuery, {slug})
+  const page: any = await cms.page(slug)
   if (!page) notFound()
 
-  const extraItems = page.slug === 'werkzaamheden'
-    ? await sanityClient.fetch(servicesQuery)
-    : page.slug === 'markten'
-      ? await sanityClient.fetch(marketsQuery)
-      : page.slug === 'producten'
-        ? await sanityClient.fetch(productGroupsQuery)
+  const extraItems = slug === 'werkzaamheden'
+    ? await cms.services()
+    : slug === 'markten'
+      ? await cms.markets()
+      : slug === 'producten'
+        ? await cms.productGroups()
         : []
 
-  const type = page.slug === 'werkzaamheden' ? 'service' : page.slug === 'markten' ? 'market' : 'productGroup'
+  const type = slug === 'werkzaamheden' ? 'service' : slug === 'markten' ? 'market' : 'productGroup'
 
-  return (
-    <main>
-      <Hero hero={page.hero} />
-      {extraItems.length > 0 && (
-        <section className="cms-section">
-          <div className="container">
-            <CardGrid items={extraItems} type={type as any} />
-          </div>
-        </section>
-      )}
-    </main>
-  )
+  return <main><Hero hero={page.hero} />{extraItems.length > 0 && <section className="cms-section"><div className="container"><CardGrid items={extraItems} type={type as any} /></div></section>}</main>
 }
