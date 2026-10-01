@@ -189,11 +189,16 @@ const gallery = (directory: string, publicPath: string) =>
     { label: 'Fotogalerij', itemLabel: props => props.fields.caption.value || props.fields.alt.value || 'Foto' }
   );
 
+const hasGitHubConfig = Boolean(
+  process.env.KEYSTATIC_GITHUB_CLIENT_ID &&
+  process.env.KEYSTATIC_GITHUB_CLIENT_SECRET &&
+  process.env.KEYSTATIC_SECRET
+);
+
 export default config({
-  storage: {
-    kind: 'github',
-    repo: 'ksegerink-creator/audacious-website',
-  },
+  storage: hasGitHubConfig
+    ? { kind: 'github', repo: 'ksegerink-creator/audacious-website' }
+    : { kind: 'local' },
   ui: {
     brand: { name: 'Audacious CMS' },
     navigation: {
