@@ -413,10 +413,7 @@ export default config({
         isFeatured: fields.checkbox({ label: 'Uitlichten op nieuwsoverzicht', defaultValue: false }),
         body: fields.markdoc({
           label: 'Nieuwsinhoud',
-images: {
-            directory: 'public/images/cms/posts/body',
-            publicPath: '/images/cms/posts/body/',
-          },
+
         }),
         galleryEyebrow: fields.text({ label: 'Kleine titel galerij' }),
         galleryTitle: fields.text({ label: 'Titel galerij' }),
