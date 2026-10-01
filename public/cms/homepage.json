@@ -1,0 +1,128 @@
+{
+  "internalTitle": "Homepage",
+  "hero": {
+    "eyebrow": "Zevenaar - intelligent en gedurfd plaatwerk",
+    "title": "Voor intelligent",
+    "highlight": "en gedurfd plaatwerk.",
+    "intro": "Audacious ontwikkelt en vervaardigt plaatwerkproducten uit roestvaststaal, aluminium en staal. Van enkelstuks tot kleine series, van lasersnij-, kant- en laswerk tot constructiewerk, cleanroom verpakken en complete assemblage.",
+    "primaryCta": {
+      "label": "Contact opnemen",
+      "linkType": "internal",
+      "internalPath": "/contact#offerte-aanvragen",
+      "openInNewTab": false
+    },
+    "secondaryCta": {
+      "label": "Bekijk bewerkingen",
+      "linkType": "internal",
+      "internalPath": "/werkzaamheden",
+      "openInNewTab": false
+    }
+  },
+  "introTitle": "Audacious Sheet Metal International B.V.",
+  "introText": "Audacious ontwikkelt en produceert plaatwerkoplossingen uit staal, roestvaststaal en aluminium. In een moderne CAD/CAM-omgeving, met een CNC-machinepark en productiebesturing, werken vakmensen aan mono-delen, plaatwerkconstructies en assemblages.",
+  "processEyebrow": "Over ons",
+  "processTitle": "Voorbereiden, produceren\nen regisseren.",
+  "processText": "Audacious kijkt vooraf naar maakbaarheid, materiaal, lasnaden, afwerking en productieroute. Zo blijven kwaliteit, kosten en levertijd beheersbaar, juist bij enkelstuks en kleine series.",
+  "processTags": [
+    "Korte steltijden",
+    "ERP-planning",
+    "Barcodes per order",
+    "Ketenregie"
+  ],
+  "processPanelTitle": "Hoe het proces werkt",
+  "processPanelIntro": "Compact ingericht voor enkelstuks, kleine series en samengestelde producten.",
+  "processPanelCode": "PROCESS / 01-04",
+  "processItems": [
+    {
+      "stepLabel": "Stap 1",
+      "title": "Maakbaarheid beoordelen",
+      "text": "Controle op plaatdikte, buigradius, toleranties, lasnaden en materiaalkeuze."
+    },
+    {
+      "stepLabel": "Stap 2",
+      "title": "CAD/CAM voorbereiden",
+      "text": "3D CAD, STEP-controle, nesting en NC-programmering voor laser en kantbank."
+    },
+    {
+      "stepLabel": "Stap 3",
+      "title": "Plaatwerk produceren",
+      "text": "Lasersnijden, kanten, walsen, inpersen, lassen en afwerken volgens de gekozen route."
+    },
+    {
+      "stepLabel": "Stap 4",
+      "title": "Assembleren en leveren",
+      "text": "Mechanische montage, cleanroom verpakken via specialistische partners, afstemming met partners en levering van mono-deel tot samenstelling."
+    }
+  ],
+  "projectsEyebrow": "Projecten",
+  "projectsTitle": "Voorbeelden van\nplaatwerkprojecten.",
+  "projectsIntro": "Een selectie van projecttypen uit het werk van Audacious: frames, RVS-behuizingen, technische samenstellingen en maatwerkconstructies.",
+  "projectCards": [
+    {
+      "title": "Frame voor de food-industrie",
+      "text": "Frameconstructie voor toepassing in de voedingsmiddelenindustrie.",
+      "href": "/projecten/food-frame"
+    },
+    {
+      "title": "Plaatwerk behuizingen",
+      "text": "Plaatwerkbehuizingen uit RVS 316L.",
+      "href": "/projecten/plaatwerk-behuizingen"
+    },
+    {
+      "title": "Project röntgenarm",
+      "text": "Technische samenstelling met plaatwerkcomponenten.",
+      "href": "/projecten/rontgenarm"
+    },
+    {
+      "title": "Frames voor verpakkingsmachines",
+      "text": "Precisieframes uit RVS 316L, gelast en afgewerkt.",
+      "href": "/projecten/verpakkingsframes"
+    },
+    {
+      "title": "Schuifdeuren / cold corridor",
+      "text": "Schuifdeuren voor luchtdichte cold corridors in serverruimtes.",
+      "href": "/projecten/schuifdeuren"
+    }
+  ],
+  "featuredServices": [
+    "kanten",
+    "lasersnijden",
+    "lassen",
+    "walsen",
+    "persen",
+    "oppervlaktebehandelingen",
+    "assembleren",
+    "cleanroom-verpakken"
+  ],
+  "featuredMarkets": [
+    "halfgeleiderindustrie",
+    "medische-industrie",
+    "voedingsmiddelenindustrie",
+    "drank-en-zuivelindustrie",
+    "verpakkingsindustrie",
+    "bouw-en-meubelindustrie"
+  ],
+  "featuredProductGroups": [
+    "omkastingen",
+    "behuizingen",
+    "machineframes",
+    "samengestelde-modules",
+    "designproducten"
+  ],
+  "blocks": [],
+  "footerIntro": "Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.",
+  "footerAffiliationsTitle": "Wij zijn aangesloten bij",
+  "footerAffiliations": [
+    "Kenteq",
+    "Metaalunie",
+    "OOM",
+    "NEVAT",
+    "FDP"
+  ],
+  "linkedinUrl": "https://www.linkedin.com/company/audacious-sheet-metal-services-bv/",
+  "seo": {
+    "metaTitle": "Audacious Sheet Metal International B.V.",
+    "metaDescription": "Audacious ontwikkelt en produceert hoogwaardige plaatwerkoplossingen in staal, RVS en aluminium. Engineering, plaatbewerking, cleanroom verpakken en assemblage voor OEM'ers.",
+    "noIndex": false
+  }
+}

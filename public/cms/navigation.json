@@ -1,0 +1,67 @@
+{
+  "items": [
+    {
+      "label": "Home",
+      "href": "/",
+      "children": []
+    },
+    {
+      "label": "Over ons",
+      "href": "/over-ons",
+      "children": []
+    },
+    {
+      "label": "Projecten",
+      "href": "/projecten",
+      "children": []
+    },
+    {
+      "label": "Bewerkingen",
+      "href": "/werkzaamheden",
+      "children": [
+        {
+          "label": "Lasersnijden",
+          "href": "/lasersnijden"
+        },
+        {
+          "label": "Kanten",
+          "href": "/kanten"
+        },
+        {
+          "label": "Lassen",
+          "href": "/lassen"
+        },
+        {
+          "label": "Walsen",
+          "href": "/walsen"
+        },
+        {
+          "label": "Inpersen",
+          "href": "/persen"
+        },
+        {
+          "label": "Oppervlaktebehandelingen",
+          "href": "/oppervlaktebehandelingen"
+        },
+        {
+          "label": "Assembleren",
+          "href": "/assembleren"
+        },
+        {
+          "label": "Cleanroom verpakken",
+          "href": "/cleanroom-verpakken"
+        }
+      ]
+    },
+    {
+      "label": "Werken bij",
+      "href": "/werken-bij-audacious",
+      "children": []
+    },
+    {
+      "label": "Contact",
+      "href": "/contact",
+      "children": []
+    }
+  ]
+}
