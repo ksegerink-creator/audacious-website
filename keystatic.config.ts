@@ -413,8 +413,7 @@ export default config({
         isFeatured: fields.checkbox({ label: 'Uitlichten op nieuwsoverzicht', defaultValue: false }),
         body: fields.markdoc({
           label: 'Nieuwsinhoud',
-links: true,
-          images: {
+images: {
             directory: 'public/images/cms/posts/body',
             publicPath: '/images/cms/posts/body/',
           },
