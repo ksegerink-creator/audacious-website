@@ -1,5 +1,17 @@
 {
   "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "missing": [
+        { "type": "host", "value": "www.audacious.com" },
+        { "type": "host", "value": "audacious.com" }
+      ],
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    }
+  ],
   "redirects": [
     { "source": "/nieuws", "destination": "/", "permanent": true },
     { "source": "/nieuws/:path*", "destination": "/", "permanent": true },
