@@ -1,0 +1,7 @@
+# Alleen contact.php is bereikbaar, en alleen via de rewrite van /api/contact
+# in de root-.htaccess. De klassen, settings.json en schema.sql in deze map
+# worden nooit rechtstreeks geserveerd.
+Require all denied
+<Files "contact.php">
+    Require all granted
+</Files>

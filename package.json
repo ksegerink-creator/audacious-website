@@ -12,7 +12,10 @@
     "sanity:seed-pages": "sanity exec sanity/scripts/seed-page-documents.mjs --with-user-token && sanity exec sanity/scripts/patch-news-items-content.mjs --with-user-token && sanity exec sanity/scripts/patch-homepage-process-block.mjs --with-user-token",
     "sanity:patch-news": "sanity exec sanity/scripts/patch-news-items-content.mjs --with-user-token",
     "sanity:patch-home-process": "sanity exec sanity/scripts/patch-homepage-process-block.mjs --with-user-token",
-    "sanity:patch-livegang": "sanity exec sanity/scripts/patch-livegang-fixes.mjs --with-user-token"
+    "sanity:patch-livegang": "sanity exec sanity/scripts/patch-livegang-fixes.mjs --with-user-token",
+    "build:apache": "node scripts/build-apache.mjs",
+    "check:apache": "node scripts/check-apache.mjs",
+    "urls:lijst": "node scripts/url-lijst.mjs"
   },
   "dependencies": {
     "@sanity/vision": "^4.0.0",

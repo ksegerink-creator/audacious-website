@@ -223,3 +223,10 @@ body:has([data-audacious-contact-form]) .cms-rendered-section {
     width: 100%;
   }
 }
+
+/* Cloudflare Turnstile (alleen op de eigen server, verschijnt na interactie). */
+.contact-form-captcha {
+  min-height: 65px;
+  padding: clamp(1.1rem, 2.2vw, 1.55rem);
+  background: rgba(255,255,255,.82);
+}

@@ -1,0 +1,36 @@
+# Alle pagina's uit https://www.audacious.com/sitemap.xml
+# Gegenereerd met: node scripts/url-lijst.mjs (2026-11-10)
+# Redirects van oude URL's staan niet hier maar in vercel.json;
+# scripts/check-apache.mjs controleert die apart.
+/
+/assembleren
+/bouw-meubelindustrie
+/cleanroom-verpakken
+/contact
+/drank-zuivelindustrie
+/engineering
+/halfgeleiderindustrie
+/kanten
+/lasergraveren
+/lasersnijden
+/lassen
+/markten-en-diensten
+/materialen
+/medische-industrie
+/oppervlaktebehandelingen
+/over-ons
+/persen
+/productievoorbereiding
+/projecten
+/projecten/behuizing
+/projecten/food-frame
+/projecten/plaatwerk-behuizingen
+/projecten/rontgenarm
+/projecten/schuifdeuren
+/projecten/transportwagen-kooi
+/projecten/verpakkingsframes
+/verpakkingsindustrie
+/voedingsmiddelenindustrie
+/walsen
+/werken-bij-audacious
+/werkzaamheden
