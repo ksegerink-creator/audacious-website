@@ -104,8 +104,12 @@ const patches = [
       intro: 'Coördinatie van oppervlaktebehandelingen zoals poedercoaten, verzinken, beitsen en passiveren via vaste specialistische partners.',
       summary: 'Oppervlaktebehandeling gecoördineerd binnen de plaatwerkketen: poedercoaten, verzinken, beitsen en passiveren.',
       blocks: [textBlock({eyebrow: 'Werkzaamheid', title: 'Oppervlaktebehandeling als onderdeel van de keten', text: 'Afwerking bepaalt mede de levensduur, uitstraling en toepasbaarheid van een plaatwerkproduct. Audacious stemt oppervlaktebehandelingen af met vaste partners en bewaakt planning, specificaties en aansluiting op assemblage en levering.'})],
-      seo: seo('Oppervlaktebehandeling plaatwerk | Audacious', 'Coördinatie van poedercoaten, verzinken, beitsen, passiveren en andere oppervlaktebehandelingen voor plaatwerkproducten.')
-    }
+      'hero.title': 'Oppervlaktebehandeling als onderdeel van de',
+      'hero.highlight': 'productieroute',
+      seo: seo('Oppervlaktebehandeling van plaatwerk | Audacious', 'Plaatwerk afgewerkt geleverd: Audacious regelt poedercoaten, verzinken, beitsen of passiveren als onderdeel van uw productieroute.')
+    },
+    // hero is in Sanity nog leeg (null); zonder dit faalt 'hero.title'.
+    setIfMissing: {hero: {_type: 'hero'}}
   },
   {
     id: 'service-assembleren',
@@ -253,7 +257,9 @@ async function run() {
   let transaction = client.transaction()
 
   for (const patch of patches) {
-    transaction = transaction.patch(client.patch(patch.id).set(patch.set))
+    let p = client.patch(patch.id)
+    if (patch.setIfMissing) p = p.setIfMissing(patch.setIfMissing)
+    transaction = transaction.patch(p.set(patch.set))
   }
 
   await transaction.commit({visibility: 'sync'})
