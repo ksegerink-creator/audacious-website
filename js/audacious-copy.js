@@ -47,9 +47,11 @@
     if (cta.linkType === 'phone') return cta.phone ? `tel:${String(cta.phone).replace(/[^+0-9]/g, '')}` : '';
     const target = cta.internalPage;
     if (!target?.slug) return '';
-    if (target._type === 'service' || target._type === 'market') return `../pages/${target.slug}.html`;
+    // Twee Sanity-slugs wijken af van de platte URL in vercel.json.
+    const flatSlug = { 'drank-en-zuivelindustrie': 'drank-zuivelindustrie', 'bouw-en-meubelindustrie': 'bouw-meubelindustrie' };
+    if (target._type === 'service' || target._type === 'market') return `/${flatSlug[target.slug] || target.slug}`;
     if (target._type === 'blogPost') return `../html/${target.slug}.html`;
-    if (target._type === 'page' && target.slug.startsWith('project-')) return `../pages/${target.slug}.html`;
+    if (target._type === 'page' && target.slug.startsWith('project-')) return `/projecten/${target.slug.replace(/^project-/, '')}`;
     return target.slug === 'index' ? '../html/index.html' : `../html/${target.slug}.html`;
   }
 
@@ -136,11 +138,11 @@
     if (productHead) productHead.textContent = 'Een selectie van projecttypen uit het werk van Audacious: frames, RVS-behuizingen, technische samenstellingen en maatwerkconstructies.';
 
     const projectCards = [
-      ['Frame voor de food-industrie', 'Frameconstructie voor toepassing in de voedingsmiddelenindustrie.', '../pages/project-food-frame.html'],
-      ['Plaatwerk behuizingen', 'Plaatwerkbehuizingen uit RVS 316L.', '../pages/project-plaatwerk-behuizingen.html'],
-      ['Project röntgenarm', 'Technische samenstelling met plaatwerkcomponenten.', '../pages/project-rontgenarm.html'],
-      ['Frames voor verpakkingsmachines', 'Precisieframes uit RVS 316L, gelast en afgewerkt.', '../pages/project-verpakkingsframes.html'],
-      ['Schuifdeuren / cold corridor', 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes.', '../pages/project-schuifdeuren.html']
+      ['Frame voor de food-industrie', 'Frameconstructie voor toepassing in de voedingsmiddelenindustrie.', '/projecten/food-frame'],
+      ['Plaatwerk behuizingen', 'Plaatwerkbehuizingen uit RVS 316L.', '/projecten/plaatwerk-behuizingen'],
+      ['Project röntgenarm', 'Technische samenstelling met plaatwerkcomponenten.', '/projecten/rontgenarm'],
+      ['Frames voor verpakkingsmachines', 'Precisieframes uit RVS 316L, gelast en afgewerkt.', '/projecten/verpakkingsframes'],
+      ['Schuifdeuren / cold corridor', 'Schuifdeuren voor luchtdichte cold corridors in serverruimtes.', '/projecten/schuifdeuren']
     ];
     applyProjectCards(projectCards);
 
@@ -156,7 +158,7 @@
     const footerNav = document.querySelector('.footer-col:nth-child(2)');
     if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="../html/nieuws.html">Nieuws</a><a href="../html/contact.html">Contact</a>';
     const footerWork = document.querySelector('.footer-col:nth-child(3)');
-    if (footerWork) footerWork.innerHTML = '<h3>Bewerkingen</h3><a href="../pages/lasersnijden.html">Lasersnijden</a><a href="../pages/kanten.html">Kanten</a><a href="../pages/lassen.html">Lassen</a><a href="../pages/assembleren.html">Assemblage</a>';
+    if (footerWork) footerWork.innerHTML = '<h3>Bewerkingen</h3><a href="/lasersnijden">Lasersnijden</a><a href="/kanten">Kanten</a><a href="/lassen">Lassen</a><a href="/assembleren">Assemblage</a>';
     const footerContact = document.querySelector('.footer-col:nth-child(4)');
     if (footerContact) footerContact.innerHTML = '<h3>Contact</h3><a href="mailto:info@audacious.com">info@audacious.com</a><a href="tel:+31316581470">0316-581470</a><span>Mega 16, 6902 KL Zevenaar</span><a class="footer-linkedin" href="https://www.linkedin.com/company/audacious-sheet-metal-services-bv/" target="_blank" rel="noopener">LinkedIn →</a>';
     setText('.footer-bottom span:first-child', '© 2026 Audacious Sheet Metal International B.V.');
