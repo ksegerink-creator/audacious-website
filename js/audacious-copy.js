@@ -52,7 +52,9 @@
     if (target._type === 'service' || target._type === 'market') return `/${flatSlug[target.slug] || target.slug}`;
     if (target._type === 'blogPost') return `../html/${target.slug}.html`;
     if (target._type === 'page' && target.slug.startsWith('project-')) return `/projecten/${target.slug.replace(/^project-/, '')}`;
-    return target.slug === 'index' ? '../html/index.html' : `../html/${target.slug}.html`;
+    // Platte URL's (zie vercel.json); twee pagina-slugs hebben een andere URL.
+    const flatPage = { index: '/', markten: '/markten-en-diensten', producten: '/projecten' };
+    return flatPage[target.slug] || `/${target.slug}`;
   }
 
   function ensureHomeSimplifiedStyles() {
@@ -69,7 +71,7 @@
     if (!actions) return;
     const card = document.createElement('a');
     card.className = 'home-video-card';
-    card.href = '../html/contact.html';
+    card.href = '/contact';
     card.innerHTML = '<span class="home-video-icon">→</span><span class="home-video-copy"><strong>Contact opnemen</strong><span>Bespreek uw plaatwerkvraag met Audacious</span></span>';
     actions.insertAdjacentElement('afterend', card);
   }
@@ -89,15 +91,14 @@
       ['Over ons', '#over-ons'],
       ['Projecten', '#projecten'],
       ['Bewerkingen', '#werkzaamheden'],
-      ['Nieuws', '../html/nieuws.html'],
-      ['Contact', '../html/contact.html']
+      ['Contact', '/contact']
     ];
     links.forEach((link, index) => {
       const item = items[index];
       if (!item) return;
       link.textContent = item[0];
       link.setAttribute('href', item[1]);
-      link.classList.toggle('nav-cta', index === 4);
+      link.classList.toggle('nav-cta', item[0] === 'Contact');
     });
   }
 
@@ -106,13 +107,13 @@
     setHtmlIfDefault('.hero-title', 'Voor intelligent\nplaatwerk.', ['precisieplaatwerk voor', 'plaatbewerking met lef', 'hoogwaardig plaatwerk']);
     setTextIfDefault('.hero-sub', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert hoogwaardige plaatwerkoplossingen in staal, roestvaststaal en aluminium. Van enkelstuks tot kleine series, mono-delen, samengestelde plaatwerkconstructies en complete assemblages.', ['oem', 'samengestelde constructies', 'complete assemblages']);
     setText('.hero-actions .btn-primary', 'Contact opnemen');
-    setHref('.hero-actions .btn-primary', '../html/contact.html');
+    setHref('.hero-actions .btn-primary', '/contact');
     setText('.hero-actions .btn-outline', 'Bekijk bewerkingen');
     setHref('.hero-actions .btn-outline', '#werkzaamheden');
 
     setHtml('.intro-title', 'Audacious Sheet Metal\nInternational B.V.');
     setText('.intro-body', 'Audacious ontwikkelt en produceert plaatwerkoplossingen uit staal, roestvaststaal en aluminium. In een moderne CAD/CAM-omgeving, met een CNC-machinepark en productie-besturing, werken vakmensen aan mono-delen, plaatwerkconstructies en assemblages.');
-    setHref('.intro-left .btn', '../html/over-ons.html');
+    setHref('.intro-left .btn', '/over-ons');
     setText('.intro-left .btn', 'Meer over Audacious');
 
     setText('.org-control-eyebrow', 'Over ons');
@@ -150,13 +151,13 @@
 
     const footerLogo = document.querySelector('.footer-logo');
     if (footerLogo) {
-      footerLogo.href = '../html/index.html';
+      footerLogo.href = '/';
       footerLogo.setAttribute('aria-label', 'Audacious homepage');
       footerLogo.innerHTML = '<span class="footer-logo-mark" aria-hidden="true"></span><span class="footer-logo-word">Audacious</span>';
     }
     setText('.footer-brand p', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.');
     const footerNav = document.querySelector('.footer-col:nth-child(2)');
-    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="../html/nieuws.html">Nieuws</a><a href="../html/contact.html">Contact</a>';
+    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="/contact">Contact</a>';
     const footerWork = document.querySelector('.footer-col:nth-child(3)');
     if (footerWork) footerWork.innerHTML = '<h3>Bewerkingen</h3><a href="/lasersnijden">Lasersnijden</a><a href="/kanten">Kanten</a><a href="/lassen">Lassen</a><a href="/assembleren">Assemblage</a>';
     const footerContact = document.querySelector('.footer-col:nth-child(4)');
