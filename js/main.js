@@ -12,16 +12,16 @@ function renderAudaciousFooter() {
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <a class="footer-logo" href="../html/index.html" aria-label="Audacious homepage"><span class="footer-logo-mark" aria-hidden="true"></span><span class="footer-logo-word">Audacious</span></a>
+            <a class="footer-logo" href="/" aria-label="Audacious homepage"><span class="footer-logo-mark" aria-hidden="true"></span><span class="footer-logo-word">Audacious</span></a>
             <p>Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.</p>
           </div>
           <div class="footer-col">
             <h3>Navigatie</h3>
-            <a href="../html/over-ons.html">Over ons</a>
-            <a href="../html/projecten.html">Projecten</a>
-            <a href="../html/werkzaamheden.html">Bewerkingen</a>
+            <a href="/over-ons">Over ons</a>
+            <a href="/projecten">Projecten</a>
+            <a href="/werkzaamheden">Bewerkingen</a>
             <a href="../html/nieuws.html">Nieuws</a>
-            <a href="../html/contact.html">Contact</a>
+            <a href="/contact">Contact</a>
           </div>
           <div class="footer-col">
             <h3>Bewerkingen</h3>
@@ -71,15 +71,15 @@ function ensureProofLayout() {
 
 function normalizeAudaciousLinks() {
   const replacements = new Map([
-    ['../pages/werkzaamheden.html', '../html/werkzaamheden.html'],
-    ['../pages/markten-en-diensten.html', '../html/markten.html'],
-    ['../pages/markten.html', '../html/markten.html'],
-    ['../pages/projecten.html', '../html/projecten.html'],
-    ['../pages/over-ons.html', '../html/over-ons.html'],
-    ['../pages/contact.html', '../html/contact.html'],
-    ['../html/producten.html', '../html/projecten.html'],
+    ['../pages/werkzaamheden.html', '/werkzaamheden'],
+    ['../pages/markten-en-diensten.html', '/markten-en-diensten'],
+    ['../pages/markten.html', '/markten-en-diensten'],
+    ['../pages/projecten.html', '/projecten'],
+    ['../pages/over-ons.html', '/over-ons'],
+    ['../pages/contact.html', '/contact'],
+    ['../html/producten.html', '/projecten'],
     ['producten.html', 'projecten.html'],
-    ['#contact', '../html/contact.html']
+    ['#contact', '/contact']
   ]);
 
   document.querySelectorAll('a[href]').forEach((link) => {
@@ -114,11 +114,11 @@ serviceSliderStyles.href = '../css/service-slider.css';
 document.head.appendChild(serviceSliderStyles);
 
 const navMap = {
-  '#werkzaamheden': '../html/werkzaamheden.html',
-  '#markten': '../html/markten.html',
-  '#projecten': '../html/projecten.html',
-  '#over-ons': '../html/over-ons.html',
-  '#contact': '../html/contact.html'
+  '#werkzaamheden': '/werkzaamheden',
+  '#markten': '/markten-en-diensten',
+  '#projecten': '/projecten',
+  '#over-ons': '/over-ons',
+  '#contact': '/contact'
 };
 
 document.querySelectorAll('nav a[href]').forEach(link => {
@@ -127,7 +127,7 @@ document.querySelectorAll('nav a[href]').forEach(link => {
 });
 
 const logo = document.querySelector('.nav-logo');
-if (logo) logo.setAttribute('href', '../html/index.html');
+if (logo) logo.setAttribute('href', '/');
 
 const heroActions = document.querySelector('.hero-actions');
 if (heroActions && !document.querySelector('.hero-proof')) {

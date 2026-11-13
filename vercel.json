@@ -55,6 +55,8 @@
     { "source": "/pages/drank-zuivelindustrie.html", "destination": "/drank-zuivelindustrie", "permanent": true },
     { "source": "/pages/verpakkingsindustrie.html", "destination": "/verpakkingsindustrie", "permanent": true },
     { "source": "/pages/bouw-meubelindustrie.html", "destination": "/bouw-meubelindustrie", "permanent": true },
+    { "source": "/pages/werkzaamheden.html", "destination": "/werkzaamheden", "permanent": true },
+    { "source": "/pages/productievoorbereiding.html", "destination": "/productievoorbereiding", "permanent": true },
     { "source": "/werkzaamheden/oppervlaktebehandelingen", "destination": "/oppervlaktebehandelingen", "permanent": true },
     { "source": "/werkzaamheden/lasersnijden", "destination": "/lasersnijden", "permanent": true },
     { "source": "/werkzaamheden/lassen", "destination": "/lassen", "permanent": true },
