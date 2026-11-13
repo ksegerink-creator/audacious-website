@@ -91,7 +91,6 @@
       ['Over ons', '#over-ons'],
       ['Projecten', '#projecten'],
       ['Bewerkingen', '#werkzaamheden'],
-      ['Nieuws', '../html/nieuws.html'],
       ['Contact', '/contact']
     ];
     links.forEach((link, index) => {
@@ -99,7 +98,7 @@
       if (!item) return;
       link.textContent = item[0];
       link.setAttribute('href', item[1]);
-      link.classList.toggle('nav-cta', index === 4);
+      link.classList.toggle('nav-cta', item[0] === 'Contact');
     });
   }
 
@@ -158,7 +157,7 @@
     }
     setText('.footer-brand p', 'Audacious Sheet Metal International B.V. ontwikkelt en produceert plaatwerkoplossingen in enkelstuks en kleine series.');
     const footerNav = document.querySelector('.footer-col:nth-child(2)');
-    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="../html/nieuws.html">Nieuws</a><a href="/contact">Contact</a>';
+    if (footerNav) footerNav.innerHTML = '<h3>Navigatie</h3><a href="#over-ons">Over ons</a><a href="#projecten">Projecten</a><a href="#werkzaamheden">Bewerkingen</a><a href="/contact">Contact</a>';
     const footerWork = document.querySelector('.footer-col:nth-child(3)');
     if (footerWork) footerWork.innerHTML = '<h3>Bewerkingen</h3><a href="/lasersnijden">Lasersnijden</a><a href="/kanten">Kanten</a><a href="/lassen">Lassen</a><a href="/assembleren">Assemblage</a>';
     const footerContact = document.querySelector('.footer-col:nth-child(4)');

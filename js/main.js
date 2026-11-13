@@ -20,7 +20,6 @@ function renderAudaciousFooter() {
             <a href="/over-ons">Over ons</a>
             <a href="/projecten">Projecten</a>
             <a href="/werkzaamheden">Bewerkingen</a>
-            <a href="../html/nieuws.html">Nieuws</a>
             <a href="/contact">Contact</a>
           </div>
           <div class="footer-col">

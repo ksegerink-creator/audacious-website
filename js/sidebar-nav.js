@@ -122,7 +122,6 @@ function initSidebarNavigation() {
     { key: 'productievoorbereiding', label: 'Productievoorbereiding', href: '/productievoorbereiding' },
     { key: 'werkzaamheden', label: 'Werkzaamheden', href: '/werkzaamheden' },
     { key: 'projecten', label: 'Projecten', href: '/projecten' },
-    { key: 'nieuws', label: 'Nieuws', href: '/nieuws' },
     { key: 'over-ons', label: 'Over ons', href: '/over-ons' },
     { key: 'contact', label: 'Contact', href: '/contact' }
   ];
