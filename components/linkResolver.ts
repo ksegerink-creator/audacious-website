@@ -23,7 +23,7 @@ export function resolveHref(item: NavItem) {
 
   if (type === 'homePage') return '/'
   if (!slug) return '#'
-  if (type === 'service') return `/werkzaamheden/${slug}`
+  if (type === 'service') return `/${slug}`
   if (type === 'market') return `/markten/${slug}`
   if (type === 'productGroup') return `/producten/${slug}`
   if (type === 'blogPost') return `/blog/${slug}`
